@@ -12,7 +12,9 @@
       "source": "./",
       "author": {
         "name": "QualiApps"
-      }
+      },
+      "homepage": "https://github.com/quali-obra/temcomo",
+      "repository": "https://github.com/quali-obra/temcomo"
     }
   ]
 }

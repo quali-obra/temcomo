@@ -32,6 +32,12 @@ O fluxo não trabalha sozinho: ele aciona **oito ajudantes especializados** (pes
 
 O plugin é o próprio repositório. **Clone e aponte** — não há build nem dependência para instalar (o motor é Python ≥3.9, biblioteca padrão pura).
 
+```bash
+git clone https://github.com/quali-obra/temcomo.git
+```
+
+Nas receitas abaixo, `/caminho/para/temcomo` é a pasta desse clone.
+
 ### Hermes  ✅ testado
 
 Carrega no formato portátil que o Hermes entende (um `plugin.json` na raiz do repositório). Receita completa, incluindo o caso de quem usa vários perfis (*profiles*), e como conferir: [`.hermes-plugin/INSTALACAO.md`](.hermes-plugin/INSTALACAO.md). Resumo:
