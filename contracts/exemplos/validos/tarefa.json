@@ -1,0 +1,41 @@
+{
+  "schema_version": "tarefa-v1",
+  "tarefa_id": "lancar-apartamentos-stay-2026-08-19",
+  "gerado_em": "2026-08-19T16:45:00-04:00",
+  "produzido_por": {
+    "agente": "temcomo-exemplo (documentação do plugin)",
+    "modelo": "claude-fable-5",
+    "sessao_id": "exemplo-ficticio-6829",
+    "transcript_jsonl": "/caminho/de/exemplo/transcricoes/exemplo-ficticio-6829.jsonl"
+  },
+  "etapa": "direcao-escolhida",
+  "objetivo_resumido": "Lançar apartamentos do Stay pelo chat",
+  "criada_em": "2026-08-19T09:00:00-04:00",
+  "rodada_de_grill_pendente": 1,
+  "historico": [
+    {
+      "etapa": "criada",
+      "em": "2026-08-19T09:00:00-04:00",
+      "por": "temcomo (skill mestre)"
+    },
+    {
+      "etapa": "objetivo-confirmado",
+      "em": "2026-08-19T10:12:00-04:00",
+      "por": "temcomo (skill mestre)",
+      "contrato": "contratos/01-objetivo.json"
+    },
+    {
+      "etapa": "pesquisa-concluida",
+      "em": "2026-08-19T14:30:00-04:00",
+      "por": "orquestrador-pesquisa",
+      "contrato": "contratos/02-pesquisa.json"
+    },
+    {
+      "etapa": "direcao-escolhida",
+      "em": "2026-08-19T17:05:00-04:00",
+      "por": "usuario",
+      "contrato": "respostas/decisao-direcoes.json",
+      "observacao": "Escolheu o caminho A (MCP próprio do Stay)."
+    }
+  ]
+}

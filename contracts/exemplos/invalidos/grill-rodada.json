@@ -1,0 +1,101 @@
+{
+  "schema_version": "grill-rodada-v1",
+  "tarefa_id": "lancar-apartamentos-stay-2026-08-19",
+  "gerado_em": "2026-08-19T16:45:00-04:00",
+  "produzido_por": {
+    "agente": "temcomo-exemplo (documentação do plugin)",
+    "modelo": "claude-fable-5",
+    "sessao_id": "exemplo-ficticio-4584",
+    "transcript_jsonl": "/caminho/de/exemplo/transcricoes/exemplo-ficticio-4584.jsonl"
+  },
+  "rodada": 1,
+  "exemplo": true,
+  "tarefa": {
+    "pergunta_original": "Tem como lançar os apartamentos do Stay pelo chat?",
+    "direcao_escolhida": "MCP próprio do Stay — o agente recebe fotos e informações no chat e lança direto no sistema do Stay",
+    "objetivo": "Lançar apartamentos novos do Stay mandando fotos e informações numa conversa, sem abrir o sistema, com validação e aprovação antes de publicar."
+  },
+  "perguntas": [
+    {
+      "id": "q-campos-obrigatorios",
+      "pergunta": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+      "impacto_curto": "Define o que trava um lançamento quando estiver faltando.",
+      "reversivel": true,
+      "contexto": "Quando você mandar um apartamento novo pelo chat, o agente confere se não falta nada antes de lançar. Precisamos combinar o que é \"nada faltando\": o que entrar como obrigatório bloqueia o lançamento quando faltar.",
+      "botoes": [
+        "aprovar",
+        "rejeitar",
+        "duvida"
+      ],
+      "origem": "Derivada da direção escolhida (MCP próprio do Stay): a validação de campos é a primeira regra do formulário de lançamento.",
+      "opcoes": [
+        {
+          "id": "opt-minimo-essencial",
+          "titulo": "Mínimo essencial",
+          "detalhe": "Unidade (número e prédio), tipo (studio, 1 quarto...), valor da diária e pelo menos 1 foto. O resto pode vir depois.",
+          "ganha": "Lançamento rápido: com quatro informações o anúncio já pode ir ao ar.",
+          "abre_mao": "Anúncios podem estrear incompletos (sem metragem, mobília, regras da casa).",
+          "recomendada": true
+        },
+        {
+          "id": "opt-ficha-completa",
+          "titulo": "Ficha completa de uma vez",
+          "detalhe": "Tudo obrigatório: metragem, andar, mobília, regras da casa, comodidades. Só lança quando estiver 100% preenchido.",
+          "ganha": "Todo anúncio nasce completo, sem pendência para caçar depois.",
+          "abre_mao": "Lançar fica mais lento: nada vai ao ar enquanto faltar um detalhe."
+        },
+        {
+          "id": "opt-minimo-mais-pendencias",
+          "titulo": "Mínimo essencial + lista de pendências",
+          "detalhe": "Lança com o mínimo e o agente te devolve a lista do que ficou faltando, cobrando depois.",
+          "ganha": "A rapidez do mínimo, mais uma lista clara do que ficou faltando.",
+          "abre_mao": "Cria uma fila de pendências que alguém precisa acompanhar."
+        },
+        {
+          "id": "opt-espelho-formulario",
+          "titulo": "Espelhar o cadastro atual do Stay",
+          "detalhe": "Obrigatório aqui = obrigatório lá: a regra copia exatamente o que o sistema do Stay já exige hoje.",
+          "ganha": "Nenhuma regra nova para decorar: vale o que o Stay já exige.",
+          "abre_mao": "Se o cadastro do Stay for exigente demais, o chat herda essa lentidão."
+        }
+      ]
+    },
+    {
+      "id": "q-auditoria",
+      "pergunta": "O que fica registrado para auditoria?",
+      "impacto_curto": "Decide o que dá para reconstituir quando algo sair errado.",
+      "reversivel": false,
+      "contexto": "Se daqui a seis meses um anúncio aparecer com preço errado, precisamos reconstituir o caminho: quem mandou, o que o agente entendeu e quem aprovou. É a mesma regra de rastreabilidade do temcomo, aplicada ao Stay.",
+      "botoes": [
+        "aprovar",
+        "rejeitar",
+        "duvida"
+      ],
+      "origem": "Derivada do princípio de rastreabilidade do temcomo (§2.8 do design): toda saída permite reconstituir a cadeia completa.",
+      "opcoes": [
+        {
+          "id": "opt-trilha-completa",
+          "titulo": "Trilha completa",
+          "detalhe": "Guarda a mensagem original do chat, o que o agente interpretou, cada validação, quem aprovou e quando publicou.",
+          "ganha": "Qualquer erro futuro pode ser reconstituído do início ao fim.",
+          "abre_mao": "Guarda conversas: exige cuidado com espaço e privacidade.",
+          "recomendada": true
+        },
+        {
+          "id": "opt-so-resultado",
+          "titulo": "Só o resultado final",
+          "detalhe": "Registra apenas o anúncio publicado, com data e autor. Leve, mas sem como reconstituir erros.",
+          "ganha": "Leve e simples: só o anúncio publicado, com data e autor.",
+          "abre_mao": "Erro descoberto depois fica sem explicação de origem."
+        },
+        {
+          "id": "opt-registro-minimo",
+          "titulo": "Registro mínimo",
+          "detalhe": "Data, autor e campos alterados; sem guardar a conversa.",
+          "ganha": "Meio-termo leve: sabe-se quem mexeu e quando.",
+          "abre_mao": "Sem a conversa guardada, não dá para saber o porquê de cada dado."
+        }
+      ]
+    }
+  ]
+}

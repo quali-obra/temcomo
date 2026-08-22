@@ -1,0 +1,18 @@
+{
+  "name": "temcomo-dev",
+  "description": "Marketplace local do plugin temcomo — instalação a partir do próprio clone, antes de qualquer publicação.",
+  "owner": {
+    "name": "QualiApps"
+  },
+  "plugins": [
+    {
+      "name": "temcomo",
+      "description": "Transforma a pergunta \"tem como fazer X?\" num processo com etapas, formulários validados por um motor e decisões tomadas pelo usuário em páginas HTML.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {
+        "name": "QualiApps"
+      }
+    }
+  ]
+}

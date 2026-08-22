@@ -1,0 +1,27 @@
+{
+  "schema_version": "grill-respostas-v1",
+  "tarefa_id": "lancar-apartamentos-stay-2026-08-19",
+  "rodada": 1,
+  "gerado_em": "2026-08-21T11:30:00-04:00",
+  "contrato_sha256": "6e150d72d35eeb5fa3548e42e04b2c6ba91dc689707f1062648675f8f6331a71",
+  "produzido_por": {
+    "agente": "usuario"
+  },
+  "respostas": [
+    {
+      "pergunta_id": "q-campos-obrigatorios",
+      "estado": "aprovada",
+      "escolha_id": "opt-minimo-essencial",
+      "comentario": "Fecha com o que combinamos.",
+      "duvida_texto": ""
+    },
+    {
+      "pergunta_id": "q-auditoria",
+      "estado": "duvida",
+      "escolha_id": null,
+      "comentario": "",
+      "duvida_texto": "Quem consegue ler esse histórico depois?"
+    }
+  ],
+  "anotacoes": []
+}

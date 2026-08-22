@@ -1,0 +1,79 @@
+{
+  "$id": "pesquisa-v1",
+  "title": "Brief de pesquisa (etapa 2)",
+  "description": "O que já existe: contexto local (repo, frota, ferramentas) e trilhas externas (máximo 3). O gate da etapa 2 (spec §5) exige que cada achado traga fonte primária, sinal de manutenção e limite conhecido — achado sem fonte não passa.",
+  "type": "object",
+  "required": ["schema_version", "tarefa_id", "gerado_em", "produzido_por", "contexto_local", "achados"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "pesquisa-v1"},
+    "tarefa_id": {"type": "string", "minLength": 1},
+    "gerado_em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+    "produzido_por": {
+      "type": "object",
+      "required": ["agente"],
+      "additionalProperties": false,
+      "properties": {
+        "agente": {"type": "string", "minLength": 1},
+        "modelo": {"type": "string", "minLength": 1},
+        "sessao_id": {"type": "string", "minLength": 1},
+        "transcript_jsonl": {"type": "string", "minLength": 1}
+      }
+    },
+    "contexto_local": {"type": "string", "minLength": 1, "maxLength": 5000},
+    "trilhas_externas": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {"type": "string", "minLength": 1, "maxLength": 300}
+    },
+    "achados": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 60,
+      "items": {
+        "type": "object",
+        "required": ["id", "afirmacao", "fonte_url", "tipo_de_fonte", "manutencao", "confianca", "limite"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "afirmacao": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "fonte_url": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "tipo_de_fonte": {"enum": ["primaria", "secundaria", "codigo", "local"]},
+          "manutencao": {"enum": ["ativa", "parada", "arquivada", "desconhecida"]},
+          "confianca": {"enum": ["alta", "media", "baixa"]},
+          "limite": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "por_quem": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "lacunas": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {"type": "string", "minLength": 1, "maxLength": 500}
+    },
+    "conflitos": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "required": ["assunto", "versoes", "resolucao"],
+        "additionalProperties": false,
+        "properties": {
+          "assunto": {"type": "string", "minLength": 1, "maxLength": 300},
+          "versoes": {"type": "array", "minItems": 2, "items": {"type": "string", "minLength": 1}},
+          "resolucao": {"type": "string", "minLength": 1, "maxLength": 1000}
+        }
+      }
+    },
+    "auditoria": {
+      "type": "object",
+      "required": ["veredito"],
+      "additionalProperties": false,
+      "properties": {
+        "veredito": {"enum": ["APPROVED", "REQUEST CHANGES"]},
+        "por_quem": {"type": "string", "minLength": 1},
+        "observacoes": {"type": "string", "maxLength": 2000}
+      }
+    }
+  }
+}

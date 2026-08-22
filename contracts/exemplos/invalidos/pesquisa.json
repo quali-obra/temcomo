@@ -1,0 +1,56 @@
+{
+  "schema_version": "pesquisa-v1",
+  "tarefa_id": "lancar-apartamentos-stay-2026-08-19",
+  "gerado_em": "2026-08-19T16:45:00-04:00",
+  "produzido_por": {
+    "agente": "temcomo-exemplo (documentação do plugin)",
+    "modelo": "claude-fable-5",
+    "sessao_id": "exemplo-ficticio-5596",
+    "transcript_jsonl": "/caminho/de/exemplo/transcricoes/exemplo-ficticio-5596.jsonl"
+  },
+  "contexto_local": "A frota já tem MCPs próprios (QualiObra, Hermes) e o Stay expõe painel web. Não há integração pronta entre o chat e o cadastro de apartamentos.",
+  "trilhas_externas": [
+    "MCP oficial para o sistema do Stay",
+    "Automação por navegador",
+    "API pública"
+  ],
+  "achados": [
+    {
+      "id": "ach-mcp-spec",
+      "afirmacao": "O protocolo MCP padroniza ferramentas para agentes.",
+      "tipo_de_fonte": "primaria",
+      "manutencao": "ativa",
+      "confianca": "alta",
+      "limite": "Exige um servidor por sistema integrado; não existe um pronto para o Stay.",
+      "por_quem": "pesquisador-externo"
+    },
+    {
+      "id": "ach-frota-local",
+      "afirmacao": "A frota local já opera MCPs próprios em produção.",
+      "fonte_url": "inventario-local://frota",
+      "tipo_de_fonte": "local",
+      "manutencao": "ativa",
+      "confianca": "certeza",
+      "limite": "O padrão de autenticação varia entre os servidores existentes.",
+      "por_quem": "pesquisador-interno"
+    }
+  ],
+  "lacunas": [
+    "Não foi possível confirmar se o Stay oferece API pública documentada."
+  ],
+  "conflitos": [
+    {
+      "assunto": "Existe API pública do Stay?",
+      "versoes": [
+        "Fórum diz que sim, sem link",
+        "Documentação oficial não menciona"
+      ],
+      "resolucao": "Tratado como não confirmado; virou lacuna, não achado."
+    }
+  ],
+  "auditoria": {
+    "veredito": "APPROVED",
+    "por_quem": "revisor-adversarial (Codex)",
+    "observacoes": "Achados com fonte primária e limite declarado."
+  }
+}

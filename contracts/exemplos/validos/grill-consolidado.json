@@ -1,0 +1,50 @@
+{
+  "schema_version": "grill-consolidado-v1",
+  "tarefa_id": "lancar-apartamentos-stay-2026-08-19",
+  "gerado_em": "2026-08-19T16:45:00-04:00",
+  "produzido_por": {
+    "agente": "temcomo-exemplo (documentação do plugin)",
+    "modelo": "claude-fable-5",
+    "sessao_id": "exemplo-ficticio-7288",
+    "transcript_jsonl": "/caminho/de/exemplo/transcricoes/exemplo-ficticio-7288.jsonl"
+  },
+  "rodadas": 1,
+  "decisoes": [
+    {
+      "id": "dec-campos",
+      "pergunta_id": "q-campos-obrigatorios",
+      "decisao": "São obrigatórios: unidade, tipo, valor e ao menos uma foto.",
+      "estado": "aprovada",
+      "motivo_do_estado": "Usuário aprovou a opção recomendada."
+    },
+    {
+      "id": "dec-auditoria",
+      "pergunta_id": "q-auditoria",
+      "decisao": "Registrar quem lançou, quando e o que mudou, desde o primeiro dia.",
+      "estado": "nao-verificavel",
+      "motivo_do_estado": "Depende de acesso ao histórico do Stay, que ainda não temos.",
+      "evidencia": "Dúvida reconciliada na rodada 1."
+    }
+  ],
+  "duvidas_reconciliadas": [
+    {
+      "pergunta_id": "q-auditoria",
+      "duvida": "Quem consegue ler esse histórico depois?",
+      "reformulacao": "Quem precisa conseguir auditar o lançamento: só você, a equipe toda, ou também o proprietário?",
+      "resposta_final": "Você e a equipe; o proprietário recebe resumo."
+    }
+  ],
+  "documentos_de_contexto": [
+    {
+      "titulo": "Regras de lançamento de apartamento",
+      "caminho": "contratos/contexto-regras-lancamento.md",
+      "resumo": "O que trava um lançamento e o que é opcional."
+    }
+  ],
+  "cobertura": {
+    "veredito": "SUFICIENTE",
+    "por_quem": "avaliador-de-cobertura",
+    "lacunas": [],
+    "duvidas_pendentes": 0
+  }
+}

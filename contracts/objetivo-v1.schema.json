@@ -1,0 +1,63 @@
+{
+  "$id": "objetivo-v1",
+  "title": "Objetivo confirmado (etapa 1)",
+  "description": "A pergunta original e o objetivo confirmado pelo usuário, escrito como resultado — não como mecanismo. O gate da etapa 1 (spec §5) exige objetivo leigo de até 1500 caracteres e confirmação explícita do usuário.",
+  "type": "object",
+  "required": ["schema_version", "tarefa_id", "gerado_em", "produzido_por", "pergunta_original", "objetivo_confirmado", "confirmado_pelo_usuario"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "objetivo-v1"},
+    "tarefa_id": {"type": "string", "minLength": 1},
+    "gerado_em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+    "produzido_por": {
+      "type": "object",
+      "required": ["agente"],
+      "additionalProperties": false,
+      "properties": {
+        "agente": {"type": "string", "minLength": 1},
+        "modelo": {"type": "string", "minLength": 1},
+        "sessao_id": {"type": "string", "minLength": 1},
+        "transcript_jsonl": {"type": "string", "minLength": 1}
+      }
+    },
+    "pergunta_original": {"type": "string", "minLength": 1, "maxLength": 500},
+    "objetivo_confirmado": {"type": "string", "minLength": 1, "maxLength": 1500},
+    "confirmado_pelo_usuario": {"const": true},
+    "anti_metas": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {"type": "string", "minLength": 1, "maxLength": 300}
+    },
+    "restricoes": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {"type": "string", "minLength": 1, "maxLength": 300}
+    },
+    "perguntas_feitas": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "required": ["pergunta", "resposta"],
+        "additionalProperties": false,
+        "properties": {
+          "pergunta": {"type": "string", "minLength": 1, "maxLength": 500},
+          "resposta": {"type": "string", "minLength": 1, "maxLength": 2000}
+        }
+      }
+    },
+    "hipoteses_descartadas": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": ["hipotese", "motivo"],
+        "additionalProperties": false,
+        "properties": {
+          "hipotese": {"type": "string", "minLength": 1, "maxLength": 500},
+          "motivo": {"type": "string", "minLength": 1, "maxLength": 1000}
+        }
+      }
+    }
+  }
+}

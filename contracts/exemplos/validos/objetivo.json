@@ -1,0 +1,34 @@
+{
+  "schema_version": "objetivo-v1",
+  "tarefa_id": "lancar-apartamentos-stay-2026-08-19",
+  "gerado_em": "2026-08-19T16:45:00-04:00",
+  "produzido_por": {
+    "agente": "temcomo-exemplo (documentação do plugin)",
+    "modelo": "claude-fable-5",
+    "sessao_id": "exemplo-ficticio-2630",
+    "transcript_jsonl": "/caminho/de/exemplo/transcricoes/exemplo-ficticio-2630.jsonl"
+  },
+  "pergunta_original": "Tem como lançar os apartamentos do Stay pelo chat?",
+  "objetivo_confirmado": "Cadastrar um apartamento novo do Stay mandando as fotos e as informações pelo chat, sem abrir o sistema e sem digitar formulário — e o anúncio aparecer publicado, com as informações certas.",
+  "confirmado_pelo_usuario": true,
+  "anti_metas": [
+    "Trocar o sistema do Stay por outro",
+    "Mexer no preço automaticamente"
+  ],
+  "restricoes": [
+    "Sem custo mensal novo",
+    "Precisa funcionar no celular"
+  ],
+  "perguntas_feitas": [
+    {
+      "pergunta": "Lançar significa ficar publicado ou só cadastrado?",
+      "resposta": "Publicado, pronto para receber reserva."
+    }
+  ],
+  "hipoteses_descartadas": [
+    {
+      "hipotese": "Automatizar por planilha compartilhada",
+      "motivo": "O usuário quer conversar, não preencher planilha."
+    }
+  ]
+}

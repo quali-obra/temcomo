@@ -1,0 +1,162 @@
+{
+  "schema_version": "direcoes-v1",
+  "tarefa_id": "lancar-apartamentos-stay-2026-08-19",
+  "gerado_em": "2026-08-20T15:00:00-04:00",
+  "produzido_por": {
+    "agente": "temcomo-exemplo (documentação do plugin)",
+    "modelo": "claude-fable-5",
+    "sessao_id": "exemplo-ficticio-0001",
+    "transcript_jsonl": "/caminho/de/exemplo/sessoes/exemplo-ficticio-0001.jsonl"
+  },
+  "exemplo": true,
+  "pergunta_original": "Tem como lançar os apartamentos do Stay pelo chat?",
+  "objetivo_leigo": "Cadastrar um apartamento novo do Stay mandando as fotos e as informações numa conversa de chat — sem ninguém precisar digitar tudo de novo no painel do sistema.",
+  "etapa": {
+    "numero": 3,
+    "total": 4,
+    "nome": "Propor direções"
+  },
+  "criterios": [
+    {
+      "id": "agentica",
+      "nome": "Integração agêntica",
+      "pergunta_leiga": "Depois de pronto, a IA consegue operar isso por você no dia a dia, sem depender de gente digitando?",
+      "peso": "alto",
+      "sempre_presente": true
+    },
+    {
+      "id": "aderencia",
+      "nome": "Aderência ao objetivo",
+      "pergunta_leiga": "O resultado final entrega exatamente o que você pediu (lançar pelo chat), de 0 a 100?",
+      "peso": "alto",
+      "sempre_presente": false
+    },
+    {
+      "id": "custo",
+      "nome": "Custo para ficar pronto",
+      "pergunta_leiga": "Quanto tempo e esforço até funcionar de verdade?",
+      "peso": "médio",
+      "sempre_presente": false
+    }
+  ],
+  "direcoes": [
+    {
+      "id": "mcp-stay",
+      "letra": "A",
+      "nome": "Conector próprio do Stay no chat (MCP)",
+      "recomendada": true,
+      "fora_da_caixa": false,
+      "origem": "construir",
+      "origem_leiga": "Construir do zero (não existe pronto)",
+      "custo": "médio",
+      "custo_leigo": "Umas 2 a 3 semanas de trabalho (estimativa de exemplo)",
+      "complexidade": "média",
+      "aderencia": 92,
+      "limite_principal": "Quando o sistema do Stay mudar por dentro, o conector precisa de manutenção junto.",
+      "explicacao_leiga": "Um MCP é como uma tomada padronizada que liga o assistente de IA direto ao sistema do Stay. Com ela instalada, você abre o chat, manda as fotos do apartamento e as informações (número, bloco, preço, o que tiver), e o agente faz o resto: confere se não falta nada, organiza os dados no formato certo e cadastra o apartamento direto no sistema. Antes de publicar, ele te mostra como ficou para você aprovar. É o único caminho desta lista em que o chat vira, de fato, a porta de entrada oficial: nada de planilha, nada de digitação repetida. Também é a base mais aproveitável para o futuro — a mesma tomada serve depois para atualizar preço, pausar anúncio ou puxar relatórios pelo chat.",
+      "pontuacao": {
+        "agentica": 5,
+        "aderencia": 5,
+        "custo": 3,
+        "complexidade": 3,
+        "robustez": 4
+      },
+      "consequencias": {
+        "prazo": "2 a 3 semanas até o primeiro apartamento lançado pelo chat (exemplo).",
+        "primeiro_passo": "Mapear os campos do cadastro de apartamento do Stay e desenhar o contrato do conector.",
+        "ganha": [
+          "Lançar apartamento vira uma conversa de 5 minutos: fotos + dados no chat, o agente cadastra e você só aprova.",
+          "A mesma tomada serve depois para atualizar preço, pausar anúncio e consultar dados pelo chat.",
+          "Menos erro de digitação: o agente confere os campos antes de lançar."
+        ],
+        "aceita_perder": [
+          "Alguém precisa manter o conector quando o sistema do Stay mudar por dentro.",
+          "Não fica pronto amanhã: há construção real antes do primeiro uso."
+        ],
+        "vs_recomendada": "Este é o caminho recomendado. Ele une a maior aderência ao que você pediu (92 de 100) com a nota máxima em integração agêntica, a um custo médio."
+      },
+      "resumo": "O chat vira a porta oficial: fotos e dados na conversa, o agente cadastra.",
+      "custo_curto": "2–3 semanas"
+    },
+    {
+      "id": "planilha-importador",
+      "letra": "B",
+      "nome": "Planilha padrão + importador",
+      "recomendada": false,
+      "fora_da_caixa": false,
+      "origem": "misto",
+      "origem_leiga": "Reusar planilha + construir um importador pequeno",
+      "custo": "baixo",
+      "custo_leigo": "Alguns dias de trabalho (estimativa de exemplo)",
+      "complexidade": "baixa",
+      "aderencia": 55,
+      "limite_principal": "Continua sendo preencher planilha à mão; o chat não participa do fluxo.",
+      "explicacao_leiga": "Aqui a ideia é padronizar: uma planilha modelo com todas as colunas do cadastro (número, bloco, preço, fotos por link) e um importador que lê essa planilha e lança tudo no sistema do Stay de uma vez. É barato, rápido de fazer e resolve o lançamento em lote — bom para quando chegam muitos apartamentos juntos. O porém é honesto: você pediu para lançar pelo chat, e neste caminho o chat fica de fora. Alguém ainda senta e preenche a planilha à mão; a automação só começa depois disso. É uma melhoria do processo atual, não a mudança que você descreveu.",
+      "pontuacao": {
+        "agentica": 2,
+        "aderencia": 3,
+        "custo": 5,
+        "complexidade": 5,
+        "robustez": 4
+      },
+      "consequencias": {
+        "prazo": "Menos de 1 semana até a primeira importação (exemplo).",
+        "primeiro_passo": "Definir as colunas da planilha modelo com quem cadastra hoje.",
+        "ganha": [
+          "Lançamento em lote: vários apartamentos de uma vez, sem digitar um por um no painel.",
+          "Custo baixo e pouca coisa para dar errado."
+        ],
+        "aceita_perder": [
+          "O chat fica de fora: alguém continua preenchendo planilha à mão.",
+          "Fotos entram por link, não por anexo — mais um passo manual."
+        ],
+        "vs_recomendada": "Comparado com o caminho A: custa bem menos e fica pronto antes, mas entrega só metade do pedido (aderência 55 contra 92) — o lançamento não acontece pelo chat."
+      },
+      "resumo": "Planilha modelo preenchida à mão + importador que lança tudo em lote.",
+      "custo_curto": "alguns dias"
+    },
+    {
+      "id": "agente-whatsapp",
+      "letra": "E",
+      "nome": "Agente no WhatsApp que recebe do corretor",
+      "recomendada": false,
+      "fora_da_caixa": true,
+      "origem": "construir",
+      "origem_leiga": "Construir do zero (agente + canal WhatsApp)",
+      "custo": "alto",
+      "custo_leigo": "3 semanas ou mais de trabalho (estimativa de exemplo)",
+      "complexidade": "alta",
+      "aderencia": 85,
+      "limite_principal": "Depende de canal oficial de WhatsApp e de regras claras de aprovação humana antes de qualquer publicação.",
+      "explicacao_leiga": "E se o apartamento se lançasse sozinho? Neste caminho, quem manda o material nem é você: é o próprio corretor. Ele envia as fotos e as informações num número de WhatsApp da empresa, e um agente de IA recebe, organiza, confere o que falta (e pede ao corretor na hora), monta o anúncio e deixa tudo pronto. Você só recebe um aviso: 'apartamento 507 pronto para publicar — aprova?'. Um toque e está no ar. É o caminho que mais elimina trabalho da sua equipe, porque move o esforço para a ponta de quem já tem o material na mão. Em troca, é o mais caro da lista e depende de um canal oficial de WhatsApp funcionando e de regras firmes de aprovação — nada é publicado sem um humano dizer sim.",
+      "pontuacao": {
+        "agentica": 5,
+        "aderencia": 4,
+        "custo": 2,
+        "complexidade": 2,
+        "robustez": 3
+      },
+      "consequencias": {
+        "prazo": "3 semanas ou mais até o primeiro lançamento de ponta a ponta (exemplo).",
+        "primeiro_passo": "Definir com um corretor parceiro o piloto: o que ele envia, em que ordem, e quem aprova.",
+        "ganha": [
+          "Sua equipe quase sai do fluxo: o corretor envia, o agente monta, você só aprova.",
+          "Aproveita um canal que os corretores já usam todos os dias (WhatsApp).",
+          "Escala natural: 1 ou 20 apartamentos dão o mesmo trabalho para você."
+        ],
+        "aceita_perder": [
+          "É o caminho mais caro e o de construção mais longa.",
+          "Depende de canal oficial de WhatsApp estável e de governança de aprovação bem definida.",
+          "Corretor vira parte do processo — precisa de instrução e boa vontade."
+        ],
+        "vs_recomendada": "Comparado com o caminho A: pontua quase igual em integração agêntica (5 de 5), mas custa mais, demora mais e depende de peças externas (WhatsApp, corretores). Pode ser o passo 2 natural depois que o conector A existir."
+      },
+      "resumo": "O corretor manda tudo por WhatsApp; um agente monta e você só aprova.",
+      "custo_curto": "3+ semanas"
+    }
+  ],
+  "recomendacao": {
+    "direcao_id": "mcp-stay",
+    "justificativa": "O caminho A é o único que entrega exatamente o que foi pedido — lançar pelo chat — com nota máxima em integração agêntica e a maior aderência da lista (92 de 100), a um custo médio. O caminho E pontua quase igual em integração agêntica, mas custa mais e depende de peças externas (canal WhatsApp, corretores); funciona melhor como evolução futura do A. O caminho B é o mais barato, porém deixa o chat de fora do fluxo — melhora o processo atual sem responder à pergunta."
+  }
+}

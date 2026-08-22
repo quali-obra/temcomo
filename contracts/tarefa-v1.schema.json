@@ -1,0 +1,44 @@
+{
+  "$id": "tarefa-v1",
+  "title": "Estado da tarefa (tarefa.json)",
+  "description": "A máquina de estados da jornada (spec §5): criada → objetivo-confirmado → pesquisa-concluida → direcao-escolhida → grill-concluido. Cada transição exige o contrato da etapa validado; o histórico registra quem avançou e quando. Consumido e escrito pelo motor (Task 4).",
+  "type": "object",
+  "required": ["schema_version", "tarefa_id", "gerado_em", "produzido_por", "etapa", "objetivo_resumido", "historico"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "tarefa-v1"},
+    "tarefa_id": {"type": "string", "minLength": 1},
+    "gerado_em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+    "produzido_por": {
+      "type": "object",
+      "required": ["agente"],
+      "additionalProperties": false,
+      "properties": {
+        "agente": {"type": "string", "minLength": 1},
+        "modelo": {"type": "string", "minLength": 1},
+        "sessao_id": {"type": "string", "minLength": 1},
+        "transcript_jsonl": {"type": "string", "minLength": 1}
+      }
+    },
+    "etapa": {"enum": ["criada", "objetivo-confirmado", "pesquisa-concluida", "direcao-escolhida", "grill-concluido"]},
+    "objetivo_resumido": {"type": "string", "minLength": 1, "maxLength": 300},
+    "criada_em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+    "rodada_de_grill_pendente": {"type": ["integer", "null"], "minimum": 1, "maximum": 99},
+    "historico": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "required": ["etapa", "em", "por"],
+        "additionalProperties": false,
+        "properties": {
+          "etapa": {"enum": ["criada", "objetivo-confirmado", "pesquisa-concluida", "direcao-escolhida", "grill-concluido"]},
+          "em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+          "por": {"type": "string", "minLength": 1},
+          "contrato": {"type": "string", "minLength": 1},
+          "observacao": {"type": "string", "maxLength": 1000}
+        }
+      }
+    }
+  }
+}

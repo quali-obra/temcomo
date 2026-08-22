@@ -1,0 +1,110 @@
+# Inventário auditado da prosa que o MOTOR escreve na página de direções.
+# Cada linha foi lida e classificada como texto estrutural do produto — nenhuma fala
+# da tarefa que serviu de semente. O que vem do contrato NÃO entra aqui: no HTML ele
+# é marcado com <span data-origem-contrato> e o extrator o ignora.
+# O autoteste compara a UNIÃO dos nós de vários renders com esta lista e falha se
+# aparecer prosa nova: prosa não auditada reprova por construção.
+'. Ela funciona offline, não faz nenhum acesso externo e não executa nenhuma ação: a decisão só sai daqui pelos botões de copiar ou baixar — e só vale como escolha depois de uma ação sua (o estado “pendente” é explícito).
+)
+) está destacada na tabela — aceitar custa um clique em “Escolher”.
+, lado a lado
+.
+. Compare na tabela, toque num caminho para os detalhes;
+/5
+0
+1
+2
+3
+: custo, aderência ao objetivo, limite principal e a sua escolha
+A
+A cópia automática não funcionou neste navegador. Toque no texto abaixo para selecioná-lo inteiro e copie manualmente (Cmd+C ou Ctrl+C).
+A seleção passou do bloco: anotei só o trecho do primeiro bloco selecionado.
+A tabela continua para o lado — arraste ou role horizontalmente para ver todas as colunas.
+A tabela mostra os
+Abra e escolha
+Aderência
+Aderência (0–100)
+Aderência mede, de 0 a 100, o quanto o caminho entrega exatamente o que você pediu. O recomendado vem destacado, mas
+Ajuste, condição ou dúvida sobre a escolha — por exemplo: "quero esse caminho, mas só se der para começar no mês que vem". Anotação é diferente: é um bilhete preso a um trecho do texto, para quem escreveu o material.
+Anotar
+Anotar seleção
+Anotação apagada.
+Anotação presa ao trecho
+Anotações (
+Anote, confira e devolva
+Baixar arquivo
+Caminho
+Como as direções foram ranqueadas
+Como funciona esta página
+Como pontua nos critérios (0 a 5)
+Comparado com o caminho recomendado
+Comparação dos
+Compare na tabela
+Complexidade
+Confira antes de devolver
+Contrato:
+Copiar resposta
+Custo
+Descartar
+Desfazer
+Desfazer minha escolha
+Dica: selecione qualquer trecho de texto desta página para deixar uma anotação presa a ele.
+Em palavras simples
+Entendi
+Escolher
+Escolher este caminho
+Etapa
+Falta decidir
+Fechar prévia
+Fique tranquilo:
+Fora da caixa
+Identidade QualiApps embutida: tipografia e logotipo viajam dentro do arquivo, para a página abrir sem internet.
+Limite principal
+Nenhum caminho escolhido ainda
+Nenhum caminho escolhido ainda. A recomendação (
+Nenhuma anotação ainda. Selecione um trecho de texto para anotar.
+O caminho em detalhe
+O caminho proposto
+O objetivo, em palavras simples:
+O rascunho fica salvo automaticamente neste navegador. Esta página não executa nada — só registra a sua escolha.
+Origem
+Os
+Por que este é o recomendado
+Prazo estimado
+Primeiro passo depois da escolha
+Prévia para cópia manual
+Página gerada pelo motor temcomo (versão 0.1.0) a partir do contrato '
+Recomendado
+Salvar anotação
+Se você escolher este caminho
+Selecionar tudo
+Selecione qualquer trecho de texto para deixar uma anotação presa a ele. No fim, confira o resumo na seção "Confira antes de devolver" e use a barra de baixo para copiar ou baixar sua resposta e me mandar na conversa.
+Seu comentário (opcional) — vai junto na resposta e muda o que será feito
+Sua escolha
+Suas anotações (
+Tem como, sim — por
+Toque num caminho para ler os detalhes em palavras simples. O botão "Escolher este caminho" funciona na tabela, nos detalhes e no modo documento. Para trocar, é só escolher outro; fechar a janela (Esc, fundo ou ×) sempre salva o rascunho, nunca descarta.
+Ver tudo como documento
+Você aceita, em troca
+Você decide aqui
+Você ganha
+de
+em detalhe
+esta página não executa nada e não acessa a internet — ela só registra a sua escolha. O rascunho fica salvo automaticamente neste navegador enquanto você decide.
+foram avaliados com os mesmos critérios, sempre declarados — nenhuma nota é "achismo" escondido. A integração agêntica está presente em toda avaliação do temcomo, por regra.
+lado a lado: custo, aderência ao objetivo e o principal limite de cada um. O recomendado vem destacado — mas nada é gravado antes de você agir.
+nada vem escolhido de fábrica
+nada é construído antes de você decidir
+peso
+sempre presente
+temcomo · Etapa
+temcomo · gerado em
+temcomo · relatório de direções
+·
+· SHA-256 do contrato em forma canônica, com as chaves ordenadas:
+· gerado em
+É o mesmo conteúdo que abre ao tocar num caminho da tabela, em página corrida — para ler tudo de uma vez, imprimir ou buscar (Ctrl+F). Escolher funciona aqui também.
+×
+—
+— a escolha só vale quando você apertar "Escolher".
+— você decide aqui

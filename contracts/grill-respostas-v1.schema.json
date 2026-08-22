@@ -1,0 +1,67 @@
+{
+  "$id": "grill-respostas-v1",
+  "title": "Respostas de uma rodada de grill (devolução do usuário)",
+  "description": "Export da rodada de grill. Forma derivada do buildEnvelope() do protótipo aprovado Prototypes/02-rodada-grill.html. `anotacoes` é obrigatório desde o -v1 e aceita lista vazia. `escolha_id` é null enquanto a pergunta está pendente — o export distingue 'sem interação' de 'escolheu a recomendação'. Os cinco campos de cada resposta são obrigatórios como CHAVE, porque o buildEnvelope() sempre os emite; o conteúdo é que pode ser vazio (a spec §8 permite dúvida em branco). Chave ausente denuncia export que não veio da página aprovada.",
+  "type": "object",
+  "required": ["schema_version", "tarefa_id", "gerado_em", "contrato_sha256", "produzido_por", "rodada", "respostas", "anotacoes"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "grill-respostas-v1"},
+    "tarefa_id": {"type": "string", "minLength": 1},
+    "gerado_em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+    "contrato_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$",
+                        "description": "Impressão digital (SHA-256 da forma canônica) do contrato que gerou a página respondida. Decisão 20: a resposta carrega a versão do formulário que a pessoa leu, e carimbo divergente bloqueia — sem ele, editar o contrato sem mexer nos identificadores fazia a resposta valer por algo que ninguém viu."},
+    "produzido_por": {
+      "type": "object",
+      "required": ["agente"],
+      "additionalProperties": false,
+      "properties": {
+        "agente": {"type": "string", "minLength": 1},
+        "modelo": {"type": "string", "minLength": 1},
+        "sessao_id": {"type": "string", "minLength": 1},
+        "transcript_jsonl": {"type": "string", "minLength": 1}
+      }
+    },
+    "rodada": {"type": "integer", "minimum": 1, "maximum": 99},
+    "respostas": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": ["pergunta_id", "estado", "escolha_id", "comentario", "duvida_texto"],
+        "additionalProperties": false,
+        "properties": {
+          "pergunta_id": {"type": "string", "minLength": 1},
+          "estado": {"enum": ["pendente", "aprovada", "rejeitada", "duvida", "adiada"]},
+          "escolha_id": {"type": ["string", "null"]},
+          "comentario": {"type": "string", "maxLength": 5000},
+          "duvida_texto": {"type": "string", "maxLength": 5000}
+        }
+      }
+    },
+    "anotacoes": {
+      "type": "array",
+      "maxItems": 500,
+      "items": {
+        "type": "object",
+        "required": ["id", "trecho", "comentario", "bloco_id", "ancora_status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "item_id": {"type": ["string", "null"]},
+          "bloco_id": {"type": "string", "minLength": 1},
+          "ancora_tipo": {"enum": ["bloco", "trecho"]},
+          "ancora_status": {"enum": ["resolvida", "truncada", "orfa"]},
+          "trecho": {"type": "string", "minLength": 1, "maxLength": 5000},
+          "prefixo": {"type": "string", "maxLength": 500},
+          "sufixo": {"type": "string", "maxLength": 500},
+          "inicio": {"type": ["integer", "null"], "minimum": 0},
+          "fim": {"type": ["integer", "null"], "minimum": 0},
+          "comentario": {"type": "string", "maxLength": 5000},
+          "criado_em": {"type": "string", "minLength": 10}
+        }
+      }
+    }
+  }
+}

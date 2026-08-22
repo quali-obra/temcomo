@@ -1,0 +1,12 @@
+{
+  "schema_version": "decisao-direcoes-v1",
+  "tarefa_id": "lancar-apartamentos-stay-2026-08-19",
+  "gerado_em": "2026-08-19T16:45:00-04:00",
+  "contrato_sha256": "05270507bf34a701b01ab25b5ce8cde5e6d1689646f21d6106d774ac991a4b06",
+  "produzido_por": {
+    "agente": "usuario"
+  },
+  "estado": "decidida",
+  "direcao_escolhida": "mcp-stay",
+  "comentario": "Concordo com o caminho A, mas quero começar pelos campos obrigatórios."
+}

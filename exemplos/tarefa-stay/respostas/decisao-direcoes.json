@@ -1,0 +1,38 @@
+{
+  "schema_version": "decisao-direcoes-v1",
+  "tarefa_id": "lancar-apartamentos-stay-2026-08-19",
+  "gerado_em": "2026-08-21T09:00:00-04:00",
+  "contrato_sha256": "2729650d321bcda4c05c4a3d8cf4a7f9c1ad82df1097ca90d41d8e3f60e95f1c",
+  "produzido_por": {
+    "agente": "usuario"
+  },
+  "estado": "decidida",
+  "direcao_escolhida": "mcp-stay",
+  "comentario": "Concordo com o caminho A, mas quero começar pelos campos obrigatórios.",
+  "anotacoes": [
+    {
+      "id": "an-1",
+      "item_id": "mcp-stay",
+      "bloco_id": "dir-mcp-stay-explicacao",
+      "ancora_tipo": "trecho",
+      "ancora_status": "resolvida",
+      "trecho": "uma tomada padronizada",
+      "prefixo": "Um MCP é como ",
+      "sufixo": " que liga",
+      "inicio": 14,
+      "fim": 36,
+      "comentario": "Boa analogia — usar essa mesma frase na apresentação.",
+      "criado_em": "2026-08-19T16:45:00-04:00"
+    },
+    {
+      "id": "an-2",
+      "item_id": null,
+      "bloco_id": "recomendacao",
+      "ancora_tipo": "trecho",
+      "ancora_status": "orfa",
+      "trecho": "trecho que sumiu depois de uma reedição",
+      "comentario": "Anotação órfã é preservada e marcada, nunca descartada.",
+      "criado_em": "2026-08-19T16:45:00-04:00"
+    }
+  ]
+}

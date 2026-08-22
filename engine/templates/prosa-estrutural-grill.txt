@@ -1,0 +1,99 @@
+# Inventário auditado da prosa que o MOTOR escreve na página de grill.
+# Cada linha foi lida e classificada como texto estrutural do produto — nenhuma fala
+# da rodada que serviu de semente. O que vem do contrato NÃO entra aqui: no HTML ele
+# é marcado com <span data-origem-contrato> e o extrator o ignora.
+# O autoteste compara a UNIÃO dos nós de vários renders com esta lista e falha se
+# aparecer prosa nova: prosa não auditada reprova por construção.
+'. Ela funciona offline, não faz nenhum acesso externo e não executa nenhuma ação: as respostas só saem daqui pelos botões de copiar ou baixar.
+0
+0 de
+1
+1 · Toque numa pergunta para abrir.
+2
+2 · Responda com um botão.
+3
+3 · Confira e devolva.
+A cópia automática não funcionou neste navegador. Toque no texto abaixo para selecioná-lo inteiro e copie manualmente (Cmd+C ou Ctrl+C).
+Anotar
+Anotações (0)
+Anotei só o trecho do primeiro parágrafo selecionado.
+Anterior
+Apagar minha resposta (volta a “falta responder”)
+Aprovar
+Aprovar, rejeitar ou “fiquei com dúvida” — dúvida não é rejeição: a pergunta volta mais bem explicada na próxima rodada. Algumas perguntas também deixam adiar. Fechar o cartão (de qualquer jeito) sempre salva; nada se perde.
+As opções — a sugerida vem destacada; só vale quando você responder
+Baixar o arquivo
+Cada cartão explica o porquê em linguagem comum, mostra as opções (a sugerida vem destacada) e o que você ganha e abre mão em cada uma. A escolha só vale quando você responder com um dos botões.
+Cancelar
+Comece por aqui
+Comentário (dentro do cartão) muda a minha resposta e viaja junto com ela. Anotação é um bilhete no texto: selecione um trecho e toque em “Anotar” — vai para quem escreveu o material.
+Comentário (opcional)
+Comentário ou anotação?
+Comentário viaja junto com a resposta e muda o que será feito. Para um bilhete sobre o texto, selecione o trecho e toque em “Anotar”.
+Começar
+Como funciona esta página
+Conferência final — o que você vai devolver
+Contrato:
+Copiar as respostas
+De onde veio esta pergunta
+Dica: selecione qualquer trecho do texto para deixar um bilhete preso a ele.
+Direção escolhida:
+Dá para mudar depois: esta escolha pode ser revista numa rodada futura sem prejuízo.
+E abre mão de
+Esta página não executa nada — só coleta as suas respostas.
+Esta página precisa de JavaScript para registrar respostas. Sem ele, você ainda pode ler todas as perguntas abaixo (toque em cada linha para abrir).
+Falta responder
+Falta responder: esta pergunta sai no arquivo como pendente, e o conferente devolve a rodada apontando o que faltou.
+Fechar
+Fechar prévia
+Fique tranquilo:
+Fiquei com dúvida
+Identidade QualiApps embutida: tipografia e logotipo viajam dentro do arquivo, para a página abrir sem internet.
+JSON grill-respostas-v1
+Nenhuma pergunta respondida ainda. Toque numa linha para abrir e responder.
+No fim, a conferência mostra todas as respostas numa tela só. Use “Copiar as respostas” ou “Baixar o arquivo” e devolva na conversa.
+O que muda na prática
+O rascunho NÃO está sendo salvo neste navegador (armazenamento cheio ou bloqueado). Copie ou baixe as respostas antes de fechar a página.
+O rascunho fica salvo automaticamente neste navegador.
+Pergunta
+Pergunta 1 de
+Perguntas para fechar o entendimento · rodada
+Pode ficar em branco: só de marcar a dúvida, a pergunta já volta mais bem explicada na próxima rodada. O que você escrever aqui fica guardado mesmo se você mudar de resposta.
+Por que estou te perguntando isso
+Prévia para cópia manual
+Página gerada pelo motor temcomo (versão 0.1.0) a partir do contrato '
+Qual é a dúvida?
+Recomendada
+Rejeitar
+Responda as
+Rodada
+Salvar anotação
+Salvar e fechar
+Salvar e ver a próxima
+Se você escolher esta, ganha
+Selecionar tudo
+Sua resposta
+Sugestão:
+Tarefa:
+Texto da anotação
+Ver como documento
+anotações neste item
+como funciona
+de perguntas ·
+depois é só colar na nossa conversa
+desta rodada
+difícil voltar atrás
+dá para mudar depois
+entendi, não mostrar de novo
+esta página não executa nada e não acessa a internet — ela só coleta as suas respostas. O rascunho fica salvo automaticamente neste navegador. Pode devolver com pendências: o conferente devolve apontando o que falta.
+formato técnico: JSON grill-respostas-v1 · as anotações vão junto no mesmo arquivo
+opções
+respondidas
+respondidas — faltam
+salve na pasta de respostas da tarefa
+·
+· SHA-256 do contrato em forma canônica, com as chaves ordenadas:
+· contrato grill-rodada-v1
+· rodada
+“
+” ·

@@ -1,0 +1,37 @@
+{
+  "name": "temcomo",
+  "version": "0.1.0",
+  "description": "Transforma a pergunta \"tem como fazer X?\" num processo com etapas e formulários validados: objetivo → pesquisa → direções → grill, com as decisões chegando ao usuário em páginas HTML autocontidas.",
+  "author": {
+    "name": "QualiApps"
+  },
+  "license": "MIT",
+  "keywords": [
+    "temcomo",
+    "objetivo",
+    "pesquisa",
+    "direcoes",
+    "grill",
+    "gates",
+    "contratos",
+    "pt-br"
+  ],
+  "skills": "./skills/",
+  "hooks": {},
+  "interface": {
+    "displayName": "temcomo",
+    "shortDescription": "Do \"tem como?\" à decisão: objetivo, pesquisa, direções e grill com gates",
+    "longDescription": "O temcomo trata o pedido como um sistema de gestão da qualidade: cada etapa é um procedimento, cada procedimento preenche um formulário JSON, e um motor em Python (stdlib pura) confere o formulário antes de deixar a etapa avançar. As decisões chegam ao usuário como páginas HTML em linguagem leiga, que ele abre no navegador, responde e devolve. Nada é construído antes de o usuário escolher uma direção.",
+    "developerName": "QualiApps",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Tem como fazer isso aqui?",
+      "Quero entender o que já existe antes de construir."
+    ]
+  }
+}

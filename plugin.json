@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "temcomo",
+  "version": "0.1.0",
+  "description": "Transforma a pergunta \"tem como fazer X?\" num processo com etapas e formulários validados: objetivo → pesquisa → direções → grill, com as decisões chegando ao usuário em páginas HTML autocontidas. Nada é construído antes da escolha dele.",
+  "author": {
+    "name": "QualiApps"
+  },
+  "license": "MIT",
+  "keywords": [
+    "temcomo",
+    "objetivo",
+    "pesquisa",
+    "direcoes",
+    "grill",
+    "gates",
+    "contratos",
+    "pt-br"
+  ]
+}

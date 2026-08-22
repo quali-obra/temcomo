@@ -1,0 +1,45 @@
+:root {
+  --qualiapps-cyan: #45D7FF;
+  --qualiapps-cyan-deep: #058FFE;
+  --qualigestao-green: #13A655;
+  --qualibroker-orange: #EE8423;
+  --brand: var(--qualiapps-cyan-deep);
+  --brand-soft: var(--qualiapps-cyan);
+  --ink: #0E1726;
+  --ink-2: #2A3242;
+  --ink-3: #5A6376;
+  --ink-4: #8E96A7;
+  --line: #E4E8EF;
+  --line-soft: #EEF1F6;
+  --bg: #FFFFFF;
+  --bg-soft: #F5F7FA;
+  --bg-ink: #0E1726;
+  --success: var(--qualigestao-green);
+  --warning: var(--qualibroker-orange);
+  --danger: #D6322B;
+  --font-display: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fs-12: 0.75rem; --fs-14: 0.875rem; --fs-16: 1rem; --fs-18: 1.125rem;
+  --fs-20: 1.25rem; --fs-24: 1.5rem; --fs-30: 1.875rem; --fs-36: 2.25rem;
+  --lh-tight: 1.1; --lh-snug: 1.25; --lh-normal: 1.5; --lh-loose: 1.7;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px; --sp-16: 64px;
+  --r-2: 6px; --r-3: 10px; --r-4: 14px; --r-5: 18px; --r-pill: 999px;
+  --shadow-1: 0 1px 2px rgba(14,23,38,.04), 0 1px 1px rgba(14,23,38,.03);
+  --shadow-2: 0 4px 12px rgba(14,23,38,.06), 0 1px 2px rgba(14,23,38,.04);
+  --shadow-3: 0 12px 32px rgba(14,23,38,.08), 0 2px 6px rgba(14,23,38,.04);
+  --ring-focus: 0 0 0 3px color-mix(in srgb, var(--brand) 35%, transparent);
+  --container-w: 1080px;
+  --container-pad: clamp(16px, 4vw, 48px);
+  /* Derivados AA (color-mix a partir dos tokens, regra do design.md §1) */
+  --brand-ink: color-mix(in srgb, var(--brand) 58%, var(--ink) 42%);
+  --brand-strong: color-mix(in srgb, var(--brand) 72%, var(--ink) 28%);
+  --brand-tint: color-mix(in srgb, var(--brand) 9%, var(--bg) 91%);
+  --ok-ink: color-mix(in srgb, var(--success) 62%, var(--ink) 38%);
+  --ok-tint: color-mix(in srgb, var(--success) 12%, var(--bg) 88%);
+  --danger-ink: color-mix(in srgb, var(--danger) 70%, var(--ink) 30%);
+  --danger-tint: color-mix(in srgb, var(--danger) 10%, var(--bg) 90%);
+  --warn-ink: color-mix(in srgb, var(--warning) 52%, var(--ink) 48%);
+  --warn-tint: color-mix(in srgb, var(--warning) 13%, var(--bg) 87%);
+}
