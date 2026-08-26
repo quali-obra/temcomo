@@ -6251,24 +6251,54 @@ class TestImportarR3Hibrido(TestImportar):
                     alvo.write_text(json.dumps(dado, ensure_ascii=False), encoding="utf-8")
                 avancar_etapa(pasta, "objetivo-confirmado", data=self.DATA)
                 avancar_etapa(pasta, "pesquisa-concluida", data=self.DATA)
-                for rodada, arquivo in ((1, "04-grill-rodada-1.json"), (2, nome)):
-                    alvo = pasta / "contratos" / arquivo
-                    dado = json.loads((PASTA_DE_EXEMPLOS / "validos" / "grill-rodada.json")
-                                      .read_text(encoding="utf-8"))
-                    dado["tarefa_id"], dado["rodada"] = pasta.name, rodada
-                    try:
-                        alvo.write_text(json.dumps(dado, ensure_ascii=False),
-                                        encoding="utf-8")
-                    except OSError:
-                        self.skipTest(f"o sistema de arquivos recusa o nome {nome!r}")
-                export = self.raiz / f"e-{abs(hash(nome))}.json"
-                dado = json.loads((PASTA_DE_EXEMPLOS / "validos" / "grill-respostas.json")
+                contratos = pasta / "contratos"
+                dado = json.loads((PASTA_DE_EXEMPLOS / "validos" / "grill-rodada.json")
                                   .read_text(encoding="utf-8"))
                 dado["tarefa_id"], dado["rodada"] = pasta.name, 1
-                export.write_text(json.dumps(dado, ensure_ascii=False), encoding="utf-8")
-                saida = self._reprova(export, pasta)
-                self.assertIn(nome.strip(), saida,
-                              f"a recusa não nomeia o arquivo divergente ({rotulo})")
+                rodada_1 = contratos / "04-grill-rodada-1.json"
+                rodada_1.write_text(json.dumps(dado, ensure_ascii=False), encoding="utf-8")
+                self.assertTrue(rodada_1.is_file(), "não criou a rodada 1 obrigatória")
+
+                alvo = contratos / nome
+                dado = json.loads((PASTA_DE_EXEMPLOS / "validos" / "grill-rodada.json")
+                                  .read_text(encoding="utf-8"))
+                dado["tarefa_id"], dado["rodada"] = pasta.name, 2
+                erro_criacao = None
+                antes = {entrada.name for entrada in contratos.iterdir()}
+                try:
+                    alvo.write_text(json.dumps(dado, ensure_ascii=False), encoding="utf-8")
+                except OSError as exc:
+                    erro_criacao = exc
+                depois = {entrada.name for entrada in contratos.iterdir()}
+                novos, removidos = depois - antes, antes - depois
+
+                canonico = "04-grill-rodada-2.json"
+                if erro_criacao is not None and not novos and not removidos:
+                    estado = "REJECTED"
+                elif erro_criacao is None and novos == {nome} and not removidos:
+                    estado = "PRESERVED"
+                elif erro_criacao is None and novos == {canonico} and not removidos:
+                    estado = "NORMALIZED"
+                else:
+                    self.fail(f"estado ambíguo ao criar {nome!r} ({rotulo}): "
+                              f"erro={erro_criacao!r}, novos={sorted(novos)!r}, "
+                              f"removidos={sorted(removidos)!r}")
+
+                if estado != "REJECTED":
+                    export = self.raiz / f"e-{abs(hash(nome))}.json"
+                    dado = json.loads((PASTA_DE_EXEMPLOS / "validos" /
+                                       "grill-respostas.json").read_text(encoding="utf-8"))
+                    dado["tarefa_id"], dado["rodada"] = pasta.name, 1
+                    export.write_text(json.dumps(dado, ensure_ascii=False), encoding="utf-8")
+                    saida = self._reprova(export, pasta)
+                    if estado == "PRESERVED":
+                        nome_real, = novos
+                        self.assertEqual(nome_real, nome)
+                        self.assertIn(nome_real, saida,
+                                      f"a recusa não nomeia o arquivo divergente ({rotulo})")
+                    else:
+                        self.assertIn("mais de uma rodada", saida)
+                        self.assertIn("(1, 2)", saida)
                 self.assertEqual(sorted(p.name for p in (pasta / "respostas").glob("*")), [],
                                  f"gravou com uma rodada escondida ({rotulo})")
 
