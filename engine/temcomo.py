@@ -6252,20 +6252,25 @@ class TestImportarR3Hibrido(TestImportar):
                 avancar_etapa(pasta, "objetivo-confirmado", data=self.DATA)
                 avancar_etapa(pasta, "pesquisa-concluida", data=self.DATA)
                 contratos = pasta / "contratos"
+                dado = json.loads((PASTA_DE_EXEMPLOS / "validos" / "grill-rodada.json")
+                                  .read_text(encoding="utf-8"))
+                dado["tarefa_id"], dado["rodada"] = pasta.name, 1
+                rodada_1 = contratos / "04-grill-rodada-1.json"
+                rodada_1.write_text(json.dumps(dado, ensure_ascii=False), encoding="utf-8")
+                self.assertTrue(rodada_1.is_file(), "não criou a rodada 1 obrigatória")
+
+                alvo = contratos / nome
+                dado = json.loads((PASTA_DE_EXEMPLOS / "validos" / "grill-rodada.json")
+                                  .read_text(encoding="utf-8"))
+                dado["tarefa_id"], dado["rodada"] = pasta.name, 2
                 erro_criacao = None
-                for rodada, arquivo in ((1, "04-grill-rodada-1.json"), (2, nome)):
-                    alvo = contratos / arquivo
-                    dado = json.loads((PASTA_DE_EXEMPLOS / "validos" / "grill-rodada.json")
-                                      .read_text(encoding="utf-8"))
-                    dado["tarefa_id"], dado["rodada"] = pasta.name, rodada
-                    antes = {entrada.name for entrada in contratos.iterdir()}
-                    try:
-                        alvo.write_text(json.dumps(dado, ensure_ascii=False),
-                                        encoding="utf-8")
-                    except OSError as exc:
-                        erro_criacao = exc
-                    depois = {entrada.name for entrada in contratos.iterdir()}
-                    novos, removidos = depois - antes, antes - depois
+                antes = {entrada.name for entrada in contratos.iterdir()}
+                try:
+                    alvo.write_text(json.dumps(dado, ensure_ascii=False), encoding="utf-8")
+                except OSError as exc:
+                    erro_criacao = exc
+                depois = {entrada.name for entrada in contratos.iterdir()}
+                novos, removidos = depois - antes, antes - depois
 
                 canonico = "04-grill-rodada-2.json"
                 if erro_criacao is not None and not novos and not removidos:
