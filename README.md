@@ -83,21 +83,23 @@ O Cursor reconhece dois formatos de plugin. Este repositório entrega **os dois*
 
 **Team marketplace (recomendado para times):** em *Dashboard → Plugins → Team Marketplaces*, use *Import from Repo* com `https://github.com/quali-obra/temcomo`, revise e adicione o plugin ao marketplace do time.
 
-**Instalação local a partir do clone:**
+**Instalação local a partir do clone** (conforme a documentação do Cursor: a receita principal é **copiar** o plugin para `~/.cursor/plugins/local/`):
 
 ```bash
 # /caminho/para/temcomo é a pasta deste clone
 mkdir -p ~/.cursor/plugins/local
-ln -s /caminho/para/temcomo ~/.cursor/plugins/local/temcomo
+cp -R /caminho/para/temcomo ~/.cursor/plugins/local/temcomo
 ```
 
 Reinicie o Cursor (ou recarregue a janela) e confira em *Customize / Plugins* se `temcomo` apareceu com as 4 skills.
+
+Symlink (`ln -s`) pode servir para iterar mais rápido, mas o Cursor pode **rejeitar em silêncio** symlinks cujo alvo fica fora de `~/.cursor/plugins/local`. Se as skills não aparecerem após um symlink, use a cópia acima.
 
 **Marketplace público:** listar em [cursor.com/marketplace](https://cursor.com/marketplace) exige revisão da equipe Cursor — envie o link do repositório em [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish). O manifesto Cursor neste PR habilita essa submissão; **ainda não está listado no marketplace público**.
 
 Os arquivos de identificação do Cursor ficam em `.cursor-plugin/` (além do `plugin.json` na raiz, no formato Agent Plugins).
 
-> **Sobre conviver com uma skill `temcomo` antiga:** instalado **como plugin**, nos programas suportados a skill fica sob o nome do plugin (`temcomo:temcomo` no Claude Code, prefixada no Codex, `agent-plugin-temcomo-<hash>:<skill>` no Hermes; no Cursor, sob o namespace do plugin) — então, pelo desenho, **não deve haver disputa de nome**. Isso foi **verificado no Hermes**, na instalação real num perfil de verdade; no Claude Code, no Codex e no Cursor é o comportamento esperado, mas **ainda não testado** nesses três (o teste em ambiente isolado não exercita convivência). A disputa só existe se você copiar as skills direto para a pasta de skills soltas do programa. Detalhes em [`.hermes-plugin/INSTALACAO.md`](.hermes-plugin/INSTALACAO.md).
+> **Sobre conviver com uma skill `temcomo` antiga:** instalado **como plugin**, nos programas suportados a skill fica sob o nome do plugin (`temcomo:temcomo` no Claude Code, prefixada no Codex, `agent-plugin-temcomo-<hash>:<skill>` no Hermes; no Cursor, comportamento esperado sob o namespace do plugin — **não verificado**) — então, pelo desenho, **não deve haver disputa de nome**. Isso foi **verificado no Hermes**, na instalação real num perfil de verdade; no Claude Code e no Codex é o comportamento esperado, mas **ainda não testado**; no Cursor a convivência de nomes **também não foi testada** (o teste em ambiente isolado não exercita convivência). A disputa só existe se você copiar as skills direto para a pasta de skills soltas do programa. Detalhes em [`.hermes-plugin/INSTALACAO.md`](.hermes-plugin/INSTALACAO.md).
 
 ## Tour de 5 minutos
 
