@@ -1,0 +1,28 @@
+{
+  "name": "temcomo",
+  "version": "0.1.0",
+  "description": "Transforma a pergunta \"tem como fazer X?\" num processo com etapas, formulários validados por um motor e decisões tomadas pelo usuário em páginas HTML: entender o objetivo, pesquisar o que já existe, propor direções e fazer o grill de descoberta.",
+  "author": {
+    "name": "QualiApps"
+  },
+  "homepage": "https://github.com/quali-obra/temcomo",
+  "repository": "https://github.com/quali-obra/temcomo",
+  "license": "MIT",
+  "keywords": [
+    "temcomo",
+    "objetivo",
+    "pesquisa",
+    "direcoes",
+    "grill",
+    "gates",
+    "contratos",
+    "pt-br"
+  ],
+  "skills": [
+    "./skills/temcomo",
+    "./skills/temcomo-pesquisa",
+    "./skills/temcomo-direcoes",
+    "./skills/temcomo-grill"
+  ],
+  "agents": "./agents/"
+}
