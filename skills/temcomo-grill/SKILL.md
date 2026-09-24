@@ -26,6 +26,7 @@ Confira antes, a partir da raiz do projeto (os caminhos `.temcomo/tarefas/<taref
 O grill é o registro das decisões do usuário e a referência de tudo o que vem depois — por isso fica **dentro do projeto**, na pasta da tarefa: `<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`, onde `<raiz-do-projeto>` é a raiz do repositório em que a conversa acontece. **Nunca** em `/tmp`, scratchpad do harness ou `Downloads`: o que está lá some com a sessão, e depois ninguém consegue conferir o que foi decidido. A orientação de harness de "usar o scratchpad para arquivo temporário" vale para rascunho descartável — artefato do grill não é descartável.
 
 - **Antes da rodada 1**, confira pelo `status` que a pasta da tarefa está dentro do projeto. Está em pasta temporária? **Pare e reporte ao usuário**: trazer a tarefa para o projeto é decisão dele, e move-se a pasta inteira, nunca arquivo a arquivo.
+- **Na mesma hora**, confira que o git não ignora a tarefa: `git check-ignore -v .temcomo/tarefas/<tarefa>/tarefa.json`, na raiz do projeto. Saiu uma linha (exit 0)? Alguma regra do `.gitignore` — `.temcomo/`, `.*/` — esconde o grill do versionamento: **pare e reporte** a regra ao usuário; abrir exceção é decisão dele.
 - Todo subagente recebe o **caminho absoluto** da pasta da tarefa e grava ali; caminho fora dela no handoff volta a quem produziu. Exceção: subagente em worktree isolado (`RUNBOOK.md` §4) entrega no worktree, e o orquestrador copia o arquivo, byte a byte, para a pasta da tarefa antes de qualquer gate — o que fica só no worktree não conta como grill.
 
 | O quê | Onde (dentro da pasta da tarefa) | Quem grava |
@@ -38,7 +39,7 @@ O grill é o registro das decisões do usuário e a referência de tudo o que ve
 | Avaliação da rodada N | `pesquisas/avaliacao-rodada-N.md` | `avaliador-de-cobertura` |
 | Consolidado final | `contratos/04-grill-consolidado.json` | `entrevistador` |
 
-Nada disso é apagado, movido ou reescrito depois do fechamento. A pasta `.temcomo/` é parte do projeto: não entra no `.gitignore` e vai junto quando o trabalho do projeto for versionado.
+Nada disso é apagado, movido ou reescrito depois do fechamento. A pasta `.temcomo/` é parte do projeto: não entra no `.gitignore` (a conferência acima pega regra que já exista) e vai junto quando o trabalho do projeto for versionado.
 
 ## Procedimento
 
