@@ -29,7 +29,7 @@ Leia antes de revisar ou julgar uma implementação, e sempre que suspeitar que 
 
 1. **Ache a tarefa:** cada pasta em <pasta-das-tarefas> é uma tarefa (`<assunto>-<aaaa-mm-dd>`). Procure o assunto com `grep -ril "<termo>"` nessa pasta.
 2. **Leia na ordem de autoridade:** `contratos/01-objetivo.json` (o objetivo manda) → `respostas/*.json` (a palavra do usuário, como foi importada; `respostas/recebidas/` guarda o que chegou, inclusive o recusado) → `contratos/04-grill-rodada-*.json` (o que foi perguntado e quais opções existiam) → `contratos/04-grill-consolidado.json` (a leitura consolidada, que também pode ter derivado).
-3. **Só resposta `aprovada` com opção escolhida (`escolha_id`) decide o que fazer.** `rejeitada` recusa o que foi oferecido e não escolhe nada no lugar; `duvida`, `adiada` e `pendente` não decidem nada — é pergunta para o usuário, mesmo que o consolidado diga outra coisa.
+3. **Só resposta `aprovada` com opção escolhida (`escolha_id`) decide o que fazer.** `rejeitada` recusa o que foi oferecido e não escolhe nada no lugar; `duvida`, `adiada` e `pendente` não decidem nada — é pergunta para o usuário, mesmo que o consolidado diga outra coisa. Na direção, vale a `direcao_escolhida` de `respostas/decisao-direcoes.json` (`estado: decidida`).
 4. **Cite a evidência:** arquivo + `pergunta_id`. Parecer de drift sem essa citação é opinião.
 5. **Divergência confirmada volta ao usuário.** Não edite o grill para caber no que foi feito nem reinterprete a resposta dele; se o usuário quiser mudar uma decisão, pare e reporte.
 6. **Grill em silêncio não é autorização:** o que o grill não cobriu é pergunta para o usuário, não decisão de quem implementa.

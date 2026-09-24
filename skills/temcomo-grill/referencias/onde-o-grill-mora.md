@@ -14,7 +14,7 @@ O grill é o registro das decisões do usuário e a referência de tudo o que ve
   ```
 
   Saiu alguma linha (exit 0)? Uma regra do `.gitignore` — `.temcomo/`, `.*/`, `*.html`, `respostas/`… — esconde parte do grill do versionamento: **pare e reporte** a regra ao usuário; abrir exceção é decisão dele. No fechamento, a conferência é sobre o que foi de fato gravado (seção abaixo).
-- Todo subagente recebe o **caminho absoluto** da pasta da tarefa e grava ali; caminho fora dela no handoff volta a quem produziu. Exceção: subagente em worktree isolado (`RUNBOOK.md` §4) entrega no worktree, e o orquestrador copia o arquivo, byte a byte, para a pasta da tarefa antes de qualquer gate — o que fica só no worktree não conta como grill.
+- Todo subagente recebe o **caminho absoluto** da pasta da tarefa e grava ali; caminho fora dela no handoff volta a quem produziu. Exceção: subagente em worktree isolado (`RUNBOOK.md` §4) recebe antes uma cópia da pasta da tarefa no mesmo caminho relativo do worktree (o que não foi commitado não aparece lá), entrega no worktree, e o orquestrador traz de volta, byte a byte, só o que ele produziu, antes de qualquer gate — o que fica só no worktree não conta como grill.
 
 | O quê | Onde (dentro da pasta da tarefa) | Quem grava |
 |---|---|---|
