@@ -27,7 +27,7 @@ Tudo o que a etapa produz ou recebe fica na pasta da tarefa, **dentro do projeto
 
 ## Procedimento
 
-1. **Lance o `agents/orquestrador-grill.md`** sobre a pasta da tarefa do projeto, **nunca em worktree isolado**: ele opera o motor e o `tarefa.json`, que só mudam por comando do motor ali. Sem como lançá-lo assim? Pare e reporte. Ele conduz o ciclo; você não redige nem avalia por fora.
+1. **Lance o `agents/orquestrador-grill.md`** sobre a pasta da tarefa do projeto, **nunca em worktree isolado**: ele opera o motor e o `tarefa.json`, que só mudam por comando do motor ali. Sem como lançá-lo assim (ex.: o harness só lança agente externo isolado)? Conduza você o ciclo, nesta sessão, seguindo o `orquestrador-grill.md` (`RUNBOOK.md` §4). Ele conduz o ciclo; você não redige nem avalia por fora.
 2. **Ciclo por rodada N:**
    - `agents/entrevistador.md` redige `contratos/04-grill-rodada-N.json` a partir do objetivo, do brief de pesquisa e da direção escolhida.
    - `validar` → `renderizar` → entregar o HTML ao usuário → ele responde e devolve → guardar como chegou em `respostas/recebidas/` (crie a subpasta na primeira vez) → `importar-resposta` do arquivo gravado.
