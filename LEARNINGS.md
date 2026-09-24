@@ -93,3 +93,7 @@ O PR do grill no projeto fez a `temcomo-grill` ir de 63 para 105 linhas, com dua
 ### 2026-09-24 — O projeto criado precisa "lembrar" onde estão as decisões, sem depender do plugin
 Instrução do dono: quem implementa no projeto pode não ter o plugin instalado, e o caminho da skill instalada muda de máquina para máquina e de programa para programa. Daí o `.temcomo/LEIA-ME.md` do projeto (cópia curta das regras de drift, com origem e versão) e um trecho curto para o `CLAUDE.md`/`AGENTS.md` que aponta para ele — proposto no fechamento, gravado só com a aprovação do usuário. A cópia pode envelhecer: a versão no cabeçalho denuncia, e o `drift.md` avisa para atualizar o modelo junto.
 **Status:** promovida (→ `skills/temcomo-grill/referencias/lembrete-no-projeto.md`; passo 5 do `SKILL.md`; `LEDGER.md` `T-20260924-003`).
+
+### 2026-09-24 — Resposta "fiquei com dúvida" pode virar decisão no consolidado
+Na leitura às cegas do projeto descartável, um agente sem o plugin notou que o consolidado do exemplo registra uma decisão de auditoria (`nao-verificavel`) para uma pergunta que o usuário respondeu com `duvida`. A ordem de autoridade já resolvia, mas faltava dizer com todas as letras o que conta como decisão.
+**Status:** promovida (→ item 3 de `skills/temcomo-grill/referencias/drift.md` e do modelo do `.temcomo/LEIA-ME.md`; `LEDGER.md` `T-20260924-004`).
