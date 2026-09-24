@@ -1,7 +1,7 @@
 ---
 name: temcomo
 description: "Use quando alguém perguntar 'tem como fazer X?', invocar /temcomo, ou pedir uma funcionalidade/mudança sem especificação fechada. Conduz a jornada completa — entender o objetivo, pesquisar o que já existe, propor direções e fazer o grill de descoberta — com formulários validados por um motor e decisões tomadas pelo usuário em páginas HTML. Não implementa nada antes da escolha dele."
-version: 0.1.0
+version: 0.1.1
 ---
 
 # temcomo — a skill mestre
@@ -38,9 +38,10 @@ A ajuda lista os subcomandos desta versão **e as opções de que as skills depe
 2. **Pergunte uma de cada vez**, curto, oferecendo a hipótese mais provável para o usuário só confirmar ou corrigir.
 3. **Ferramentas antes de perguntas factuais.** O que arquivo, comando, inventário ou documentação respondem, você não pergunta.
 4. A etapa termina quando **a frase descreve o resultado, não o mecanismo**, e o usuário concorda em seguir. Às vezes o objetivo entendido muda tudo — inclusive revela que não precisa ser feito.
-5. **Abra a tarefa** e registre o formulário:
+5. **Abra a tarefa** a partir da raiz do projeto — o `nova-tarefa` cria a pasta onde o comando roda — e registre o formulário:
 
 ```bash
+cd <raiz-do-projeto>   # a raiz do repositório onde a conversa acontece; nunca /tmp ou scratchpad
 python3 <raiz-do-plugin>/engine/temcomo.py nova-tarefa "<objetivo resumido>"
 # escreva contratos/01-objetivo.json (schema objetivo-v1: pergunta original, objetivo
 # confirmado em linguagem leiga ≤1500 caracteres, anti-metas, restrições, perguntas e
@@ -60,7 +61,7 @@ Se `concluir-etapa` bloquear, **pare e reporte** — não edite `tarefa.json` à
 | 3. Propor direções | `temcomo-direcoes` | `03-direcoes.json` → HTML → `respostas/decisao-direcoes.json` | **usuário escolheu uma direção no HTML** |
 | 4. Grill de descoberta | `temcomo-grill` | `04-grill-rodada-N.json` → `04-grill-consolidado.json` | avaliador independente declara cobertura suficiente |
 
-Onde tudo mora: `.temcomo/tarefas/<slug>-<aaaa-mm-dd>/` com `tarefa.json`, `contratos/`, `html/`, `respostas/`, `pesquisas/`. Em que pé está: `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>`.
+Onde tudo mora: `<raiz-do-projeto>/.temcomo/tarefas/<slug>-<aaaa-mm-dd>/` com `tarefa.json`, `contratos/`, `html/`, `respostas/`, `pesquisas/` — **dentro do projeto, nunca em pasta temporária** (`/tmp`, scratchpad do harness): é o registro da jornada e a referência contra drift nas etapas seguintes (ver `temcomo-grill`). Resposta devolvida pelo usuário, colada ou baixada, é guardada como chegou em `respostas/recebidas/` e importada de lá. Em que pé está: `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>`.
 
 ### Roteamento (como você conduz, etapa a etapa)
 
@@ -68,7 +69,7 @@ Onde tudo mora: `.temcomo/tarefas/<slug>-<aaaa-mm-dd>/` com `tarefa.json`, `cont
 2. `objetivo-confirmado` → invoque **`temcomo-pesquisa`**. Ao receber o handoff de 6 campos, confira os 6 campos e a rastreabilidade; incompleto volta a quem produziu, sem você preencher o buraco.
 3. `pesquisa-concluida` → invoque **`temcomo-direcoes`**. O gate dela é humano: espere a escolha do usuário, sem construir nada nesse meio-tempo.
 4. `direcao-escolhida` → invoque **`temcomo-grill`**. Ela devolve o consolidado e os documentos de contexto.
-5. `grill-concluido` → fim do v1. As etapas seguintes (prototipagem, spec, issues, PR) estão no `ROADMAP.md`; não as improvise aqui.
+5. `grill-concluido` → fim do v1. As etapas seguintes (prototipagem, spec, issues, PR) estão no `ROADMAP.md`; não as improvise aqui. O grill fechado fica no projeto como referência: suspeita de drift nessas etapas se resolve consultando-o (`temcomo-grill`, "Depois do fechamento").
 6. Em qualquer ponto: bloqueio devolvido por uma etapa (limite de rodadas, revisor indisponível, transição barrada) **para a jornada** e é reportado ao usuário com o que falta — nunca contornado.
 
 ## Os agentes (prompts em `agents/`)

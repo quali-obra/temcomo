@@ -1,7 +1,7 @@
 ---
 name: temcomo-grill
-description: "Etapa 4 do temcomo — grill de descoberta: transformar a direção escolhida em decisões concretas, uma rodada de perguntas por vez, em páginas HTML que o usuário responde. Use depois da etapa `direcao-escolhida`. Quem decide se o grill acabou é um avaliador independente, nunca o orquestrador."
-version: 0.1.0
+description: "Etapa 4 do temcomo — grill de descoberta: transformar a direção escolhida em decisões concretas, uma rodada de perguntas por vez, em páginas HTML que o usuário responde. Use depois da etapa `direcao-escolhida`. Quem decide se o grill acabou é um avaliador independente, nunca o orquestrador. Use também quando um orquestrador, juiz, conselheiro ou revisor suspeitar de drift na implementação: o grill fechado, guardado no projeto em `.temcomo/tarefas/`, é a referência das decisões do usuário."
+version: 0.2.0
 ---
 
 # temcomo-grill — etapa 4
@@ -19,13 +19,33 @@ Confira antes: `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/taref
 - **O HTML só coleta decisão** — nenhum botão executa nada.
 - **Sem decisão fantasma:** a opção recomendada aparece destacada, **nunca pré-gravada**; `pendente` é estado legítimo até o usuário clicar.
 - **Rastreabilidade** (sessão + transcript JSONL) em todo handoff e no envelope `produzido_por`.
+- **O grill mora no projeto, nunca em pasta temporária** — ver a seção abaixo.
+
+## Onde o grill mora
+
+O grill é o registro das decisões do usuário e a referência de tudo o que vem depois — por isso fica **dentro do projeto**, na pasta da tarefa: `<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`, onde `<raiz-do-projeto>` é a raiz do repositório em que a conversa acontece. **Nunca** em `/tmp`, scratchpad do harness, `Downloads`, worktree ou cópia de trabalho de subagente: o que está lá some com a sessão, e depois ninguém consegue conferir o que foi decidido. A orientação de harness de "usar o scratchpad para arquivo temporário" vale para rascunho descartável — artefato do grill não é descartável.
+
+- **Antes da rodada 1**, confira pelo `status` que a pasta da tarefa está dentro do projeto. Está em pasta temporária? **Pare e reporte ao usuário**: trazer a tarefa para o projeto é decisão dele, e move-se a pasta inteira, nunca arquivo a arquivo.
+- Todo subagente recebe o **caminho absoluto** da pasta da tarefa e grava ali; caminho fora dela no handoff volta a quem produziu.
+
+| O quê | Onde (dentro da pasta da tarefa) | Quem grava |
+|---|---|---|
+| Rodada N | `contratos/04-grill-rodada-N.json` | `entrevistador` |
+| Página da rodada | `html/NN-grill-rodada-N.html` | motor (`renderizar`) |
+| Resposta como chegou (colada no chat ou baixada) | `respostas/recebidas/grill-rodada-N.json` — sem sobrescrever: reenvio ganha sufixo (`grill-rodada-N-reenvio-2.json`) | quem conduz a etapa, antes de importar |
+| Resposta importada (a que vale) | `respostas/grill-rodada-N.json` | motor (`importar-resposta`), nunca à mão |
+| Consolidado candidato da rodada N | `contratos/04-grill-consolidado-candidato-rodada-N.json` | `entrevistador` |
+| Avaliação da rodada N | `pesquisas/avaliacao-rodada-N.md` | `avaliador-de-cobertura` |
+| Consolidado final | `contratos/04-grill-consolidado.json` | `entrevistador` |
+
+Nada disso é apagado, movido ou reescrito depois do fechamento. A pasta `.temcomo/` é parte do projeto: não entra no `.gitignore` e vai junto quando o trabalho do projeto for versionado.
 
 ## Procedimento
 
 1. **Lance o `agents/orquestrador-grill.md`.** Ele conduz o ciclo; você não redige nem avalia por fora.
 2. **Ciclo por rodada N:**
    - `agents/entrevistador.md` redige `contratos/04-grill-rodada-N.json` a partir do objetivo, do brief de pesquisa e da direção escolhida.
-   - `validar` → `renderizar` → entregar o HTML ao usuário → ele responde e devolve → `importar-resposta`.
+   - `validar` → `renderizar` → entregar o HTML ao usuário → ele responde e devolve → guardar como chegou em `respostas/recebidas/` → `importar-resposta` de lá.
    - As **dúvidas voltam ao entrevistador** (quem perguntou reconcilia), junto com as **anotações ancoradas** — inclusive as órfãs, que são preservadas e respondidas.
    - O entrevistador entrega o **consolidado candidato**; o `avaliador-de-cobertura` recebe rodada + respostas + candidato e devolve `VEREDITO: SUFICIENTE` ou `VEREDITO: NOVA RODADA` com as decisões que faltam.
 3. **Limite de rodadas:** mesma lacuna repetida ou 3ª rodada sem suficiência → **bloqueio explícito** devolvido a esta skill, sem abrir N+1 automaticamente.
@@ -51,7 +71,17 @@ Cada decisão com estado explícito — `proposta → aprovada → aplicada → 
 
 ## Saída da etapa
 
-Rodadas em `contratos/` e `html/`, respostas em `respostas/`, consolidado validado e revisado, tarefa em `grill-concluido`, handoff de 6 campos. Daqui saem os documentos de contexto para prototipagem e especificação (etapas do `ROADMAP.md`).
+Rodadas em `contratos/` e `html/`, respostas em `respostas/`, consolidado validado e revisado — tudo na pasta da tarefa, dentro do projeto —, tarefa em `grill-concluido`, handoff de 6 campos. Daqui saem os documentos de contexto para prototipagem e especificação (etapas do `ROADMAP.md`).
+
+## Depois do fechamento: o grill como referência contra drift
+
+Fechado, o grill é a **fonte de verdade das decisões do usuário** para as etapas seguintes (protótipo, spec, issues, implementação, revisão). Todo orquestrador, juiz, conselheiro ou revisor que **suspeitar de drift** — o que está sendo construído diverge do que o usuário decidiu, o escopo cresceu, uma opção rejeitada voltou, uma decisão irreversível foi tratada como reversível — **pesquisa o grill antes de dar parecer**, em vez de confiar na memória da conversa ou no resumo de outro agente:
+
+1. **Ache a tarefa:** `ls <raiz-do-projeto>/.temcomo/tarefas/` e o `status` dela; procure o assunto com `grep -ril "<termo>" <raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`.
+2. **Leia na ordem de autoridade:** `contratos/01-objetivo.json` (o objetivo manda) → `respostas/` (a palavra do usuário: a direção escolhida e cada rodada importada) → `contratos/04-grill-rodada-*.json` (o que foi perguntado e quais opções existiam) → `contratos/04-grill-consolidado.json` e documentos de contexto (a leitura consolidada, que também pode ter derivado).
+3. **Cite a evidência:** arquivo + `pergunta_id` + estado e escolha. Parecer de drift sem citação do grill é opinião.
+4. **Divergência confirmada volta ao usuário.** Não se edita o grill para caber no que foi feito, nem se reinterpreta a resposta dele; mudança de decisão é do usuário e vira registro novo, sem reescrever o antigo.
+5. **Grill em silêncio não é autorização:** ponto que o grill não cobriu é lacuna a levar ao usuário, não licença para quem implementa decidir.
 
 ## Armadilhas
 

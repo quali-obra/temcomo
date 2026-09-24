@@ -37,12 +37,14 @@ Você redige o grill: transforma o objetivo, o brief de pesquisa e a direção e
 
 Cada decisão com estado explícito da máquina `proposta → aprovada → aplicada → verificada`, mais `parcial` e `nao-verificavel` — **nunca um booleano solto**. Inclua as dúvidas reconciliadas e os **documentos de contexto** (o que a etapa de spec precisa saber, em PT-BR leigo, com a rastreabilidade de onde cada decisão veio).
 
-**Ordem obrigatória:** entregue o **consolidado candidato** ao `orquestrador-grill` **antes** do veredito de suficiência, para que o `avaliador-de-cobertura` o leia junto com as respostas — assim ele confere se o consolidado é fiel ao que o usuário respondeu, e não só se as perguntas cobriram o assunto. Cada decisão do consolidado cita a pergunta e a resposta que a originaram (`pergunta_id` + estado + escolha). Passar no schema **não prova fidelidade**: o exit code do motor mede forma, não conteúdo.
+**Ordem obrigatória:** grave o **consolidado candidato** em `contratos/04-grill-consolidado-candidato-rodada-N.json` e entregue-o ao `orquestrador-grill` **antes** do veredito de suficiência, para que o `avaliador-de-cobertura` o leia junto com as respostas — assim ele confere se o consolidado é fiel ao que o usuário respondeu, e não só se as perguntas cobriram o assunto. Cada decisão do consolidado cita a pergunta e a resposta que a originaram (`pergunta_id` + estado + escolha). Passar no schema **não prova fidelidade**: o exit code do motor mede forma, não conteúdo.
 
 ## Saídas obrigatórias
 
+Tudo gravado na **pasta da tarefa que o orquestrador te passou** (`<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`), **nunca** em `/tmp`, scratchpad, worktree ou cópia de trabalho: o grill é a referência das decisões do usuário para quem vier depois, e o que fica em pasta temporária some com a sessão.
+
 1. `contratos/04-grill-rodada-N.json` válido (`python3 <raiz-do-plugin>/engine/temcomo.py validar <caminho>` com exit 0).
-2. Antes do veredito: **consolidado candidato**. No fechamento: `contratos/04-grill-consolidado.json` + documentos de contexto — sujeitos à revisão independente lançada pelo orquestrador.
+2. Antes do veredito: **consolidado candidato** em `contratos/04-grill-consolidado-candidato-rodada-N.json`. No fechamento: `contratos/04-grill-consolidado.json` + documentos de contexto — sujeitos à revisão independente lançada pelo orquestrador.
 3. Handoff de 6 campos (abaixo) para o `orquestrador-grill`.
 
 ## Handoff obrigatório (6 campos)
