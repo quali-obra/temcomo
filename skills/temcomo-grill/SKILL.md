@@ -41,6 +41,8 @@ python3 <raiz-do-plugin>/engine/temcomo.py validar .temcomo/tarefas/<tarefa>/con
 python3 <raiz-do-plugin>/engine/temcomo.py concluir-etapa .temcomo/tarefas/<tarefa> grill-concluido
 ```
 
+5. **Lembrete no projeto:** com a etapa em `grill-concluido`, leia e siga `referencias/lembrete-no-projeto.md` — grava o `.temcomo/LEIA-ME.md` e **propõe** ao usuário o trecho do `CLAUDE.md`/`AGENTS.md`, que só entra com a aprovação dele.
+
 **Barreira de compatibilidade:** confira antes com `python3 <raiz-do-plugin>/engine/temcomo.py --ajuda` se a lista traz `concluir-etapa` e `importar-resposta <arquivo> [--tarefa <pasta>]`. Faltou, ou bloqueou? **Pare e reporte**: não improvise substituto, não edite `tarefa.json`, não mova arquivo à mão para `respostas/` e não declare o grill concluído. **Quem opera o motor** é quem conduz a etapa — acionar gate é orquestração, não "executar" no sentido proibido (que é construir o produto). Rode a transição **uma vez só**, conferindo o `status` antes: as rodadas são registradas pelo `importar-resposta`, e só o fechamento usa `concluir-etapa`.
 
 ## Forma das perguntas (o que esta skill exige do contrato)
