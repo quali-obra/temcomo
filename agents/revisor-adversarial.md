@@ -40,6 +40,7 @@ Regras de rigor:
 | Schema / gate / contrato | mutação fail-closed em cópia temporária + exemplos válidos e inválidos |
 | Template HTML / artefato visual | render + abrir o arquivo + comparação item a item com o protótipo aprovado + zero request externo |
 | Código / diff | testes focados no que mudou + `python3 <raiz-do-plugin>/engine/temcomo.py autoteste` |
+| Implementação (ou protótipo, spec, issue) de uma tarefa temcomo, com suspeita de drift | conferir contra o grill da tarefa em `<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`, na ordem de autoridade de `<raiz-do-plugin>/skills/temcomo-grill/referencias/drift.md`, citando arquivo + `pergunta_id`; ponto que o grill não cobriu é lacuna para o usuário, não licença |
 | Contrato de pesquisa (`pesquisa-v1`) — auditoria da compilação | fidelidade aos handoffs (nada acrescentado, omitido ou "arredondado") + **amostragem de fontes por risco/impacto**: abra as URLs/caminhos dos achados de maior custo, irreversibilidade ou confiança declarada alta e confirme que a fonte diz o que o achado afirma (URL decorativa e leitura errada passam no schema). **Se já existir `03-direcoes.json`**, receba os dois contratos e amostre também os achados que sustentam a recomendação — antes da etapa 3 esse conjunto ainda não existe, por isso o critério é risco/impacto |
 
 Passo que não se aplica ao alvo **não vira achado de omissão** — mas diga no handoff o que você não rodou e por quê.

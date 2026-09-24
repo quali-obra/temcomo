@@ -48,11 +48,11 @@ HERMES_HOME="${HERMES_HOME:?defina HERMES_HOME}" hermes plugins enable temcomo
 
 ```bash
 HERMES_HOME="${HERMES_HOME:?defina HERMES_HOME}" hermes plugins list --plain | grep temcomo
-#   antes do enable:  not enabled  git  0.1.0  temcomo
-#   depois do enable: enabled      git  0.1.0  temcomo
+#   antes do enable:  not enabled  git  0.2.0  temcomo
+#   depois do enable: enabled      git  0.2.0  temcomo
 
 HERMES_HOME="${HERMES_HOME:?defina HERMES_HOME}" hermes plugins show temcomo
-#   temcomo v0.1.0 · Status: enabled · Source: git · Key: temcomo
+#   temcomo v0.2.0 · Status: enabled · Source: git · Key: temcomo
 
 HERMES_HOME="${HERMES_HOME:?defina HERMES_HOME}" hermes plugins doctor temcomo --ci
 #   OK: runtime discovery, manifest parsing, import, and registration passed   (exit 0)

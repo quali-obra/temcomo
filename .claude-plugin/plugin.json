@@ -1,7 +1,7 @@
 {
   "name": "temcomo",
   "description": "Transforma a pergunta \"tem como fazer X?\" num processo com etapas, formulários validados por um motor e decisões tomadas pelo usuário em páginas HTML: entender o objetivo, pesquisar o que já existe, propor direções e fazer o grill de descoberta.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "QualiApps"
   },

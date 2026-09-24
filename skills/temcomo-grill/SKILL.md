@@ -1,7 +1,7 @@
 ---
 name: temcomo-grill
-description: "Etapa 4 do temcomo — grill de descoberta: transformar a direção escolhida em decisões concretas, uma rodada de perguntas por vez, em páginas HTML que o usuário responde. Use depois da etapa `direcao-escolhida`. Quem decide se o grill acabou é um avaliador independente, nunca o orquestrador."
-version: 0.1.0
+description: "Etapa 4 do temcomo — grill de descoberta: transformar a direção escolhida em decisões concretas, uma rodada de perguntas por vez, em páginas HTML que o usuário responde. Use depois da etapa `direcao-escolhida`. Quem decide se o grill acabou é um avaliador independente, nunca o orquestrador. Use também quando um orquestrador, juiz, conselheiro ou revisor suspeitar de drift na implementação: o grill fechado, guardado no projeto em `.temcomo/tarefas/`, é a referência das decisões do usuário."
+version: 0.2.0
 ---
 
 # temcomo-grill — etapa 4
@@ -10,7 +10,7 @@ version: 0.1.0
 
 A tarefa está em `direcao-escolhida`. O caminho já foi escolhido pelo usuário; falta descobrir **como ele quer que funcione** — cada pergunta é uma decisão que muda alguma coisa na prática.
 
-Confira antes: `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>`.
+Confira antes, a partir da raiz do projeto (os caminhos `.temcomo/tarefas/<tarefa>` desta skill são relativos a ela): `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>`.
 
 ## Regras invioláveis
 
@@ -19,22 +19,29 @@ Confira antes: `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/taref
 - **O HTML só coleta decisão** — nenhum botão executa nada.
 - **Sem decisão fantasma:** a opção recomendada aparece destacada, **nunca pré-gravada**; `pendente` é estado legítimo até o usuário clicar.
 - **Rastreabilidade** (sessão + transcript JSONL) em todo handoff e no envelope `produzido_por`.
+- **O grill mora no projeto, nunca em pasta temporária** — ver a seção abaixo.
+
+## Onde o grill mora
+
+Tudo o que a etapa produz ou recebe fica na pasta da tarefa, **dentro do projeto** (`<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`) — nunca em `/tmp`, scratchpad ou `Downloads`: é a referência das decisões do usuário para as etapas seguintes. **Antes da rodada 1 e no fechamento**, leia e siga `referencias/onde-o-grill-mora.md` (nesta pasta da skill): onde fica cada arquivo, o caso do subagente em worktree e as conferências de pasta e de `.gitignore` — qualquer uma que falhe, **pare e reporte**.
 
 ## Procedimento
 
-1. **Lance o `agents/orquestrador-grill.md`.** Ele conduz o ciclo; você não redige nem avalia por fora.
+1. **Lance o `agents/orquestrador-grill.md`** sobre a pasta da tarefa do projeto, **nunca em worktree isolado**: ele opera o motor e o `tarefa.json`, que só mudam por comando do motor ali. Sem como lançá-lo assim (ex.: o harness só lança agente externo isolado)? Conduza você o ciclo, nesta sessão, seguindo o `orquestrador-grill.md` (`RUNBOOK.md` §4). Ele conduz o ciclo; você não redige nem avalia por fora.
 2. **Ciclo por rodada N:**
    - `agents/entrevistador.md` redige `contratos/04-grill-rodada-N.json` a partir do objetivo, do brief de pesquisa e da direção escolhida.
-   - `validar` → `renderizar` → entregar o HTML ao usuário → ele responde e devolve → `importar-resposta`.
+   - `validar` → `renderizar` → entregar o HTML ao usuário → ele responde e devolve → guardar como chegou em `respostas/recebidas/` (crie a subpasta na primeira vez) → `importar-resposta` do arquivo gravado.
    - As **dúvidas voltam ao entrevistador** (quem perguntou reconcilia), junto com as **anotações ancoradas** — inclusive as órfãs, que são preservadas e respondidas.
    - O entrevistador entrega o **consolidado candidato**; o `avaliador-de-cobertura` recebe rodada + respostas + candidato e devolve `VEREDITO: SUFICIENTE` ou `VEREDITO: NOVA RODADA` com as decisões que faltam.
 3. **Limite de rodadas:** mesma lacuna repetida ou 3ª rodada sem suficiência → **bloqueio explícito** devolvido a esta skill, sem abrir N+1 automaticamente.
-4. **Fechamento:** consolidado final revisado por `agents/revisor-adversarial.md` (fresco, recebendo caminhos e hashes do consolidado, de todas as respostas importadas, das rodadas e da avaliação), e só então:
+4. **Fechamento:** consolidado final revisado por `agents/revisor-adversarial.md` (fresco, recebendo caminhos e hashes do consolidado, de todas as respostas importadas, das rodadas e da avaliação) e a conferência de fechamento de `referencias/onde-o-grill-mora.md` sem pendência; só então:
 
 ```bash
 python3 <raiz-do-plugin>/engine/temcomo.py validar .temcomo/tarefas/<tarefa>/contratos/04-grill-consolidado.json
 python3 <raiz-do-plugin>/engine/temcomo.py concluir-etapa .temcomo/tarefas/<tarefa> grill-concluido
 ```
+
+5. **Lembrete no projeto:** com a etapa em `grill-concluido`, leia e siga `referencias/lembrete-no-projeto.md` — grava o `.temcomo/LEIA-ME.md` e **propõe** ao usuário o trecho do `CLAUDE.md`/`AGENTS.md`, que só entra com a aprovação dele.
 
 **Barreira de compatibilidade:** confira antes com `python3 <raiz-do-plugin>/engine/temcomo.py --ajuda` se a lista traz `concluir-etapa` e `importar-resposta <arquivo> [--tarefa <pasta>]`. Faltou, ou bloqueou? **Pare e reporte**: não improvise substituto, não edite `tarefa.json`, não mova arquivo à mão para `respostas/` e não declare o grill concluído. **Quem opera o motor** é quem conduz a etapa — acionar gate é orquestração, não "executar" no sentido proibido (que é construir o produto). Rode a transição **uma vez só**, conferindo o `status` antes: as rodadas são registradas pelo `importar-resposta`, e só o fechamento usa `concluir-etapa`.
 
@@ -51,7 +58,11 @@ Cada decisão com estado explícito — `proposta → aprovada → aplicada → 
 
 ## Saída da etapa
 
-Rodadas em `contratos/` e `html/`, respostas em `respostas/`, consolidado validado e revisado, tarefa em `grill-concluido`, handoff de 6 campos. Daqui saem os documentos de contexto para prototipagem e especificação (etapas do `ROADMAP.md`).
+Rodadas em `contratos/` e `html/`, respostas em `respostas/`, consolidado validado e revisado — tudo na pasta da tarefa, dentro do projeto —, tarefa em `grill-concluido`, handoff de 6 campos. Daqui saem os documentos de contexto para prototipagem e especificação (etapas do `ROADMAP.md`).
+
+## Depois do fechamento: referência contra drift
+
+Fechado, o grill é a **fonte de verdade das decisões do usuário** para as etapas seguintes. Orquestrador, juiz, conselheiro ou revisor que **suspeitar de drift** na implementação lê `referencias/drift.md` (nesta pasta da skill) **antes de dar parecer**.
 
 ## Armadilhas
 

@@ -52,7 +52,7 @@ O campo 6 se repete no envelope `produzido_por {agente, modelo, sessao_id, trans
 0. **Invocação não interativa correta** (Codex CLI 0.140+): `--ask-for-approval` é opção **global** e vem **antes** do subcomando —
    `codex --ask-for-approval never exec --sandbox read-only --cd <repo> --output-last-message <out.md> - < <prompt.md>`.
    A forma `codex exec --ask-for-approval never …` falha com "unexpected argument".
-1. **Lançar em background**, em worktree/branch isolado quando houver escrita, com prompt autocontido (nunca `--resume` de thread longa ou interrompida).
+1. **Lançar em background**, em worktree/branch isolado quando houver escrita, com prompt autocontido (nunca `--resume` de thread longa ou interrompida). **Exceção:** quem opera o motor sobre a pasta da tarefa (o orquestrador da etapa) não roda isolado, porque o `tarefa.json` só muda por comando do motor ali. Ou ele é lançado sem worktree, ou quem conduz a skill segue o prompt dele na própria sessão; o isolamento vale para os trabalhadores que ele lança.
 2. **Heartbeat**, nunca poll silencioso: consulte o estado a cada poucos minutos e diga ao usuário que ainda está rodando. Silêncio prolongado é sintoma, não paciência.
 3. **Condições de kill objetivas**, com motivo registrado: sem output útil por dois heartbeats seguidos · pedindo segredo ou credencial · tentando escrever fora do worktree · reescrevendo o que não foi pedido · perto do timeout sem artefato seguro.
 4. **Veredito só pelo rollout** (`~/.codex/sessions/AAAA/MM/DD/rollout-*.jsonl`): parseie o JSONL e aceite apenas `task_complete` com `last_agent_message` **não nulo** — valide o **payload**, não a string (`grep task_complete` dá falso positivo, porque a string aparece no texto das instruções).

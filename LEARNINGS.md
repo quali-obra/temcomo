@@ -81,3 +81,19 @@ A rodada esperando resposta sai da pasta `contratos/` (os `04-grill-rodada-N.jso
 ### 2026-08-22 — `AVISO_IRREVERSIVEL_PADRAO`: salvaguarda que o caminho validado nunca alcança
 `regras_extras` exige `irreversivel_aviso` com conteúdo sempre que a pergunta traz `reversivel: false`, então o fallback do motor (constante `AVISO_IRREVERSIVEL_PADRAO` em `engine/temcomo.py`) só age em quem chamar `render_grill()` direto — contrato validado nunca chega lá. Ficou por ser exigência literal da Task 6 e por não fabricar dado da tarefa: é leitura derivada de um campo que o contrato **declarou**, diferente do `rodada` inventado, que virou erro. Reavaliar: manter como defesa em profundidade ou remover. Fonte: `contexto-de-tarefas/criar-plugin-temcomo-2026-08-19/checkpoints/motor-task-06.md`, "Observação técnica que fica registrada".
 **Status:** pendente.
+
+### 2026-09-24 — Agentes gravavam o grill e as respostas em pasta temporária
+Observado pelo dono no uso: rodadas e respostas do grill iam parar em pasta temporária e sumiam com a sessão — o grill deixava de existir como referência. Causas prováveis nas instruções (inferidas da leitura, não reproduzidas numa sessão real): o `nova-tarefa` cria a pasta onde o comando roda e nenhuma skill mandava rodar na raiz do projeto; subagentes recebiam caminho relativo; a resposta colada no chat e o consolidado candidato não tinham lugar definido — e a orientação do harness de "usar o scratchpad" preenchia o vazio. Instrução nova do dono: o grill fica no projeto e é o que orquestradores, juízes, conselheiros e revisores pesquisam quando suspeitam de drift na implementação.
+**Status:** promovida (→ `skills/temcomo-grill/SKILL.md` "Onde o grill mora" e "Depois do fechamento"; `skills/temcomo/SKILL.md`; `agents/orquestrador-grill.md`, `agents/entrevistador.md`, `agents/revisor-adversarial.md`; `LEDGER.md` `T-20260924-001`). Em aberto: o motor ainda cria tarefa e renderiza fora do projeto sem reclamar — a trava hoje é só de instrução. Em aberto também: não há registro de emenda para decisão que o usuário muda depois de a rodada ser importada ou de o grill fechar — hoje a instrução é parar e reportar.
+
+### 2026-09-24 — Skill enxuta: o que não serve a toda execução vira referência
+O PR do grill no projeto fez a `temcomo-grill` ir de 63 para 105 linhas, com duas seções que só servem em momentos específicos (antes da rodada 1/fechamento e suspeita de drift). Instrução do dono: a skill não pode crescer assim; detalhe vai para arquivo de referência, lido só quando necessário, e a regra fica no `CLAUDE.md` do projeto.
+**Status:** promovida (→ `CLAUDE.md`; `skills/temcomo-grill/referencias/`; `LEDGER.md` `T-20260924-002`).
+
+### 2026-09-24 — O projeto criado precisa "lembrar" onde estão as decisões, sem depender do plugin
+Instrução do dono: quem implementa no projeto pode não ter o plugin instalado, e o caminho da skill instalada muda de máquina para máquina e de programa para programa. Daí o `.temcomo/LEIA-ME.md` do projeto (cópia curta das regras de drift, com origem e versão) e um trecho curto para o `CLAUDE.md`/`AGENTS.md` que aponta para ele — proposto no fechamento, gravado só com a aprovação do usuário. A cópia pode envelhecer: a versão no cabeçalho denuncia, e o `drift.md` avisa para atualizar o modelo junto.
+**Status:** promovida (→ `skills/temcomo-grill/referencias/lembrete-no-projeto.md`; passo 5 do `SKILL.md`; `LEDGER.md` `T-20260924-003`).
+
+### 2026-09-24 — Resposta "fiquei com dúvida" pode virar decisão no consolidado
+Na leitura às cegas do projeto descartável, um agente sem o plugin notou que o consolidado do exemplo registra uma decisão de auditoria (`nao-verificavel`) para uma pergunta que o usuário respondeu com `duvida`. A ordem de autoridade já resolvia, mas faltava dizer com todas as letras o que conta como decisão.
+**Status:** promovida (→ item 3 de `skills/temcomo-grill/referencias/drift.md` e do modelo do `.temcomo/LEIA-ME.md`; `LEDGER.md` `T-20260924-004`).
