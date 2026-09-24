@@ -235,3 +235,13 @@ Entradas de **não conformidade** (algo saiu do processo) usam o mesmo schema, m
 - **Evidência:** a regra já existente "quem opera o motor é quem conduz a etapa" (`skills/temcomo/SKILL.md` e `RUNBOOK.md` §2) sustenta que quem conduz a skill rode o ciclo; os verificadores (`avaliador-de-cobertura`, `revisor-adversarial`) continuam sendo lançados como agentes separados, então a independência não muda. `autoteste` → 367 OK; gate de privacidade → sem saída.
 - **Rollback:** `git revert` do commit desta entrada; a reversão vira entrada nova citando `T-20260924-006`.
 - **Resultado:** sempre existe um caminho válido para o grill rodar, e o `tarefa.json` só muda pelo motor sobre a pasta da tarefa do projeto.
+
+## T-20260924-007 · Ratificação da T-20260924-006
+
+- **Escopo:** só o registro da aprovação da `T-20260924-006` (exceção do worktree isolado para quem opera o motor, no `RUNBOOK.md` §4). Nenhum arquivo além deste muda.
+- **Estado anterior:** a `T-20260924-006` foi aplicada como **pendente de ratificação do dono**, por ser mudança de processo que saiu da revisão do Codex e não de pedido dele.
+- **Mudança aplicada:** a pendência se resolve com a autorização do dono para o merge do PR inteiro, dada depois de a ratificação ter sido pedida a ele na conversa.
+- **Aprovação:** dono (Lucas), 2026-09-24: "quando não tiver mais problema ou o codex não fizer um apontamento valido pode fazer o merge ok".
+- **Evidência:** a mensagem acima, na mesma conversa em que a ratificação foi pedida, logo depois do pedido.
+- **Rollback:** o da `T-20260924-006`; desfazê-la vira entrada nova citando as duas.
+- **Resultado:** a `T-20260924-006` deixa de estar pendente.
