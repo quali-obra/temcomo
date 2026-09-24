@@ -89,3 +89,7 @@ Observado pelo dono no uso: rodadas e respostas do grill iam parar em pasta temp
 ### 2026-09-24 — Skill enxuta: o que não serve a toda execução vira referência
 O PR do grill no projeto fez a `temcomo-grill` ir de 63 para 105 linhas, com duas seções que só servem em momentos específicos (antes da rodada 1/fechamento e suspeita de drift). Instrução do dono: a skill não pode crescer assim; detalhe vai para arquivo de referência, lido só quando necessário, e a regra fica no `CLAUDE.md` do projeto.
 **Status:** promovida (→ `CLAUDE.md`; `skills/temcomo-grill/referencias/`; `LEDGER.md` `T-20260924-002`).
+
+### 2026-09-24 — O projeto criado precisa "lembrar" onde estão as decisões, sem depender do plugin
+Instrução do dono: quem implementa no projeto pode não ter o plugin instalado, e o caminho da skill instalada muda de máquina para máquina e de programa para programa. Daí o `.temcomo/LEIA-ME.md` do projeto (cópia curta das regras de drift, com origem e versão) e um trecho curto para o `CLAUDE.md`/`AGENTS.md` que aponta para ele — proposto no fechamento, gravado só com a aprovação do usuário. A cópia pode envelhecer: a versão no cabeçalho denuncia, e o `drift.md` avisa para atualizar o modelo junto.
+**Status:** promovida (→ `skills/temcomo-grill/referencias/lembrete-no-projeto.md`; passo 5 do `SKILL.md`; `LEDGER.md` `T-20260924-003`).
