@@ -61,7 +61,7 @@ Se `concluir-etapa` bloquear, **pare e reporte** — não edite `tarefa.json` à
 | 3. Propor direções | `temcomo-direcoes` | `03-direcoes.json` → HTML → `respostas/decisao-direcoes.json` | **usuário escolheu uma direção no HTML** |
 | 4. Grill de descoberta | `temcomo-grill` | `04-grill-rodada-N.json` → `04-grill-consolidado.json` | avaliador independente declara cobertura suficiente |
 
-Onde tudo mora: `<raiz-do-projeto>/.temcomo/tarefas/<slug>-<aaaa-mm-dd>/` com `tarefa.json`, `contratos/`, `html/`, `respostas/`, `pesquisas/` — **dentro do projeto, nunca em pasta temporária** (`/tmp`, scratchpad do harness): é o registro da jornada e a referência contra drift nas etapas seguintes (ver `temcomo-grill`). Resposta devolvida pelo usuário, colada ou baixada, é guardada como chegou em `respostas/recebidas/` e importada de lá. Em que pé está: `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>`.
+Onde tudo mora: `<raiz-do-projeto>/.temcomo/tarefas/<slug>-<aaaa-mm-dd>/` com `tarefa.json`, `contratos/`, `html/`, `respostas/`, `pesquisas/` — **dentro do projeto, nunca em pasta temporária** (`/tmp`, scratchpad do harness): é o registro da jornada e a referência contra drift nas etapas seguintes (ver `temcomo-grill`). Resposta devolvida pelo usuário, colada ou baixada, é guardada como chegou em `respostas/recebidas/` (crie a subpasta na primeira vez) e importada de lá. Em que pé está: `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>`.
 
 ### Roteamento (como você conduz, etapa a etapa)
 

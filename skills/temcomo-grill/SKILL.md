@@ -23,10 +23,10 @@ Confira antes: `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/taref
 
 ## Onde o grill mora
 
-O grill é o registro das decisões do usuário e a referência de tudo o que vem depois — por isso fica **dentro do projeto**, na pasta da tarefa: `<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`, onde `<raiz-do-projeto>` é a raiz do repositório em que a conversa acontece. **Nunca** em `/tmp`, scratchpad do harness, `Downloads`, worktree ou cópia de trabalho de subagente: o que está lá some com a sessão, e depois ninguém consegue conferir o que foi decidido. A orientação de harness de "usar o scratchpad para arquivo temporário" vale para rascunho descartável — artefato do grill não é descartável.
+O grill é o registro das decisões do usuário e a referência de tudo o que vem depois — por isso fica **dentro do projeto**, na pasta da tarefa: `<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`, onde `<raiz-do-projeto>` é a raiz do repositório em que a conversa acontece. **Nunca** em `/tmp`, scratchpad do harness ou `Downloads`: o que está lá some com a sessão, e depois ninguém consegue conferir o que foi decidido. A orientação de harness de "usar o scratchpad para arquivo temporário" vale para rascunho descartável — artefato do grill não é descartável.
 
 - **Antes da rodada 1**, confira pelo `status` que a pasta da tarefa está dentro do projeto. Está em pasta temporária? **Pare e reporte ao usuário**: trazer a tarefa para o projeto é decisão dele, e move-se a pasta inteira, nunca arquivo a arquivo.
-- Todo subagente recebe o **caminho absoluto** da pasta da tarefa e grava ali; caminho fora dela no handoff volta a quem produziu.
+- Todo subagente recebe o **caminho absoluto** da pasta da tarefa e grava ali; caminho fora dela no handoff volta a quem produziu. Exceção: subagente em worktree isolado (`RUNBOOK.md` §4) entrega no worktree, e o orquestrador copia o arquivo, byte a byte, para a pasta da tarefa antes de qualquer gate — o que fica só no worktree não conta como grill.
 
 | O quê | Onde (dentro da pasta da tarefa) | Quem grava |
 |---|---|---|
@@ -45,7 +45,7 @@ Nada disso é apagado, movido ou reescrito depois do fechamento. A pasta `.temco
 1. **Lance o `agents/orquestrador-grill.md`.** Ele conduz o ciclo; você não redige nem avalia por fora.
 2. **Ciclo por rodada N:**
    - `agents/entrevistador.md` redige `contratos/04-grill-rodada-N.json` a partir do objetivo, do brief de pesquisa e da direção escolhida.
-   - `validar` → `renderizar` → entregar o HTML ao usuário → ele responde e devolve → guardar como chegou em `respostas/recebidas/` → `importar-resposta` de lá.
+   - `validar` → `renderizar` → entregar o HTML ao usuário → ele responde e devolve → guardar como chegou em `respostas/recebidas/` (crie a subpasta na primeira vez) → `importar-resposta` do arquivo gravado.
    - As **dúvidas voltam ao entrevistador** (quem perguntou reconcilia), junto com as **anotações ancoradas** — inclusive as órfãs, que são preservadas e respondidas.
    - O entrevistador entrega o **consolidado candidato**; o `avaliador-de-cobertura` recebe rodada + respostas + candidato e devolve `VEREDITO: SUFICIENTE` ou `VEREDITO: NOVA RODADA` com as decisões que faltam.
 3. **Limite de rodadas:** mesma lacuna repetida ou 3ª rodada sem suficiência → **bloqueio explícito** devolvido a esta skill, sem abrir N+1 automaticamente.

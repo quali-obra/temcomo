@@ -41,7 +41,7 @@ Cada decisão com estado explícito da máquina `proposta → aprovada → aplic
 
 ## Saídas obrigatórias
 
-Tudo gravado na **pasta da tarefa que o orquestrador te passou** (`<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`), **nunca** em `/tmp`, scratchpad, worktree ou cópia de trabalho: o grill é a referência das decisões do usuário para quem vier depois, e o que fica em pasta temporária some com a sessão.
+Tudo gravado na **pasta da tarefa que o orquestrador te passou** (`<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`), **nunca** em `/tmp` ou scratchpad: o grill é a referência das decisões do usuário para quem vier depois, e o que fica em pasta temporária some com a sessão. **Lançado em worktree isolado** (subagente externo, `RUNBOOK.md` §4 — lá, escrever fora do worktree é condição de kill): grave no mesmo caminho relativo dentro do worktree e devolva o caminho absoluto no handoff; quem traz o arquivo para a pasta da tarefa do projeto é o orquestrador.
 
 1. `contratos/04-grill-rodada-N.json` válido (`python3 <raiz-do-plugin>/engine/temcomo.py validar <caminho>` com exit 0).
 2. Antes do veredito: **consolidado candidato** em `contratos/04-grill-consolidado-candidato-rodada-N.json`. No fechamento: `contratos/04-grill-consolidado.json` + documentos de contexto — sujeitos à revisão independente lançada pelo orquestrador.
