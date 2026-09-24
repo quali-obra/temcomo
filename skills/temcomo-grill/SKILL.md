@@ -23,31 +23,7 @@ Confira antes, a partir da raiz do projeto (os caminhos `.temcomo/tarefas/<taref
 
 ## Onde o grill mora
 
-O grill é o registro das decisões do usuário e a referência de tudo o que vem depois — por isso fica **dentro do projeto**, na pasta da tarefa: `<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`, onde `<raiz-do-projeto>` é a raiz do repositório em que a conversa acontece. **Nunca** em `/tmp`, scratchpad do harness ou `Downloads`: o que está lá some com a sessão, e depois ninguém consegue conferir o que foi decidido. A orientação de harness de "usar o scratchpad para arquivo temporário" vale para rascunho descartável — artefato do grill não é descartável.
-
-- **Antes da rodada 1**, confira pelo `status` que a pasta da tarefa está dentro do projeto. Está em pasta temporária? **Pare e reporte ao usuário**: trazer a tarefa para o projeto é decisão dele, e move-se a pasta inteira, nunca arquivo a arquivo.
-- **Na mesma hora**, confira que o git não ignora nenhum tipo de arquivo do grill — um caminho de amostra para cada tipo da tabela abaixo, rodado na raiz do projeto (o arquivo ainda não precisa existir):
-
-  ```bash
-  T=.temcomo/tarefas/<tarefa>
-  git check-ignore -v "$T/tarefa.json" "$T/contratos/04-grill-rodada-1.json" "$T/html/01-grill-rodada-1.html" \
-    "$T/respostas/grill-rodada-1.json" "$T/respostas/recebidas/grill-rodada-1.json" "$T/pesquisas/avaliacao-rodada-1.md"
-  ```
-
-  Saiu alguma linha (exit 0)? Uma regra do `.gitignore` — `.temcomo/`, `.*/`, `*.html`, `respostas/`… — esconde parte do grill do versionamento: **pare e reporte** a regra ao usuário; abrir exceção é decisão dele. No fechamento, a conferência é sobre o que foi de fato gravado (passo 4 do procedimento).
-- Todo subagente recebe o **caminho absoluto** da pasta da tarefa e grava ali; caminho fora dela no handoff volta a quem produziu. Exceção: subagente em worktree isolado (`RUNBOOK.md` §4) entrega no worktree, e o orquestrador copia o arquivo, byte a byte, para a pasta da tarefa antes de qualquer gate — o que fica só no worktree não conta como grill.
-
-| O quê | Onde (dentro da pasta da tarefa) | Quem grava |
-|---|---|---|
-| Rodada N | `contratos/04-grill-rodada-N.json` | `entrevistador` |
-| Página da rodada | `html/NN-grill-rodada-N.html` | motor (`renderizar`) |
-| Resposta como chegou (colada no chat ou baixada) | `respostas/recebidas/grill-rodada-N.json` — sem sobrescrever: reenvio ganha sufixo (`grill-rodada-N-reenvio-2.json`) | quem conduz a etapa, antes de importar |
-| Resposta importada (a que vale) | `respostas/grill-rodada-N.json` | motor (`importar-resposta`), nunca à mão |
-| Consolidado candidato da rodada N | `contratos/04-grill-consolidado-candidato-rodada-N.json` | `entrevistador` |
-| Avaliação da rodada N | `pesquisas/avaliacao-rodada-N.md` | `avaliador-de-cobertura` |
-| Consolidado final | `contratos/04-grill-consolidado.json` | `entrevistador` |
-
-Nada disso é apagado, movido ou reescrito depois do fechamento. A pasta `.temcomo/` é parte do projeto: não entra no `.gitignore` (a conferência acima pega regra que já exista) e vai junto quando o trabalho do projeto for versionado.
+Tudo o que a etapa produz ou recebe fica na pasta da tarefa, **dentro do projeto** (`<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`) — nunca em `/tmp`, scratchpad ou `Downloads`: é a referência das decisões do usuário para as etapas seguintes. **Antes da rodada 1 e no fechamento**, leia e siga `referencias/onde-o-grill-mora.md` (nesta pasta da skill): onde fica cada arquivo, o caso do subagente em worktree e as conferências de pasta e de `.gitignore` — qualquer uma que falhe, **pare e reporte**.
 
 ## Procedimento
 
@@ -58,15 +34,12 @@ Nada disso é apagado, movido ou reescrito depois do fechamento. A pasta `.temco
    - As **dúvidas voltam ao entrevistador** (quem perguntou reconcilia), junto com as **anotações ancoradas** — inclusive as órfãs, que são preservadas e respondidas.
    - O entrevistador entrega o **consolidado candidato**; o `avaliador-de-cobertura` recebe rodada + respostas + candidato e devolve `VEREDITO: SUFICIENTE` ou `VEREDITO: NOVA RODADA` com as decisões que faltam.
 3. **Limite de rodadas:** mesma lacuna repetida ou 3ª rodada sem suficiência → **bloqueio explícito** devolvido a esta skill, sem abrir N+1 automaticamente.
-4. **Fechamento:** consolidado final revisado por `agents/revisor-adversarial.md` (fresco, recebendo caminhos e hashes do consolidado, de todas as respostas importadas, das rodadas e da avaliação), e só então:
+4. **Fechamento:** consolidado final revisado por `agents/revisor-adversarial.md` (fresco, recebendo caminhos e hashes do consolidado, de todas as respostas importadas, das rodadas e da avaliação) e a conferência de fechamento de `referencias/onde-o-grill-mora.md` sem pendência; só então:
 
 ```bash
 python3 <raiz-do-plugin>/engine/temcomo.py validar .temcomo/tarefas/<tarefa>/contratos/04-grill-consolidado.json
-git ls-files --others --ignored --exclude-standard .temcomo/tarefas/<tarefa>/   # tem de sair vazio
 python3 <raiz-do-plugin>/engine/temcomo.py concluir-etapa .temcomo/tarefas/<tarefa> grill-concluido
 ```
-
-Se o `git ls-files` listar algum arquivo, ele está sendo ignorado pelo git: **pare e reporte** antes do `concluir-etapa`, como na conferência de antes da rodada 1.
 
 **Barreira de compatibilidade:** confira antes com `python3 <raiz-do-plugin>/engine/temcomo.py --ajuda` se a lista traz `concluir-etapa` e `importar-resposta <arquivo> [--tarefa <pasta>]`. Faltou, ou bloqueou? **Pare e reporte**: não improvise substituto, não edite `tarefa.json`, não mova arquivo à mão para `respostas/` e não declare o grill concluído. **Quem opera o motor** é quem conduz a etapa — acionar gate é orquestração, não "executar" no sentido proibido (que é construir o produto). Rode a transição **uma vez só**, conferindo o `status` antes: as rodadas são registradas pelo `importar-resposta`, e só o fechamento usa `concluir-etapa`.
 
@@ -85,15 +58,9 @@ Cada decisão com estado explícito — `proposta → aprovada → aplicada → 
 
 Rodadas em `contratos/` e `html/`, respostas em `respostas/`, consolidado validado e revisado — tudo na pasta da tarefa, dentro do projeto —, tarefa em `grill-concluido`, handoff de 6 campos. Daqui saem os documentos de contexto para prototipagem e especificação (etapas do `ROADMAP.md`).
 
-## Depois do fechamento: o grill como referência contra drift
+## Depois do fechamento: referência contra drift
 
-Fechado, o grill é a **fonte de verdade das decisões do usuário** para as etapas seguintes (protótipo, spec, issues, implementação, revisão). Todo orquestrador, juiz, conselheiro ou revisor que **suspeitar de drift** — o que está sendo construído diverge do que o usuário decidiu, o escopo cresceu, uma opção rejeitada voltou, uma decisão irreversível foi tratada como reversível — **pesquisa o grill antes de dar parecer**, em vez de confiar na memória da conversa ou no resumo de outro agente:
-
-1. **Ache a tarefa:** `ls <raiz-do-projeto>/.temcomo/tarefas/` e o `status` dela; procure o assunto com `grep -ril "<termo>" <raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`.
-2. **Leia na ordem de autoridade:** `contratos/01-objetivo.json` (o objetivo manda) → `respostas/` (a palavra do usuário: a direção escolhida e cada rodada importada) → `contratos/04-grill-rodada-*.json` (o que foi perguntado e quais opções existiam) → `contratos/04-grill-consolidado.json` e documentos de contexto (a leitura consolidada, que também pode ter derivado).
-3. **Cite a evidência:** arquivo + `pergunta_id` + estado e escolha. Parecer de drift sem citação do grill é opinião.
-4. **Divergência confirmada volta ao usuário.** Não se edita o grill para caber no que foi feito, nem se reinterpreta a resposta dele. Se ele quiser mudar a decisão, **pare e reporte**: o motor não aceita outra resposta para rodada já importada e ainda não existe registro de emenda depois do fechamento (lacuna conhecida, a definir junto das etapas seguintes do `ROADMAP.md`). Até lá vale a decisão registrada, e nada é construído sobre a decisão nova.
-5. **Grill em silêncio não é autorização:** ponto que o grill não cobriu é lacuna a levar ao usuário, não licença para quem implementa decidir.
+Fechado, o grill é a **fonte de verdade das decisões do usuário** para as etapas seguintes. Orquestrador, juiz, conselheiro ou revisor que **suspeitar de drift** na implementação lê `referencias/drift.md` (nesta pasta da skill) **antes de dar parecer**.
 
 ## Armadilhas
 

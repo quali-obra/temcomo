@@ -69,7 +69,7 @@ Onde tudo mora: `<raiz-do-projeto>/.temcomo/tarefas/<slug>-<aaaa-mm-dd>/` com `t
 2. `objetivo-confirmado` → invoque **`temcomo-pesquisa`**. Ao receber o handoff de 6 campos, confira os 6 campos e a rastreabilidade; incompleto volta a quem produziu, sem você preencher o buraco.
 3. `pesquisa-concluida` → invoque **`temcomo-direcoes`**. O gate dela é humano: espere a escolha do usuário, sem construir nada nesse meio-tempo.
 4. `direcao-escolhida` → invoque **`temcomo-grill`**. Ela devolve o consolidado e os documentos de contexto.
-5. `grill-concluido` → fim do v1. As etapas seguintes (prototipagem, spec, issues, PR) estão no `ROADMAP.md`; não as improvise aqui. O grill fechado fica no projeto como referência: suspeita de drift nessas etapas se resolve consultando-o (`temcomo-grill`, "Depois do fechamento").
+5. `grill-concluido` → fim do v1. As etapas seguintes (prototipagem, spec, issues, PR) estão no `ROADMAP.md`; não as improvise aqui. O grill fechado fica no projeto como referência: suspeita de drift nessas etapas se resolve consultando-o, como manda `<raiz-do-plugin>/skills/temcomo-grill/referencias/drift.md`.
 6. Em qualquer ponto: bloqueio devolvido por uma etapa (limite de rodadas, revisor indisponível, transição barrada) **para a jornada** e é reportado ao usuário com o que falta — nunca contornado.
 
 ## Os agentes (prompts em `agents/`)
