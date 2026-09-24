@@ -1,7 +1,7 @@
 ---
 name: temcomo-direcoes
 description: "Etapa 3 do temcomo — transformar a pesquisa em até 4 caminhos reais (mais no máximo 1 fora da caixa), renderizar o relatório HTML de direções e parar no gate de escolha. Use depois da etapa `pesquisa-concluida`. Nada é instalado, configurado ou escrito antes de o usuário escolher."
-version: 0.1.0
+version: 0.1.1
 ---
 
 # temcomo-direcoes — etapa 3
@@ -55,7 +55,9 @@ python3 <raiz-do-plugin>/engine/temcomo.py validar .temcomo/tarefas/<tarefa>/con
 # 4. só com VEREDITO: APPROVED
 python3 <raiz-do-plugin>/engine/temcomo.py renderizar .temcomo/tarefas/<tarefa>/contratos/03-direcoes.json
 # 5. entregue o caminho do HTML ao usuário e ESPERE a escolha dele
-python3 <raiz-do-plugin>/engine/temcomo.py importar-resposta <arquivo-baixado.json> --tarefa .temcomo/tarefas/<tarefa>
+# 6. grave o que ele devolveu (colado ou baixado), como chegou e sem sobrescrever, em respostas/recebidas/
+#    (crie a subpasta na primeira vez; reenvio: decisao-direcoes-reenvio-2.json) e importe o arquivo gravado
+python3 <raiz-do-plugin>/engine/temcomo.py importar-resposta .temcomo/tarefas/<tarefa>/respostas/recebidas/<arquivo-gravado>.json --tarefa .temcomo/tarefas/<tarefa>
 python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>
 ```
 
