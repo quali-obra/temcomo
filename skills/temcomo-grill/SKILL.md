@@ -10,7 +10,7 @@ version: 0.2.0
 
 A tarefa está em `direcao-escolhida`. O caminho já foi escolhido pelo usuário; falta descobrir **como ele quer que funcione** — cada pergunta é uma decisão que muda alguma coisa na prática.
 
-Confira antes: `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>`.
+Confira antes, a partir da raiz do projeto (os caminhos `.temcomo/tarefas/<tarefa>` desta skill são relativos a ela): `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>`.
 
 ## Regras invioláveis
 
@@ -80,7 +80,7 @@ Fechado, o grill é a **fonte de verdade das decisões do usuário** para as eta
 1. **Ache a tarefa:** `ls <raiz-do-projeto>/.temcomo/tarefas/` e o `status` dela; procure o assunto com `grep -ril "<termo>" <raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`.
 2. **Leia na ordem de autoridade:** `contratos/01-objetivo.json` (o objetivo manda) → `respostas/` (a palavra do usuário: a direção escolhida e cada rodada importada) → `contratos/04-grill-rodada-*.json` (o que foi perguntado e quais opções existiam) → `contratos/04-grill-consolidado.json` e documentos de contexto (a leitura consolidada, que também pode ter derivado).
 3. **Cite a evidência:** arquivo + `pergunta_id` + estado e escolha. Parecer de drift sem citação do grill é opinião.
-4. **Divergência confirmada volta ao usuário.** Não se edita o grill para caber no que foi feito, nem se reinterpreta a resposta dele; mudança de decisão é do usuário e vira registro novo, sem reescrever o antigo.
+4. **Divergência confirmada volta ao usuário.** Não se edita o grill para caber no que foi feito, nem se reinterpreta a resposta dele. Se ele quiser mudar a decisão, **pare e reporte**: o motor não aceita outra resposta para rodada já importada e ainda não existe registro de emenda depois do fechamento (lacuna conhecida, a definir junto das etapas seguintes do `ROADMAP.md`). Até lá vale a decisão registrada, e nada é construído sobre a decisão nova.
 5. **Grill em silêncio não é autorização:** ponto que o grill não cobriu é lacuna a levar ao usuário, não licença para quem implementa decidir.
 
 ## Armadilhas

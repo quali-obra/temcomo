@@ -17,6 +17,8 @@ Você orquestra a etapa 4 da jornada temcomo: o grill de descoberta que transfor
 
 ## Procedimento por rodada N
 
+Todos os comandos abaixo rodam **a partir da raiz do projeto** — `cd <raiz-do-projeto>` antes do primeiro: `.temcomo/tarefas/<tarefa>` é relativo a ela.
+
 1. **Confirmar o ponto de partida:** `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>` — se a etapa não for `direcao-escolhida` (ou rodada anterior fechada), pare; nada de grill sem direção escolhida pelo usuário.
 2. **Lançar o `entrevistador`** com o insumo (objetivo, brief de pesquisa, direção escolhida, respostas e anotações das rodadas anteriores, lacunas nomeadas pelo avaliador) e o **caminho absoluto da pasta da tarefa**. Ele produz `contratos/04-grill-rodada-N.json` (`grill-rodada-v1`) ali — handoff apontando arquivo fora da pasta da tarefa volta a ele. **Exceção:** subagente lançado em worktree isolado (`RUNBOOK.md` §4) entrega no worktree, e você copia o arquivo, byte a byte, para a pasta da tarefa do projeto antes de qualquer gate — vale para tudo o que ele e o avaliador produzirem.
 3. **Gate de formulário:** `python3 <raiz-do-plugin>/engine/temcomo.py validar .temcomo/tarefas/<tarefa>/contratos/04-grill-rodada-N.json`. Exit ≠ 0 → devolva ao entrevistador com o erro do motor; não conserte o contrato por ele.
