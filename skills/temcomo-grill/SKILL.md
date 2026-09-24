@@ -26,7 +26,15 @@ Confira antes, a partir da raiz do projeto (os caminhos `.temcomo/tarefas/<taref
 O grill é o registro das decisões do usuário e a referência de tudo o que vem depois — por isso fica **dentro do projeto**, na pasta da tarefa: `<raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`, onde `<raiz-do-projeto>` é a raiz do repositório em que a conversa acontece. **Nunca** em `/tmp`, scratchpad do harness ou `Downloads`: o que está lá some com a sessão, e depois ninguém consegue conferir o que foi decidido. A orientação de harness de "usar o scratchpad para arquivo temporário" vale para rascunho descartável — artefato do grill não é descartável.
 
 - **Antes da rodada 1**, confira pelo `status` que a pasta da tarefa está dentro do projeto. Está em pasta temporária? **Pare e reporte ao usuário**: trazer a tarefa para o projeto é decisão dele, e move-se a pasta inteira, nunca arquivo a arquivo.
-- **Na mesma hora**, confira que o git não ignora a tarefa: `git check-ignore -v .temcomo/tarefas/<tarefa>/tarefa.json`, na raiz do projeto. Saiu uma linha (exit 0)? Alguma regra do `.gitignore` — `.temcomo/`, `.*/` — esconde o grill do versionamento: **pare e reporte** a regra ao usuário; abrir exceção é decisão dele.
+- **Na mesma hora**, confira que o git não ignora nenhum tipo de arquivo do grill — um caminho de amostra para cada tipo da tabela abaixo, rodado na raiz do projeto (o arquivo ainda não precisa existir):
+
+  ```bash
+  T=.temcomo/tarefas/<tarefa>
+  git check-ignore -v "$T/tarefa.json" "$T/contratos/04-grill-rodada-1.json" "$T/html/01-grill-rodada-1.html" \
+    "$T/respostas/grill-rodada-1.json" "$T/respostas/recebidas/grill-rodada-1.json" "$T/pesquisas/avaliacao-rodada-1.md"
+  ```
+
+  Saiu alguma linha (exit 0)? Uma regra do `.gitignore` — `.temcomo/`, `.*/`, `*.html`, `respostas/`… — esconde parte do grill do versionamento: **pare e reporte** a regra ao usuário; abrir exceção é decisão dele. No fechamento, a conferência é sobre o que foi de fato gravado (passo 4 do procedimento).
 - Todo subagente recebe o **caminho absoluto** da pasta da tarefa e grava ali; caminho fora dela no handoff volta a quem produziu. Exceção: subagente em worktree isolado (`RUNBOOK.md` §4) entrega no worktree, e o orquestrador copia o arquivo, byte a byte, para a pasta da tarefa antes de qualquer gate — o que fica só no worktree não conta como grill.
 
 | O quê | Onde (dentro da pasta da tarefa) | Quem grava |
@@ -54,8 +62,11 @@ Nada disso é apagado, movido ou reescrito depois do fechamento. A pasta `.temco
 
 ```bash
 python3 <raiz-do-plugin>/engine/temcomo.py validar .temcomo/tarefas/<tarefa>/contratos/04-grill-consolidado.json
+git ls-files --others --ignored --exclude-standard .temcomo/tarefas/<tarefa>/   # tem de sair vazio
 python3 <raiz-do-plugin>/engine/temcomo.py concluir-etapa .temcomo/tarefas/<tarefa> grill-concluido
 ```
+
+Se o `git ls-files` listar algum arquivo, ele está sendo ignorado pelo git: **pare e reporte** antes do `concluir-etapa`, como na conferência de antes da rodada 1.
 
 **Barreira de compatibilidade:** confira antes com `python3 <raiz-do-plugin>/engine/temcomo.py --ajuda` se a lista traz `concluir-etapa` e `importar-resposta <arquivo> [--tarefa <pasta>]`. Faltou, ou bloqueou? **Pare e reporte**: não improvise substituto, não edite `tarefa.json`, não mova arquivo à mão para `respostas/` e não declare o grill concluído. **Quem opera o motor** é quem conduz a etapa — acionar gate é orquestração, não "executar" no sentido proibido (que é construir o produto). Rode a transição **uma vez só**, conferindo o `status` antes: as rodadas são registradas pelo `importar-resposta`, e só o fechamento usa `concluir-etapa`.
 
