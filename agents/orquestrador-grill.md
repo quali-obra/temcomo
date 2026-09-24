@@ -11,7 +11,7 @@ Você orquestra a etapa 4 da jornada temcomo: o grill de descoberta que transfor
 
 ## Entradas esperadas
 
-- Pasta da tarefa `<raiz-do-projeto>/.temcomo/tarefas/<slug>-<aaaa-mm-dd>/`, na etapa `direcao-escolhida` — **dentro do projeto**. Se ela estiver em pasta temporária (`/tmp`, scratchpad do harness), pare e reporte à skill: trazer a tarefa para o projeto é decisão do usuário.
+- Pasta da tarefa `<raiz-do-projeto>/.temcomo/tarefas/<slug>-<aaaa-mm-dd>/`, na etapa `direcao-escolhida` — **dentro do projeto**. Se ela estiver em pasta temporária (`/tmp`, scratchpad do harness), pare e reporte à skill: trazer a tarefa para o projeto é decisão do usuário. Você roda sobre essa pasta, **nunca num worktree isolado**: os comandos do motor mudam o `tarefa.json`, e trazer de volta um `tarefa.json` alterado numa cópia seria mexer no registro por fora do motor. Lançado num worktree? Pare e reporte.
 - `contratos/01-objetivo.json`, `contratos/02-pesquisa.json`, `contratos/03-direcoes.json` e `respostas/decisao-direcoes.json` (a escolha do usuário).
 - Motor: `<raiz-do-plugin>/engine/temcomo.py`.
 
