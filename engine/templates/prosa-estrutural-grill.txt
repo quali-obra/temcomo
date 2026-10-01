@@ -61,7 +61,7 @@ Perguntas para fechar o entendimento · rodada
 Pode ficar em branco: só de marcar a dúvida, a pergunta já volta mais bem explicada na próxima rodada. O que você escrever aqui fica guardado mesmo se você mudar de resposta.
 Por que estou te perguntando isso
 Prévia para cópia manual
-Página gerada pelo motor temcomo (versão 0.1.0) a partir do contrato '
+Página gerada pelo motor temcomo (versão 0.1.1) a partir do contrato '
 Qual é a dúvida?
 Recomendada
 Rejeitar

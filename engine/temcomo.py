@@ -5,7 +5,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from unittest import mock
 
-ENGINE_VERSION = "0.1.0"
+ENGINE_VERSION = "0.1.1"
 
 USO = """uso: temcomo <subcomando> [argumentos]
 
@@ -5290,8 +5290,9 @@ class TestRestauracaoNoGrill(unittest.TestCase):
     const blocoEl = {};
     function updatePanelCount() {}
     function updateRow() {}
-    let contador = 0;
-    function annotId() { return "gerado-" + (++contador); }
+    const crypto = require("crypto");
+    const window = { crypto: crypto };
+    eval(corpoDaFuncao("novoId"));
     const inicioSem = pagina.indexOf("var SEM_CONTEUDO =");
     eval(pagina.slice(inicioSem, pagina.indexOf("})();", inicioSem) + 5));
     eval(corpoDaFuncao("temConteudo"));
@@ -6732,8 +6733,10 @@ class TestPosAuditoriaNoNavegador(unittest.TestCase):
             }
             const inicioSem = pagina.indexOf("var SEM_CONTEUDO =");
             eval(pagina.slice(inicioSem, pagina.indexOf("})();", inicioSem) + 5));
-            let contador = 0;
-            function annotId() { return "gerado-" + (++contador); }
+            const crypto = require("crypto");
+            const window = { crypto: crypto };
+            if (pagina.includes("function annotId(")) eval(corpoDaFuncao("annotId"));
+            if (pagina.includes("function novoId(")) eval(corpoDaFuncao("novoId"));
             __CARREGAR__
             __CORPO__
             """.replace("__CARREGAR__", carregar).replace("__CORPO__", corpo_js)
@@ -6753,6 +6756,317 @@ class TestPosAuditoriaNoNavegador(unittest.TestCase):
                                        .read_text(encoding="utf-8")))
 
     FUNCOES = ("temConteudo", "idInternoEstavel", "sanitizeAnnot", "sanitizarAnotacoes")
+
+    def _restaura_rascunhos(self, pagina, casos, clicar_descarte=False):
+        """Exercita restore e sanitização da página, com armazenamento isolado."""
+        contrato = _contrato_embutido(pagina)
+        direcoes = bool(contrato.get("direcoes"))
+        preparo = """
+        const CONTRATO = __CONTRATO__;
+        const CASOS = __CASOS__;
+        var STORAGE_KEY = CONTRATO.export.chave_localstorage;
+        var rawAtual = null, avisos = [], gravacoes = [], chamadas = {};
+        var localStorage = {
+          getItem: function (chave) { return chave === STORAGE_KEY ? rawAtual : null; },
+          setItem: function (chave, valor) { gravacoes.push({ chave: chave, valor: valor }); }
+        };
+        function showDraftNotice(texto) { avisos.push(texto); }
+        function pageNotice(texto, acoes) { avisos.push(texto); }
+        function flush() {
+          chamadas.flush = (chamadas.flush || 0) + 1;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+        }
+        function syncAll() { chamadas.syncAll = (chamadas.syncAll || 0) + 1; }
+        function paintAll() { chamadas.paintAll = (chamadas.paintAll || 0) + 1; }
+        function rebuildPanel() { chamadas.rebuildPanel = (chamadas.rebuildPanel || 0) + 1; }
+        """.replace("__CONTRATO__", json.dumps(contrato)).replace("__CASOS__", json.dumps(casos))
+        if direcoes:
+            preparo += """
+            var SCHEMA = CONTRATO.export.schema_version, TAREFA = CONTRATO.tarefa_id;
+            var CONTRACT_SHA = JSON.parse(pagina.match(/var CONTRACT_SHA = ("[^"]+");/)[1]);
+            var VALID_IDS = CONTRATO.direcoes.map(function (d) { return d.id; });
+            var state, anotacoes;
+            function reiniciar() {
+              state = { direcao_escolhida: null, comentario: "", dica_dispensada: false };
+              anotacoes = [];
+            }
+            function foto() { return { estado: state, anotacoes: anotacoes }; }
+            """
+            funcoes = self.FUNCOES + ("restore",)
+        else:
+            preparo += """
+            var TAREFA_ID = CONTRATO.tarefa_id, RODADA = CONTRATO.rodada;
+            var EXPORT_SCHEMA = CONTRATO.export.schema_version;
+            var CONTRATO_SHA = JSON.parse(pagina.match(/var CONTRATO_SHA = ("[^"]+");/)[1]);
+            var PERGUNTAS = CONTRATO.perguntas, IDX = Object.create(null);
+            PERGUNTAS.forEach(function (q, i) { IDX[q.id] = i; });
+            var ESTADOS = ["pendente", "aprovada", "rejeitada", "duvida", "adiada"];
+            var draft, interacted;
+            function reiniciar() {
+              draft = { respostas: Object.create(null), anotacoes: [], ui: {} };
+              interacted = false;
+              PERGUNTAS.forEach(function (q) {
+                draft.respostas[q.id] = { estado: "pendente", escolha_id: recomendadaDe(q).id,
+                                         comentario: "", duvida_texto: "" };
+              });
+            }
+            function foto() { return { estado: draft, anotacoes: draft.anotacoes }; }
+            """
+            funcoes = self.FUNCOES + ("optDe", "recomendadaDe", "restore")
+        if clicar_descarte:
+            preparo += """
+            const { criarDom } = require(process.argv[3]);
+            const dom = criarDom();
+            global.document = dom.doc;
+            Object.getPrototypeOf(document.createElement("div")).remove = function () {
+              if (this.parent) {
+                this.parent.children.splice(this.parent.children.indexOf(this), 1);
+                this.parent = null;
+              }
+            };
+            function $(id) { return document.getElementById(id); }
+            eval(corpoDaFuncao("el"));
+            eval(corpoDaFuncao("pageNotice"));
+            """
+        corpo = """
+        const resultados = CASOS.map(function (caso) {
+          reiniciar(); avisos = []; gravacoes = []; chamadas = {};
+          rawAtual = caso.salvo === null ? null : JSON.stringify(caso.salvo);
+          restore();
+          const antes = JSON.parse(JSON.stringify(foto()));
+          __DESCARTAR__
+          return { nome: caso.nome, antes: antes, depois: foto(), avisos: avisos,
+                   gravacoes: gravacoes, chamadas: chamadas };
+        });
+        console.log(JSON.stringify(resultados));
+        """.replace("__DESCARTAR__", """
+          const botao = $("page-notice").querySelectorAll("button").filter(function (b) {
+            return b.textContent.indexOf("descartar") !== -1;
+          })[0];
+          if (!botao) throw new Error("o aviso perdeu o botão de descartar o rascunho antigo");
+          botao.dispatchEvent(dom.evento("click"));
+        """ if clicar_descarte else "")
+        return self._roda(pagina, preparo + corpo, funcoes,
+                          extra_argv=[str(caminho_do_minidom())] if clicar_descarte else [])
+
+    def test_direcoes_rascunho_so_restabelece_escolha_do_mesmo_contrato(self):
+        pagina = self._pagina_direcoes()
+        contrato = _contrato_embutido(pagina)
+        sha = re.search(r'var CONTRACT_SHA = "([^"]+)";', pagina).group(1)
+        escolha = next(d["id"] for d in contrato["direcoes"] if not d.get("recomendada"))
+        anotacoes = [{"id": "duplicada", "bloco_id": "recomendacao", "trecho": "trecho",
+                      "comentario": texto} for texto in ("bilhete um", "bilhete dois")]
+        base = {"rascunho_versao": 1, "schema_export": contrato["export"]["schema_version"],
+                "tarefa_id": contrato["tarefa_id"], "contrato_sha256": sha,
+                "estado": {"direcao_escolhida": escolha, "comentario": "comentário guardado"},
+                "anotacoes": anotacoes}
+        casos = [{"nome": "sem rascunho", "salvo": None},
+                 {"nome": "mesmo contrato", "salvo": base}]
+        for nome, hash_novo in (("hash diferente", "0" * 64), ("hash ausente", None),
+                               ("hash vazio", "")):
+            salvo = json.loads(json.dumps(base))
+            if hash_novo is None:
+                salvo.pop("contrato_sha256")
+            else:
+                salvo["contrato_sha256"] = hash_novo
+            casos.append({"nome": nome, "salvo": salvo})
+        legado = {"schema_version": contrato["export"]["schema_version"],
+                  "contrato_sha256": sha, "direcao_escolhida": escolha,
+                  "comentario": "comentário guardado", "anotacoes": anotacoes}
+        casos.append({"nome": "formato antigo com hash igual", "salvo": legado})
+        for nome, campos in (("sem campos recuperáveis", {}),
+                             ("só anotação inválida", {"anotacoes": [{"id": "vazia"}]}),
+                             ("só comentário", {"estado": {"comentario": "comentário guardado"}}),
+                             ("só anotações", {"anotacoes": anotacoes})):
+            casos.append({"nome": nome, "salvo": {"rascunho_versao": 1,
+                          "schema_export": base["schema_export"], "tarefa_id": base["tarefa_id"],
+                          "contrato_sha256": "0" * 64, **campos}})
+        resultados = self._restaura_rascunhos(pagina, casos)
+        self.assertEqual(len(resultados), len(casos))
+        self.assertGreater(len(resultados), 0)
+        for caso, resultado in zip(casos, resultados):
+            with self.subTest(caso=caso["nome"]):
+                foto = resultado["depois"]
+                self.assertEqual(foto["estado"]["direcao_escolhida"],
+                                 escolha if caso["nome"] == "mesmo contrato" else None)
+                salvo = caso["salvo"] or {}
+                comentario = salvo.get("estado", {}).get("comentario", salvo.get("comentario", ""))
+                self.assertEqual(foto["estado"]["comentario"], comentario)
+                bilhetes = [a for a in salvo.get("anotacoes", []) if a.get("comentario")]
+                self.assertEqual([a["comentario"] for a in foto["anotacoes"]],
+                                 [a["comentario"] for a in bilhetes])
+                self.assertEqual(len({a["id"] for a in foto["anotacoes"]}), len(bilhetes))
+                if caso["nome"] in ("sem rascunho", "mesmo contrato"):
+                    self.assertEqual(resultado["avisos"], [])
+                    continue
+                self.assertTrue(all(a["forced_orfa"] and a["ancora_status"] == "orfa"
+                                    for a in foto["anotacoes"]))
+                aviso = " ".join(resultado["avisos"])
+                self.assertRegex(aviso, r"escolha.*(novo|novamente)|refaça.*escolha")
+                self.assertRegex(aviso, r"relatório.*(mud|atualiz)" if salvo.get("rascunho_versao") == 1
+                                 and salvo.get("contrato_sha256") else r"versão anterior")
+                self.assertEqual(bool(re.search("comentário", aviso)), bool(comentario), aviso)
+                self.assertEqual(bool(re.search("anotaç", aviso)), bool(bilhetes), aviso)
+
+    def test_grill_rascunho_so_restabelece_respostas_do_mesmo_contrato(self):
+        pagina = self._pagina_grill()
+        contrato = _contrato_embutido(pagina)
+        sha = re.search(r'var CONTRATO_SHA = "([^"]+)";', pagina).group(1)
+        anotacoes = [{"id": "duplicada", "bloco_id": "recomendacao", "trecho": "trecho",
+                      "comentario": texto} for texto in ("bilhete um", "bilhete dois")]
+        casos = [{"nome": "sem rascunho", "salvo": None}]
+        for estado in ("aprovada", "rejeitada", "duvida", "adiada", "pendente"):
+            respostas = {q["id"]: {"estado": estado,
+                         "escolha_id": next(o["id"] for o in q["opcoes"] if not o.get("recomendada")),
+                         "comentario": "comentário " + q["id"], "duvida_texto": "dúvida " + q["id"]}
+                         for q in contrato["perguntas"]}
+            base = {"rascunho_versao": 2, "tarefa_id": contrato["tarefa_id"],
+                    "rodada": contrato["rodada"], "contrato_sha256": sha,
+                    "respostas": respostas, "anotacoes": anotacoes}
+            for origem in ("mesmo contrato", "hash diferente", "hash ausente", "hash vazio",
+                           "formato antigo com hash igual"):
+                salvo = json.loads(json.dumps(base))
+                if origem == "hash ausente":
+                    salvo.pop("contrato_sha256")
+                elif origem in ("hash diferente", "hash vazio"):
+                    salvo["contrato_sha256"] = "0" * 64 if origem == "hash diferente" else ""
+                elif origem == "formato antigo com hash igual":
+                    salvo["rascunho_versao"] = 1
+                    salvo["schema_version"] = contrato["export"]["schema_version"]
+                    salvo["respostas"] = [{"pergunta_id": qid, **r} for qid, r in respostas.items()]
+                casos.append({"nome": origem + ": " + estado, "salvo": salvo,
+                              "respostas": respostas, "mesmo": origem == "mesmo contrato"})
+        for nome, campos in (("sem campos recuperáveis", {}),
+                             ("só anotação inválida", {"anotacoes": [{"id": "vazia"}]}),
+                             ("só comentário", {"respostas": {contrato["perguntas"][0]["id"]:
+                               {"comentario": "comentário guardado"}}}),
+                             ("só dúvida", {"respostas": {contrato["perguntas"][0]["id"]:
+                               {"duvida_texto": "dúvida guardada"}}}),
+                             ("só anotações", {"anotacoes": anotacoes})):
+            casos.append({"nome": nome, "salvo": {"rascunho_versao": 2,
+                          "tarefa_id": contrato["tarefa_id"], "rodada": contrato["rodada"],
+                          "contrato_sha256": "0" * 64, **campos},
+                          "respostas": campos.get("respostas", {})})
+        resultados = self._restaura_rascunhos(pagina, casos)
+        self.assertEqual(len(resultados), len(casos))
+        self.assertGreater(len(resultados), 0)
+        for caso, resultado in zip(casos, resultados):
+            with self.subTest(caso=caso["nome"]):
+                respostas = caso.get("respostas", {})
+                for q in contrato["perguntas"]:
+                    salvo = respostas.get(q["id"], {})
+                    obtido = resultado["depois"]["estado"]["respostas"][q["id"]]
+                    recomendada = next(o["id"] for o in q["opcoes"] if o.get("recomendada"))
+                    self.assertEqual(obtido["estado"], salvo.get("estado") if caso.get("mesmo") else "pendente")
+                    self.assertEqual(obtido["escolha_id"], salvo.get("escolha_id")
+                                     if caso.get("mesmo") else recomendada)
+                    self.assertEqual(obtido["comentario"], salvo.get("comentario", ""))
+                    self.assertEqual(obtido["duvida_texto"], salvo.get("duvida_texto", ""))
+                bilhetes = [a for a in (caso["salvo"] or {}).get("anotacoes", []) if a.get("comentario")]
+                self.assertEqual([a["comentario"] for a in resultado["depois"]["anotacoes"]],
+                                 [a["comentario"] for a in bilhetes])
+                self.assertEqual(len({a["id"] for a in resultado["depois"]["anotacoes"]}), len(bilhetes))
+                if caso["nome"] == "sem rascunho" or caso.get("mesmo"):
+                    self.assertEqual(resultado["avisos"], [])
+                    continue
+                aviso = " ".join(resultado["avisos"])
+                self.assertRegex(aviso, r"perguntas.*(novo|novamente)|responda.*novo")
+                self.assertRegex(aviso, r"relatório.*(mud|atualiz)" if caso["salvo"].get("rascunho_versao") == 2
+                                 and caso["salvo"].get("contrato_sha256") else r"versão anterior")
+                self.assertEqual(bool(re.search("comentário", aviso)),
+                                 any(r.get("comentario") for r in respostas.values()), aviso)
+                self.assertEqual(bool(re.search("dúvid", aviso)),
+                                 any(r.get("duvida_texto") for r in respostas.values()), aviso)
+                self.assertEqual(bool(re.search("anotaç", aviso)), bool(bilhetes), aviso)
+
+    def test_grill_restaura_anotacoes_sem_id_e_duplicadas_em_v1_e_v2(self):
+        pagina = self._pagina_grill()
+        contrato = _contrato_embutido(pagina)
+        sha = re.search(r'var CONTRATO_SHA = "([^"]+)";', pagina).group(1)
+        self.assertNotEqual(sha, "0" * 64)
+        respostas = {q["id"]: {"estado": "aprovada",
+                     "escolha_id": next(o["id"] for o in q["opcoes"] if not o.get("recomendada")),
+                     "comentario": "comentário preservado " + q["id"],
+                     "duvida_texto": "dúvida preservada " + q["id"]}
+                     for q in contrato["perguntas"]}
+        anotacoes = [{"item_id": contrato["perguntas"][0]["id"],
+                      "bloco_id": contrato["perguntas"][0]["id"] + "::contexto",
+                      "trecho": "trecho preservado " + str(i),
+                      "comentario": "anotação preservada " + str(i),
+                      "ancora_tipo": "trecho", "ancora_status": "truncada",
+                      "ancora_truncada": True, "resolucao": "manter",
+                      "prefixo": "antes " + str(i), "sufixo": "depois " + str(i),
+                      "inicio": i, "fim": i + 10, "criado_em": "2026-10-01T10:00:00Z",
+                      **({"id": "duplicada"} if i else {})}
+                     for i in range(3)]
+        for versao in (1, 2):
+            for problema, bilhetes in (("id ausente", anotacoes[:1]),
+                                       ("ids duplicados", anotacoes[1:]),
+                                       ("ausente e duplicados", anotacoes)):
+                with self.subTest(versao=versao, problema=problema):
+                    salvo = {"rascunho_versao": versao, "tarefa_id": contrato["tarefa_id"],
+                             "rodada": contrato["rodada"], "contrato_sha256": "0" * 64,
+                             "respostas": respostas, "anotacoes": bilhetes}
+                    if versao == 1:
+                        salvo["schema_version"] = contrato["export"]["schema_version"]
+                        salvo["respostas"] = [{"pergunta_id": qid, **r}
+                                              for qid, r in respostas.items()]
+                    resultados = self._restaura_rascunhos(
+                        pagina, [{"nome": problema, "salvo": salvo}])
+                    self.assertEqual(len(resultados), 1)
+                    resultado = resultados[0]
+                    restauradas = resultado["depois"]["anotacoes"]
+                    self.assertEqual(len(restauradas), len(bilhetes))
+                    self.assertEqual(len({a["id"] for a in restauradas}), len(bilhetes))
+                    vistos = set()
+                    for antes, depois in zip(bilhetes, restauradas):
+                        with self.subTest(anotacao=antes["comentario"]):
+                            if "id" not in antes or antes["id"] in vistos:
+                                self.assertRegex(depois["id"], r"^an-[a-z0-9-]+$")
+                            else:
+                                self.assertEqual(depois["id"], antes["id"])
+                            vistos.add(depois["id"])
+                            self.assertFalse(depois["incompleta"])
+                            for campo, valor in antes.items():
+                                if campo != "id":
+                                    self.assertEqual(depois[campo], valor, campo)
+                    for q in contrato["perguntas"]:
+                        recomendada = next(o["id"] for o in q["opcoes"] if o.get("recomendada"))
+                        self.assertEqual(resultado["depois"]["estado"]["respostas"][q["id"]],
+                                         {**respostas[q["id"]], "estado": "pendente",
+                                          "escolha_id": recomendada})
+                    aviso = " ".join(resultado["avisos"])
+                    self.assertRegex(aviso, r"perguntas.*(novo|novamente)|responda.*novo")
+                    self.assertRegex(aviso, r"versão anterior" if versao == 1
+                                     else r"relatório.*(mud|atualiz)")
+                    for texto in ("comentários foram mantidos", "dúvidas foram mantidas",
+                                  "anotações foram mantidas"):
+                        self.assertIn(texto, aviso)
+
+    def test_grill_descartar_legado_limpa_os_campos_migrados_pelo_clique(self):
+        pagina = self._pagina_grill()
+        contrato = _contrato_embutido(pagina)
+        salvo = {"schema_version": contrato["export"]["schema_version"], "respostas": [
+            {"pergunta_id": q["id"], "estado": "aprovada", "escolha_id": q["opcoes"][-1]["id"],
+             "comentario": "comentário guardado", "duvida_texto": "dúvida guardada"}
+            for q in contrato["perguntas"]], "anotacoes": [
+            {"id": "bilhete", "bloco_id": "b", "trecho": "trecho", "comentario": "bilhete guardado"}]}
+        resultado = self._restaura_rascunhos(pagina, [{"nome": "descarte", "salvo": salvo}],
+                                           clicar_descarte=True)[0]
+        self.assertEqual(len(resultado["antes"]["anotacoes"]), 1)
+        self.assertEqual(resultado["depois"]["anotacoes"], [])
+        for q in contrato["perguntas"]:
+            recomendada = next(o["id"] for o in q["opcoes"] if o.get("recomendada"))
+            self.assertEqual(resultado["depois"]["estado"]["respostas"][q["id"]],
+                             {"estado": "pendente", "escolha_id": recomendada,
+                              "comentario": "", "duvida_texto": ""})
+        self.assertGreaterEqual(resultado["chamadas"].get("flush", 0), 2)
+        self.assertGreaterEqual(resultado["chamadas"].get("syncAll", 0), 1)
+        self.assertGreaterEqual(resultado["chamadas"].get("paintAll", 0), 1)
+        self.assertGreaterEqual(resultado["chamadas"].get("rebuildPanel", 0), 1)
+        persistido = json.loads(resultado["gravacoes"][-1]["valor"])
+        self.assertEqual(persistido["anotacoes"], [])
+        self.assertEqual(persistido["respostas"], resultado["depois"]["estado"]["respostas"])
 
     def _roda_com_dom(self, pagina_html, corpo_js, extras=()):
         """Harness com DOM que PARSEIA e DESPACHA — não com setters e stubs.
