@@ -707,12 +707,13 @@ body.doc-mode #btn-comecar { display:none; }
     if (!saved || typeof saved !== "object") return;
 
     if (saved.rascunho_versao === 2 && saved.tarefa_id === TAREFA_ID && saved.rodada === RODADA) {
+      var mesmaVersao = typeof saved.contrato_sha256 === "string" && saved.contrato_sha256 === CONTRATO_SHA;
       PERGUNTAS.forEach(function (q) {
         var r = saved.respostas && saved.respostas[q.id];
         if (!r || typeof r !== "object") return;
         var s = draft.respostas[q.id];
-        if (ESTADOS.indexOf(r.estado) !== -1) s.estado = r.estado;
-        if (optDe(q, r.escolha_id)) s.escolha_id = r.escolha_id;
+        if (mesmaVersao && ESTADOS.indexOf(r.estado) !== -1) s.estado = r.estado;
+        if (mesmaVersao && optDe(q, r.escolha_id)) s.escolha_id = r.escolha_id;
         if (typeof r.comentario === "string") s.comentario = r.comentario;
         if (typeof r.duvida_texto === "string") s.duvida_texto = r.duvida_texto;
       });
@@ -721,8 +722,12 @@ body.doc-mode #btn-comecar { display:none; }
       }
       if (saved.ui && typeof saved.ui === "object") draft.ui.dica_anotacao_dispensada = !!saved.ui.dica_anotacao_dispensada;
       interacted = true;
-      if (saved.contrato_sha256 && saved.contrato_sha256 !== CONTRATO_SHA) {
-        pageNotice("Este relatório foi atualizado desde o seu último rascunho. Suas respostas e anotações foram preservadas; anotações cujo trecho mudou aparecem marcadas no painel de anotações.");
+      if (!mesmaVersao) {
+        pageNotice((saved.contrato_sha256 ? "Este relatório mudou desde o seu último rascunho." : "Este rascunho é de uma versão anterior da página.") +
+          " Responda às perguntas de novo." +
+          (PERGUNTAS.some(function (q) { return draft.respostas[q.id].comentario; }) ? " Seus comentários foram mantidos." : "") +
+          (PERGUNTAS.some(function (q) { return draft.respostas[q.id].duvida_texto; }) ? " Suas dúvidas foram mantidas." : "") +
+          (draft.anotacoes.length ? " Suas anotações foram mantidas; os trechos que mudaram aparecem marcados no painel de anotações." : ""));
       }
       return;
     }
@@ -732,20 +737,23 @@ body.doc-mode #btn-comecar { display:none; }
       try { localStorage.setItem(STORAGE_KEY + ":backup:v1", raw); } catch (e3) {}
       saved.respostas.forEach(function (r) {
         if (!r || typeof r !== "object" || !draft.respostas[r.pergunta_id]) return;
-        var q = PERGUNTAS[IDX[r.pergunta_id]];
         var s = draft.respostas[r.pergunta_id];
-        if (ESTADOS.indexOf(r.estado) !== -1) s.estado = r.estado;
-        if (optDe(q, r.escolha_id)) s.escolha_id = r.escolha_id;
         if (typeof r.comentario === "string") s.comentario = r.comentario;
         if (typeof r.duvida_texto === "string") s.duvida_texto = r.duvida_texto;
       });
+      draft.anotacoes = sanitizarAnotacoes(saved.anotacoes);
       interacted = true;
       flush();
-      pageNotice("Encontramos um rascunho seu da versão anterior desta página e trouxemos as respostas. Confira antes de devolver (guardamos uma cópia do original).", [
+      pageNotice("Encontramos um rascunho seu da versão anterior desta página. Responda às perguntas de novo." +
+        (PERGUNTAS.some(function (q) { return draft.respostas[q.id].comentario; }) ? " Seus comentários foram mantidos." : "") +
+        (PERGUNTAS.some(function (q) { return draft.respostas[q.id].duvida_texto; }) ? " Suas dúvidas foram mantidas." : "") +
+        (draft.anotacoes.length ? " Suas anotações foram mantidas." : "") +
+        " Guardamos uma cópia do original.", [
         { rotulo: "ok, entendi" },
         { rotulo: "descartar esse rascunho antigo", fn: function () {
             PERGUNTAS.forEach(function (q) { draft.respostas[q.id] = { estado: "pendente", escolha_id: recomendadaDe(q).id, comentario: "", duvida_texto: "" }; });
-            flush(); syncAll();
+            draft.anotacoes = [];
+            flush(); syncAll(); paintAll(); rebuildPanel();
           } }
       ]);
       return;
@@ -800,7 +808,7 @@ body.doc-mode #btn-comecar { display:none; }
        nem bilhete, nem trecho, nem âncora. (auditoria cega, P2/item 3) */
     if (!temConteudo(a.comentario) && !temBloco && !temTrecho) return null;
     return {
-      id: idInternoEstavel(a.id) ? a.id : annotId(),
+      id: idInternoEstavel(a.id) ? a.id : novoId("an"),
       item_id: typeof a.item_id === "string" ? a.item_id : null,
       bloco_id: temBloco ? a.bloco_id : "",
       ancora_tipo: a.ancora_tipo === "bloco" ? "bloco" : "trecho",
@@ -824,7 +832,7 @@ body.doc-mode #btn-comecar { display:none; }
     var vistos = Object.create(null);
     return (Array.isArray(lista) ? lista : []).map(sanitizeAnnot).filter(Boolean)
       .map(function (a) {
-        while (Object.prototype.hasOwnProperty.call(vistos, a.id)) a.id = annotId();
+        while (Object.prototype.hasOwnProperty.call(vistos, a.id)) a.id = novoId("an");
         vistos[a.id] = true;
         return a;
       });

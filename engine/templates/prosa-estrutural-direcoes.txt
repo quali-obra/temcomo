@@ -73,7 +73,7 @@ Por que este é o recomendado
 Prazo estimado
 Primeiro passo depois da escolha
 Prévia para cópia manual
-Página gerada pelo motor temcomo (versão 0.1.0) a partir do contrato '
+Página gerada pelo motor temcomo (versão 0.1.1) a partir do contrato '
 Recomendado
 Salvar anotação
 Se você escolher este caminho

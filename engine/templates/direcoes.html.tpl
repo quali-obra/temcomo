@@ -805,15 +805,19 @@ html.js-failed [hidden="until-found"] { content-visibility: visible !important; 
     if (!saved || typeof saved !== "object") return;
     if (saved.rascunho_versao === 1 && saved.schema_export === SCHEMA && saved.tarefa_id === TAREFA) {
       var est = saved.estado || {};
-      if (VALID_IDS.indexOf(est.direcao_escolhida) !== -1) state.direcao_escolhida = est.direcao_escolhida;
+      var mesmaVersao = typeof saved.contrato_sha256 === "string" && saved.contrato_sha256 === CONTRACT_SHA;
+      if (mesmaVersao && VALID_IDS.indexOf(est.direcao_escolhida) !== -1) state.direcao_escolhida = est.direcao_escolhida;
       if (typeof est.comentario === "string") state.comentario = est.comentario;
       state.dica_dispensada = !!est.dica_anotacao_dispensada;
       if (Array.isArray(saved.anotacoes)) {
         anotacoes = sanitizarAnotacoes(saved.anotacoes);
       }
-      if (saved.contrato_sha256 !== CONTRACT_SHA) {
+      if (!mesmaVersao) {
         anotacoes.forEach(function (a) { a.forced_orfa = true; a.ancora_status = "orfa"; });
-        showDraftNotice("Este relatório foi atualizado desde o seu último rascunho. Suas anotações foram preservadas, mas os trechos podem ter mudado de lugar — elas aparecem no painel como “trecho não encontrado nesta versão”.");
+        showDraftNotice((saved.contrato_sha256 ? "Este relatório mudou desde o seu último rascunho." : "Este rascunho é de uma versão anterior da página.") +
+          " Faça sua escolha de novo." +
+          (state.comentario ? " Seu comentário foi mantido." : "") +
+          (anotacoes.length ? " Suas anotações foram mantidas e aparecem no painel como “trecho não encontrado nesta versão”." : ""));
       }
       return;
     }
@@ -824,7 +828,12 @@ html.js-failed [hidden="until-found"] { content-visibility: visible !important; 
     if (typeof saved.comentario === "string") comentAntigo = saved.comentario;
     else if (saved.estado && typeof saved.estado.comentario === "string") comentAntigo = saved.estado.comentario;
     if (comentAntigo) state.comentario = comentAntigo;
-    showDraftNotice("Encontrei um rascunho de uma versão anterior desta página. Recuperei o seu comentário; a escolha de caminho precisa ser confirmada de novo, porque a versão antiga não distinguia escolha sua de sugestão minha. O rascunho antigo ficou guardado, nada foi apagado.");
+    anotacoes = sanitizarAnotacoes(saved.anotacoes);
+    anotacoes.forEach(function (a) { a.forced_orfa = true; a.ancora_status = "orfa"; });
+    showDraftNotice("Encontrei um rascunho de uma versão anterior desta página. Faça sua escolha de novo." +
+      (state.comentario ? " Seu comentário foi mantido." : "") +
+      (anotacoes.length ? " Suas anotações foram mantidas e aparecem no painel como “trecho não encontrado nesta versão”." : "") +
+      " O rascunho antigo ficou guardado, nada foi apagado.");
   }
 
   /* ===== Export = função pura do rascunho (sem new Date aqui dentro; B12) ===== */
