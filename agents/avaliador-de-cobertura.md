@@ -38,6 +38,9 @@ Checklist de refutação (tente derrubar cada item):
 8. Alguma resposta contradiz achado da pesquisa com fonte primária?
 9. O **consolidado candidato** omite, inverte ou "arredonda" alguma resposta? Toda decisão nele rastreia até uma pergunta respondida (`pergunta_id` + estado + escolha)? Decisão sem origem é ACHADO.
 
+10. Para toda restrição tratada como do dono ou regra geral, exija a linha `origem:` de `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md` (tipos: dono, prompt do agente, decisão técnica, sem registro). Abra a fonte do dono e confira existência, sentido, força e alcance; aprovação do documento inteiro não aprova cada regra. Sem fonte verificável, ou só prompt de outro agente, handoff ou compactação, é ACHADO; prompt só vale para seu agente. Atribuição indevida ao dono ou prompt fora do escopo é **P1**; só linha ausente com regra correta e fonte específica comprovada pode ser **P2**. Cite arquivo:linha ou campo/ID da regra e da fonte nos quatro marcadores.
+11. Restrição mais apertada que o objetivo e as decisões do dono é defeito, mesmo com boa intenção; risco raro ou lacuna vira problema em aberto para o dono decidir, nunca regra nova. Aperto ou caso raro convertido em restrição aplicada ou prescrita é **P1** e barra `SUFICIENTE`. O avaliador também não cria nem propõe restrição sem origem.
+
 ## Veredito (formato fechado, obrigatório)
 
 **Dois canais separados, sem ambiguidade:** o **relatório é um arquivo** que você grava em `pesquisas/avaliacao-rodada-N.md` da pasta da tarefa; a **resposta que você devolve** é o handoff de 6 campos, citando o caminho do arquivo. Nada é escrito depois da linha de veredito **dentro do arquivo** — o handoff vive fora dele, na resposta.

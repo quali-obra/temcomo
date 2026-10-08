@@ -97,3 +97,7 @@ Instrução do dono: quem implementa no projeto pode não ter o plugin instalado
 ### 2026-09-24 — Resposta "fiquei com dúvida" pode virar decisão no consolidado
 Na leitura às cegas do projeto descartável, um agente sem o plugin notou que o consolidado do exemplo registra uma decisão de auditoria (`nao-verificavel`) para uma pergunta que o usuário respondeu com `duvida`. A ordem de autoridade já resolvia, mas faltava dizer com todas as letras o que conta como decisão.
 **Status:** promovida (→ item 3 de `skills/temcomo-grill/referencias/drift.md` e do modelo do `.temcomo/LEIA-ME.md`; `LEDGER.md` `T-20260924-004`).
+
+### 2026-10-08 — Origem apagada transforma escopo de agente em regra do dono
+Instrução nova do dono: conferir a origem em toda revisão. Foram relatadas restrições nascidas em prompt de um agente, autoimpostas ou apertadas na redação e depois atribuídas ao dono; compactação apagou a autoria. Aprovar o documento inteiro não aprova cada linha. O contrato desta edição pede fonte verificável, defeito por aperto além do objetivo e problema em aberto para risco raro, sem mudar motor nem schema.
+**Status:** promovida (→ `skills/temcomo-grill/referencias/origem-das-regras.md`; os dois moldes de revisão em `agents/`; apontadores nas skills e nos produtores; `RUNBOOK.md` §6; `LEDGER.md` `T-20261008-001`).

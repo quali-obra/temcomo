@@ -20,6 +20,8 @@ Você orquestra a etapa 2 da jornada temcomo: descobrir o que **já existe** ant
 
 ## Procedimento
 
+Ao escrever prompts ou transmitir regras, preserve a linha de origem de `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md`; entregue as fontes citadas e o objetivo à auditoria.
+
 1. **Ler o objetivo e as anti-metas.** Escreva em 3 linhas o que decidiria a etapa. Não reinterprete; objetivo ambíguo a ponto de mudar a pesquisa volta para a skill mestre.
 2. **Recortar até 3 trilhas** de lacuna: (a) recurso nativo/bundled e documentação oficial da versão instalada; (b) soluções prontas, projetos originais e sinais de manutenção; (c) riscos, limitações e evidências contraditórias. Cada trilha ganha perguntas concretas e critério de suficiência. Nada de busca exploratória sem limite.
 3. **Lançar em paralelo** `pesquisador-interno` e `pesquisador-externo`, cada um só com o recorte da sua trilha — nunca segredos, credenciais ou dados pessoais. O externo **não espera** o brief do interno: na primeira passada trabalha só com o objetivo e a trilha.

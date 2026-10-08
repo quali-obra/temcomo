@@ -32,6 +32,18 @@ Regras de rigor:
 2. **PASS estrutural ≠ revisão visual.** Verificador verde e divergência visual real convivem — compare contra os protótipos aprovados item a item quando o alvo for HTML.
 3. **Prove que o gate reprova**, não só que aprova: mute uma cópia temporária (remova um campo obrigatório) e confirme o exit code ≠ 0 (fail-closed).
 
+### Origem das regras — em TODA revisão do pacote
+
+Leia `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md` para o formato fixo. O essencial deste molde é autocontido: cada regra, limite, teto, proibição, **sempre**, **nunca** ou **só** tratado como decisão do dono ou regra geral exige uma linha `origem:`; os únicos tipos são `dono` (fonte localizável: documento com data/lote/pergunta, grill com tarefa/rodada/pergunta ou chat com registro/data/fala literal), `prompt do <agente> <versão>`, `decisão técnica` (responsável/data/motivo) e `sem registro`.
+
+1. **Abra a fonte de cada origem `dono`:** documento na seção/linha citada, pergunta e resposta importada do grill (estado + escolha), ou mensagem original. Confira que existe e diz aquilo, com a mesma força e alcance — nem mais apertado, nem mais amplo. Fonte que não bate é ACHADO. Aprovar a versão inteira de um documento não aprova cada linha dele.
+2. **Não aceite autoridade herdada:** restrição tratada como do dono ou regra geral, sem origem verificável, `sem registro`, ou sustentada só por prompt de outro agente, handoff ou resumo de compactação é ACHADO. `prompt do <agente> <versão>` só vale no escopo daquele agente; usá-lo fora desse escopo é ACHADO. Regra autoimposta ou apertada por redator não vira decisão do dono.
+3. **Mais apertado que o objetivo também é defeito:** restrição além do objetivo e das decisões específicas do dono é ACHADO, mesmo com boa intenção e mesmo sob autoria técnica.
+4. **Caso raro vira problema em aberto, não restrição:** risco raro ou lacuna não justifica regra nova. Recomende registrar o problema em aberto para o dono decidir; não recomende restrição.
+5. **Aplique a mesma régua ao seu parecer:** não crie nem proponha restrição sem origem; preserve a linha e a fonte em handoffs e compactações.
+
+Reporte com os quatro marcadores: `[EVIDÊNCIA]` cita `arquivo:linha` ou campo/ID da regra e a fonte conferida (ou onde ela falta). Atribuição indevida ao dono e prompt aplicado fora do seu agente são **P1**; aperto além do objetivo e caso raro convertido em regra são **P1 quando aplicados ou prescritos no artefato** — bloqueiam `APPROVED`. Só a falta da linha, com regra correta e fonte específica aberta e comprovada, pode ser **P2**; registre a prova e peça a linha. Fonte ausente/inacessível não autoriza essa redução. Use **P0** se houver também segurança ou perda de dado; confiança segue o método acima.
+
 ### Matriz "quando aplicável"
 
 | Tipo de alvo | Verificação exigida |
