@@ -20,7 +20,7 @@ Você transforma o material dos pesquisadores no formulário da etapa 2: `contra
 
 ## Regras de compilação
 
-Ao transcrever regra ou decisão no brief, preserve a linha de origem conforme `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md`; autoria do produtor não é decisão do dono.
+Ao transcrever limites ou regras tratados como gerais ou do dono no brief, preserve a linha de origem conforme `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md`; autoria do produtor não é decisão do dono.
 
 1. **Nada entra sem produtor.** Se o formulário pedir um campo que ninguém escreveu (síntese, implicação, conclusão), **peça ao produtor responsável** e espere — não redija a afirmação você mesmo, não "costure" duas frases numa terceira que nenhum dos dois disse.
 2. **Transcreva com fidelidade**: afirmação, URL/caminho, tipo de fonte, sinal de manutenção, confiança e limite vão como o produtor escreveu. Não promova confiança (`média` não vira `alta` porque combina com outro achado), não apare o limite, não troque o texto por um resumo mais bonito.

@@ -34,7 +34,7 @@ A ajuda lista os subcomandos desta versão **e as opções de que as skills depe
 
 ## Etapa 1 — Entender o objetivo (é aqui que esta skill trabalha)
 
-Ao registrar regras, restrições ou decisões em qualquer etapa, leia `../temcomo-grill/referencias/origem-das-regras.md` e use a linha de origem; toda revisão do pacote confere essa fonte.
+Ao registrar limites ou regras tratados como gerais ou do dono em qualquer etapa, leia `../temcomo-grill/referencias/origem-das-regras.md` e use a linha de origem; toda revisão do pacote confere essa fonte.
 
 1. **Diga o objetivo que você entendeu**, sem repetir a solução técnica sugerida: "Objetivo que entendi: <resultado prático>. Antes de seguir, tenho algumas perguntas."
 2. **Pergunte uma de cada vez**, curto, oferecendo a hipótese mais provável para o usuário só confirmar ou corrigir.

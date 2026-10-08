@@ -17,7 +17,7 @@ Você orquestra a etapa 4 da jornada temcomo: o grill de descoberta que transfor
 
 ## Procedimento por rodada N
 
-Ao escrever prompts ou pedir decisões e documentos de contexto, cobre a linha de origem de `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md`; entregue também o objetivo e as fontes citadas aos dois verificadores.
+Ao escrever ou pedir limites ou regras tratados como gerais ou do dono, cobre a linha de origem de `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md`; entregue também o objetivo e as fontes citadas aos dois verificadores.
 
 Todos os comandos abaixo rodam **a partir da raiz do projeto** — `cd <raiz-do-projeto>` antes do primeiro: `.temcomo/tarefas/<tarefa>` é relativo a ela.
 

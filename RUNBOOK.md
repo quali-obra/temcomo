@@ -66,7 +66,7 @@ O campo 6 se repete no envelope `produzido_por {agente, modelo, sessao_id, trans
 
 ## 6. O loop de revisão (protocolo em vigor)
 
-Toda revisão confere a origem das regras pelo molde `agents/revisor-adversarial.md` e pelo formato em `skills/temcomo-grill/referencias/origem-das-regras.md`; quem escreve regra preserva a linha e entrega a fonte, inclusive após handoff ou compactação.
+Toda revisão confere a origem das regras pelo molde `agents/revisor-adversarial.md` e pelo formato em `skills/temcomo-grill/referencias/origem-das-regras.md`; quem escreve limites ou regras tratados como gerais ou do dono preserva a linha e entrega a fonte, inclusive após handoff ou compactação.
 
 Espinha dorsal: **revisor reporta, implementador corrige** (parecer `conselheiro-loops`, 2026-08-20, em `contexto-de-tarefas/.../pesquisas/parecer-loop-revisao.md`).
 

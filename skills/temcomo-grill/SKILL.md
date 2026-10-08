@@ -54,7 +54,7 @@ python3 <raiz-do-plugin>/engine/temcomo.py concluir-etapa .temcomo/tarefas/<tare
 
 ## Consolidado (`grill-consolidado-v1`)
 
-Ao escrever o consolidado e os documentos de contexto, leia `referencias/origem-das-regras.md` e registre uma linha por regra; use `decisoes[].evidencia` no JSON, sem mudar schema.
+Ao escrever limites ou regras tratados como gerais ou do dono no consolidado e nos documentos de contexto, leia `referencias/origem-das-regras.md` e registre uma linha por limite ou regra; use `decisoes[].evidencia` no JSON, sem mudar schema.
 
 Cada decisão com estado explícito — `proposta → aprovada → aplicada → verificada`, mais `parcial` e `nao-verificavel` — **nunca um booleano solto**; cada uma rastreando a pergunta e a resposta que a originaram. Mais: as dúvidas reconciliadas (pergunta original → dúvida → reformulação → resposta final) e os **documentos de contexto** que alimentam a próxima etapa.
 

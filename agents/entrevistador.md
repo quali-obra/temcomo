@@ -35,7 +35,7 @@ Você redige o grill: transforma o objetivo, o brief de pesquisa e a direção e
 
 ## Consolidado (`grill-consolidado-v1`) — candidato antes do veredito
 
-Ao escrever decisões, regras ou documentos de contexto, use a linha de origem de `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md`; no consolidado, registre-a em `evidencia`, sem mudar schema.
+Ao escrever limites ou regras tratados como gerais ou do dono, use a linha de origem de `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md`; no consolidado, registre-a em `evidencia`, sem mudar schema.
 
 Cada decisão com estado explícito da máquina `proposta → aprovada → aplicada → verificada`, mais `parcial` e `nao-verificavel` — **nunca um booleano solto**. Inclua as dúvidas reconciliadas e os **documentos de contexto** (o que a etapa de spec precisa saber, em PT-BR leigo, com a rastreabilidade de onde cada decisão veio).
 
