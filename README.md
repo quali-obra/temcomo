@@ -204,4 +204,4 @@ Se você não é da área, esta lista resolve quase tudo:
 
 ## Estado do projeto
 
-Versão **0.2.1**, cobrindo as etapas 1–4. As etapas seguintes (prototipagem, especificação, issues, PR) estão no [`ROADMAP.md`](ROADMAP.md). Este repositório é público, sem compromisso de suporte, e usa o visual QualiApps por padrão nas páginas.
+Versão **0.3.0**, cobrindo as etapas 1–4. As etapas seguintes (prototipagem, especificação, issues, PR) estão no [`ROADMAP.md`](ROADMAP.md). Este repositório é público, sem compromisso de suporte, e mantém a identidade visual padrão nas páginas.

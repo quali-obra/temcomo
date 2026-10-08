@@ -17,6 +17,8 @@ Você orquestra a etapa 4 da jornada temcomo: o grill de descoberta que transfor
 
 ## Procedimento por rodada N
 
+Ao escrever ou pedir limites ou regras tratados como gerais ou do dono, cobre a linha de origem de `<raiz-do-plugin>/skills/temcomo-grill/referencias/origem-das-regras.md`; entregue também o objetivo e as fontes citadas aos dois verificadores.
+
 Todos os comandos abaixo rodam **a partir da raiz do projeto** — `cd <raiz-do-projeto>` antes do primeiro: `.temcomo/tarefas/<tarefa>` é relativo a ela.
 
 1. **Confirmar o ponto de partida:** `python3 <raiz-do-plugin>/engine/temcomo.py status .temcomo/tarefas/<tarefa>` — se a etapa não for `direcao-escolhida` (ou rodada anterior fechada), pare; nada de grill sem direção escolhida pelo usuário. Na rodada 1, rode também as conferências de antes da rodada 1 de `<raiz-do-plugin>/skills/temcomo-grill/referencias/onde-o-grill-mora.md`.

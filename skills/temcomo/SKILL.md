@@ -1,7 +1,7 @@
 ---
 name: temcomo
 description: "Use quando alguém perguntar 'tem como fazer X?', invocar /temcomo, ou pedir uma funcionalidade/mudança sem especificação fechada. Conduz a jornada completa — entender o objetivo, pesquisar o que já existe, propor direções e fazer o grill de descoberta — com formulários validados por um motor e decisões tomadas pelo usuário em páginas HTML. Não implementa nada antes da escolha dele."
-version: 0.1.1
+version: 0.1.2
 ---
 
 # temcomo — a skill mestre
@@ -33,6 +33,8 @@ A ajuda lista os subcomandos desta versão **e as opções de que as skills depe
 **Quem opera o motor:** rodar `validar`, `renderizar`, `importar-resposta`, `concluir-etapa` e `status` **é parte da orquestração** — a regra "orquestrador nunca executa" proíbe construir o produto (instalar, configurar, codificar, redigir o conteúdo final), não proíbe acionar os gates. Cada transição é rodada **uma única vez por quem conduz a etapa**: antes de chamar `concluir-etapa`, confira o `status`; se a etapa já mudou (porque `importar-resposta` foi o gate), não rode de novo.
 
 ## Etapa 1 — Entender o objetivo (é aqui que esta skill trabalha)
+
+Ao registrar limites ou regras tratados como gerais ou do dono em qualquer etapa, leia `../temcomo-grill/referencias/origem-das-regras.md` e use a linha de origem; toda revisão do pacote confere essa fonte.
 
 1. **Diga o objetivo que você entendeu**, sem repetir a solução técnica sugerida: "Objetivo que entendi: <resultado prático>. Antes de seguir, tenho algumas perguntas."
 2. **Pergunte uma de cada vez**, curto, oferecendo a hipótese mais provável para o usuário só confirmar ou corrigir.
@@ -77,6 +79,8 @@ Onde tudo mora: `<raiz-do-projeto>/.temcomo/tarefas/<slug>-<aaaa-mm-dd>/` com `t
 `orquestrador-pesquisa.md` · `pesquisador-interno.md` · `pesquisador-externo.md` · `redator-do-brief.md` · `orquestrador-grill.md` · `entrevistador.md` · `avaliador-de-cobertura.md` · `revisor-adversarial.md`
 
 Cada um é autocontido: ao lançar um subagente, entregue o arquivo correspondente como prompt e só o recorte de contexto que ele precisa.
+
+Resolva `agents/...` como `<raiz-do-plugin>/agents/...`, na raiz do pacote que contém `engine/` e `skills/`; uma skill solta não leva esses prompts consigo. Entregue o molde completo e as fontes das regras ao revisor; pacote indisponível é bloqueio declarado, nunca revisão com molde presumido.
 
 **Papéis de modelo (recomendação, nunca trava):** pesquisa → modelo rápido; redação e raciocínio pesado → modelo forte; revisão adversarial → modelo externo rigoroso (ex.: Codex), sempre em background e thread fresca. **Degradação explícita:** quem não tiver essa frota usa o modelo que tem, em sessão separada e sem o contexto do produtor, e diz no handoff qual modelo revisou.
 

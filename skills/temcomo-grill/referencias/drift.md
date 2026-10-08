@@ -2,6 +2,8 @@
 
 Referência da skill `temcomo-grill`: lida por quem **suspeitar de drift** depois do fechamento do grill.
 
+Na revisão, confira também limites ou regras tratados como gerais ou do dono em `origem-das-regras.md`: fonte verificável, mesmo alcance, sem aperto além do objetivo; risco raro ou lacuna vira problema em aberto, não restrição.
+
 Fechado, o grill é a **fonte de verdade das decisões do usuário** para as etapas seguintes (protótipo, spec, issues, implementação, revisão). Todo orquestrador, juiz, conselheiro ou revisor que **suspeitar de drift** — o que está sendo construído diverge do que o usuário decidiu, o escopo cresceu, uma opção rejeitada voltou, uma decisão irreversível foi tratada como reversível — **pesquisa o grill antes de dar parecer**, em vez de confiar na memória da conversa ou no resumo de outro agente:
 
 1. **Ache a tarefa:** `ls <raiz-do-projeto>/.temcomo/tarefas/` e o `status` dela; procure o assunto com `grep -ril "<termo>" <raiz-do-projeto>/.temcomo/tarefas/<tarefa>/`.

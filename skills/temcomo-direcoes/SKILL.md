@@ -1,7 +1,7 @@
 ---
 name: temcomo-direcoes
 description: "Etapa 3 do temcomo — transformar a pesquisa em até 4 caminhos reais (mais no máximo 1 fora da caixa), renderizar o relatório HTML de direções e parar no gate de escolha. Use depois da etapa `pesquisa-concluida`. Nada é instalado, configurado ou escrito antes de o usuário escolher."
-version: 0.1.1
+version: 0.1.2
 ---
 
 # temcomo-direcoes — etapa 3
@@ -32,6 +32,8 @@ Regra que vem de `agents/revisor-adversarial.md`: **quem produz nunca lança o p
 **Não instale, não configure, não escreva código, não abra PR, não aplique nada antes de o usuário escolher uma direção no HTML.** Esta etapa termina pedindo a escolha — e só. "Tem como...?" e `/temcomo` não são autorização.
 
 ## Como montar as direções (`03-direcoes.json`, `direcoes-v1`)
+
+Ao escrever limites ou regras tratados como gerais ou do dono, use `../temcomo-grill/referencias/origem-das-regras.md` e entregue as fontes ao revisor; não confunda limite pesquisado com decisão do dono.
 
 - **Até 4 direções reais + no máximo 1 fora da caixa** (`fora_da_caixa: true`, marcada visualmente). **Nunca invente opção para preencher cota**: se só existem duas saídas honestas, apresente duas.
 - **Solução pronta e configuração vêm antes** de skill, plugin ou código novo — a ordem reflete o que a pesquisa achou, não o gosto de quem escreve.

@@ -1,7 +1,7 @@
 ---
 name: temcomo-grill
 description: "Etapa 4 do temcomo — grill de descoberta: transformar a direção escolhida em decisões concretas, uma rodada de perguntas por vez, em páginas HTML que o usuário responde. Use depois da etapa `direcao-escolhida`. Quem decide se o grill acabou é um avaliador independente, nunca o orquestrador. Use também quando um orquestrador, juiz, conselheiro ou revisor suspeitar de drift na implementação: o grill fechado, guardado no projeto em `.temcomo/tarefas/`, é a referência das decisões do usuário."
-version: 0.2.0
+version: 0.2.1
 ---
 
 # temcomo-grill — etapa 4
@@ -53,6 +53,8 @@ python3 <raiz-do-plugin>/engine/temcomo.py concluir-etapa .temcomo/tarefas/<tare
 - `opcoes`: até 4 reais + no máximo 1 `fora_da_caixa`, com exatamente uma `recomendada`, cada uma dizendo o que se ganha e o que se abre mão.
 
 ## Consolidado (`grill-consolidado-v1`)
+
+Ao escrever limites ou regras tratados como gerais ou do dono no consolidado e nos documentos de contexto, leia `referencias/origem-das-regras.md` e registre uma linha por limite ou regra; use `decisoes[].evidencia` no JSON, sem mudar schema.
 
 Cada decisão com estado explícito — `proposta → aprovada → aplicada → verificada`, mais `parcial` e `nao-verificavel` — **nunca um booleano solto**; cada uma rastreando a pergunta e a resposta que a originaram. Mais: as dúvidas reconciliadas (pergunta original → dúvida → reformulação → resposta final) e os **documentos de contexto** que alimentam a próxima etapa.
 
