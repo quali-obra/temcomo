@@ -1,0 +1,27 @@
+{
+  "schema_version": "grill-respostas-v1",
+  "tarefa_id": "lancar-apartamentos-portal-exemplo-2026-08-19",
+  "rodada": 1,
+  "gerado_em": "2026-08-21T11:30:00-04:00",
+  "contrato_sha256": "b8ed38019a49092a81d88d7f5fe1ff87eadc7eb7dcf9025dd2be3d74e98ed873",
+  "produzido_por": {
+    "agente": "usuario"
+  },
+  "respostas": [
+    {
+      "pergunta_id": "q-campos-obrigatorios",
+      "estado": "aprovada",
+      "escolha_id": "opt-minimo-essencial",
+      "comentario": "Fecha com o que combinamos.",
+      "duvida_texto": ""
+    },
+    {
+      "pergunta_id": "q-auditoria",
+      "estado": "duvida",
+      "escolha_id": null,
+      "comentario": "",
+      "duvida_texto": "Quem consegue ler esse histórico depois?"
+    }
+  ],
+  "anotacoes": []
+}

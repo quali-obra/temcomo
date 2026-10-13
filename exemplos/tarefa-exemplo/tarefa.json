@@ -1,0 +1,45 @@
+{
+  "schema_version": "tarefa-v1",
+  "tarefa_id": "lancar-apartamentos-portal-exemplo-2026-08-19",
+  "gerado_em": "2026-10-13T15:47:17+00:00",
+  "produzido_por": {
+    "agente": "temcomo-exemplo (documentação do plugin)",
+    "modelo": "claude-fable-5",
+    "sessao_id": "exemplo-ficticio-0001",
+    "transcript_jsonl": "/caminho/de/exemplo/sessoes/exemplo-ficticio-0001.jsonl"
+  },
+  "etapa": "grill-concluido",
+  "objetivo_resumido": "lançar apartamentos Portal Exemplo",
+  "criada_em": "2026-08-19T00:00:00",
+  "historico": [
+    {
+      "etapa": "criada",
+      "em": "2026-08-19T00:00:00",
+      "por": "temcomo (motor)"
+    },
+    {
+      "etapa": "objetivo-confirmado",
+      "em": "2026-10-13T15:47:15+00:00",
+      "por": "temcomo-exemplo (documentação do plugin)",
+      "contrato": "contratos/01-objetivo.json"
+    },
+    {
+      "etapa": "pesquisa-concluida",
+      "em": "2026-10-13T15:47:16+00:00",
+      "por": "temcomo-exemplo (documentação do plugin)",
+      "contrato": "contratos/02-pesquisa.json"
+    },
+    {
+      "etapa": "direcao-escolhida",
+      "em": "2026-10-13T15:47:16+00:00",
+      "por": "usuario (resposta importada)",
+      "contrato": "respostas/decisao-direcoes.json"
+    },
+    {
+      "etapa": "grill-concluido",
+      "em": "2026-10-13T15:47:17+00:00",
+      "por": "temcomo-exemplo (documentação do plugin)",
+      "contrato": "contratos/04-grill-consolidado.json"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "decisao-direcoes-v1",
+  "tarefa_id": "lancar-apartamentos-portal-exemplo-2026-08-19",
+  "gerado_em": "2026-08-19T16:45:00-04:00",
+  "contrato_sha256": "142d29121adb83408f186572b694a73c24fe46e9e4e2287a8d3c7252ca0ab40a",
+  "produzido_por": {
+    "agente": "usuario"
+  },
+  "estado": "decidida",
+  "direcao_escolhida": "mcp-portal-exemplo",
+  "comentario": "Concordo com o caminho A, mas quero começar pelos campos obrigatórios.",
+  "anotacoes": [
+    {
+      "id": "an-1",
+      "item_id": "mcp-portal-exemplo",
+      "bloco_id": "dir-mcp-portal-exemplo-explicacao",
+      "ancora_tipo": "trecho",
+      "ancora_status": "resolvida",
+      "trecho": "uma tomada padronizada",
+      "prefixo": "Um MCP é como ",
+      "sufixo": " que liga",
+      "inicio": 14,
+      "fim": 36,
+      "comentario": "Boa analogia — usar essa mesma frase na apresentação.",
+      "criado_em": "2026-08-19T16:45:00-04:00"
+    },
+    {
+      "id": "an-2",
+      "item_id": null,
+      "bloco_id": "recomendacao",
+      "ancora_tipo": "trecho",
+      "ancora_status": "orfa",
+      "trecho": "trecho que sumiu depois de uma reedição",
+      "comentario": "Anotação órfã é preservada e marcada, nunca descartada.",
+      "criado_em": "2026-08-19T16:45:00-04:00"
+    }
+  ]
+}

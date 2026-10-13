@@ -1,0 +1,52 @@
+{
+  "$id": "decisao-direcoes-v1",
+  "title": "Decisão de direções (devolução do usuário)",
+  "description": "Export do relatório de direções. Forma derivada do buildExport() do protótipo aprovado Prototypes/01-relatorio-direcoes.html. `anotacoes` é obrigatório desde o -v1 e aceita lista vazia; anotação órfã é preservada e marcada, nunca descartada. Os campos inicio/fim/prefixo/sufixo são dica de re-ancoragem — o trecho é a autoridade —, por isso são opcionais e nunca causam recusa.",
+  "type": "object",
+  "required": ["schema_version", "tarefa_id", "gerado_em", "contrato_sha256", "produzido_por", "estado", "anotacoes"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "decisao-direcoes-v1"},
+    "tarefa_id": {"type": "string", "minLength": 1},
+    "gerado_em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+    "contrato_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$",
+                        "description": "Impressão digital (SHA-256 da forma canônica) do contrato que gerou a página respondida. Decisão 20: a resposta carrega a versão do formulário que a pessoa leu, e carimbo divergente bloqueia — sem ele, editar o contrato sem mexer nos identificadores fazia a resposta valer por algo que ninguém viu."},
+    "produzido_por": {
+      "type": "object",
+      "required": ["agente"],
+      "additionalProperties": false,
+      "properties": {
+        "agente": {"type": "string", "minLength": 1},
+        "modelo": {"type": "string", "minLength": 1},
+        "sessao_id": {"type": "string", "minLength": 1},
+        "transcript_jsonl": {"type": "string", "minLength": 1}
+      }
+    },
+    "estado": {"enum": ["pendente", "decidida"]},
+    "direcao_escolhida": {"type": ["string", "null"], "minLength": 1},
+    "comentario": {"type": "string", "maxLength": 5000},
+    "anotacoes": {
+      "type": "array",
+      "maxItems": 500,
+      "items": {
+        "type": "object",
+        "required": ["id", "trecho", "comentario", "bloco_id", "ancora_status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "item_id": {"type": ["string", "null"]},
+          "bloco_id": {"type": "string", "minLength": 1},
+          "ancora_tipo": {"enum": ["bloco", "trecho"]},
+          "ancora_status": {"enum": ["resolvida", "truncada", "orfa"]},
+          "trecho": {"type": "string", "minLength": 1, "maxLength": 5000},
+          "prefixo": {"type": "string", "maxLength": 500},
+          "sufixo": {"type": "string", "maxLength": 500},
+          "inicio": {"type": ["integer", "null"], "minimum": 0},
+          "fim": {"type": ["integer", "null"], "minimum": 0},
+          "comentario": {"type": "string", "maxLength": 5000},
+          "criado_em": {"type": "string", "minLength": 10}
+        }
+      }
+    }
+  }
+}

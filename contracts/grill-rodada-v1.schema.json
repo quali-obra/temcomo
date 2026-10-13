@@ -1,0 +1,96 @@
+{
+  "$id": "grill-rodada-v1",
+  "title": "Rodada de grill (etapa 4)",
+  "description": "Todas as perguntas de uma rodada numa página só. Forma derivada da fixture aprovada Prototypes/02-rodada-grill.fixture.json. As contagens (1 opção recomendada por pergunta, no máximo 1 fora da caixa, no máximo 4 reais) e o aviso obrigatório de irreversibilidade são conferidos em código por regras_extras().",
+  "type": "object",
+  "required": ["schema_version", "tarefa_id", "gerado_em", "produzido_por", "rodada", "perguntas"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "grill-rodada-v1"},
+    "tarefa_id": {"type": "string", "minLength": 1},
+    "gerado_em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+    "produzido_por": {
+      "type": "object",
+      "required": ["agente"],
+      "additionalProperties": false,
+      "properties": {
+        "agente": {"type": "string", "minLength": 1},
+        "modelo": {"type": "string", "minLength": 1},
+        "sessao_id": {"type": "string", "minLength": 1},
+        "transcript_jsonl": {"type": "string", "minLength": 1}
+      }
+    },
+    "rodada": {"type": "integer", "minimum": 1, "maximum": 99},
+    "exemplo": {"type": "boolean"},
+    "prototipo": {"type": "boolean"},
+    "aviso_prototipo": {"type": "string", "minLength": 1},
+    "versao_prototipo": {"type": "string", "minLength": 1},
+    "tarefa": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pergunta_original": {"type": "string", "minLength": 1, "maxLength": 500},
+        "objetivo": {"type": "string", "minLength": 1, "maxLength": 1500},
+        "direcao_escolhida": {"type": "string", "minLength": 1, "maxLength": 500}
+      }
+    },
+    "export": {
+      "type": "object",
+      "required": ["schema_version"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": "grill-respostas-v1"},
+        "chave_localstorage": {"type": "string", "minLength": 1},
+        "storage_key": {"type": "string", "minLength": 1},
+        "nome_arquivo": {"type": "string", "minLength": 1},
+        "download_nome": {"type": "string", "minLength": 1},
+        "estados": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "observacao": {"type": "string", "minLength": 1}
+      }
+    },
+    "perguntas": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": ["id", "pergunta", "impacto_curto", "reversivel", "botoes", "opcoes"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "pergunta": {"type": "string", "minLength": 1, "maxLength": 90},
+          "impacto_curto": {"type": "string", "minLength": 1, "maxLength": 200},
+          "reversivel": {"type": "boolean"},
+          "irreversivel_aviso": {"type": "string", "minLength": 1, "maxLength": 300},
+          "contexto": {"type": "string", "minLength": 1, "maxLength": 1500},
+          "origem": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "botoes": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 4,
+            "items": {"enum": ["aprovar", "rejeitar", "duvida", "adiar"]}
+          },
+          "opcoes": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 5,
+            "items": {
+              "type": "object",
+              "required": ["id", "titulo", "detalhe", "ganha", "abre_mao"],
+              "additionalProperties": false,
+              "properties": {
+                "id": {"type": "string", "minLength": 1},
+                "titulo": {"type": "string", "minLength": 1, "maxLength": 120},
+                "detalhe": {"type": "string", "minLength": 1, "maxLength": 1000},
+                "ganha": {"type": "string", "minLength": 1, "maxLength": 500},
+                "abre_mao": {"type": "string", "minLength": 1, "maxLength": 500},
+                "recomendada": {"type": "boolean"},
+                "fora_da_caixa": {"type": "boolean"}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

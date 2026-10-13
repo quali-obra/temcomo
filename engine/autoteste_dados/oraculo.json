@@ -1,0 +1,48 @@
+{
+  "schemas": {
+    "decisao-direcoes-v1": "4039da3eeb720bfe4aebcc514db9dce7de450d8e29d9509998b5ec16a2bcf847",
+    "direcoes-v1": "c8baa4b6544d166a659f13dfd06ab664421236881960df9d1d91fca779a10d19",
+    "grill-consolidado-v1": "1c1f47f9c42b68539eac21b30581b356ac3f4ecf1d5a05ba843b5c95df6e59e3",
+    "grill-respostas-v1": "1a0125ce4fa72bd5fe70352a2338d018bf33894f5e0e5e41fc1b869abca4321b",
+    "grill-rodada-v1": "32e7988dd8fafe7db46ff02a8047d00f8028b2f868710fba5a3aaf8a28d9d6fd",
+    "objetivo-v1": "d890d8ce75898b0b2158bffb89aa0f47e35bc38b254ace917a237b5192b0f3e3",
+    "pesquisa-v1": "128af122364a8a3e491fb286ba69437c845d1cbf18eca235bf63b6653aa38071",
+    "tarefa-v1": "b299dcf5e2e4da962f77869b1754a6f8fb5b1fa6104290a7818ee757776f5dfa"
+  },
+  "exemplos_validos": {
+    "decisao-direcoes.json": "6587be4d32241aa47a5a765ecfbf4243e5ddd1f884c92920b24cd35b35cdd2da",
+    "direcoes.json": "57129cd5cc7b3c280cc7eb1c7e8648a0228c2de66d2bcf071b8a8d31e2b06f71",
+    "grill-consolidado.json": "c22bf4683870cc393f7642b3860e876678a1c33843fdfb47700b839a571bd0c1",
+    "grill-respostas.json": "7101267ed449469f1e65c0a54f80dfac1de3dd029b196765e4487b97dad84c8e",
+    "grill-rodada.json": "ce812dd275194f8d9de28bbc5bf970e5ad5114a2e9a6e3b4559d4595e8a5428f",
+    "objetivo.json": "ede7b58a50124cf8143b5429d91b7bedec6c1ad93168489c8d9d8e9f9c88ce3f",
+    "pesquisa.json": "012cd500487121866ec58d93f470e89fd6394b16a94b37fa4d2beb72168a47c7",
+    "tarefa.json": "d5b36fb177e8696533acd26ed689231701778b4b25ceaf8be271c5fe02a011b9"
+  },
+  "exemplos_invalidos": {
+    "decisao-direcoes.json": "676c842cc23cd0d81ca4efaa06bf1d9c9b96af5d22afb84a59ef56fb69a30857",
+    "direcoes.json": "5f7d53b22101fce93879b40c2deb8562b85ea05689ad7e573c474fa65c979ac9",
+    "grill-consolidado.json": "87af2cb09fb38e9a824bd3e99ffdfe56681dfeb502e3a91e2b482ed795d5745e",
+    "grill-respostas.json": "c2782505c0a142523b2816e6df6f4b5ae19c87702d7f2d7df333ff2572235b25",
+    "grill-rodada.json": "bdc2f513a8ab42968f4306183bb49bee6e40525faecdd8f81769da3d62e7b690",
+    "json-quebrado.json": "cae0bd6495f22ee798e5ae6bb0f0c7ead969726191391297219ef1e9943b1610",
+    "objetivo.json": "8811ddddea4df5921b6cae56e4c719aa2db5401b95fb5156fd7be0724f96fc24",
+    "pesquisa.json": "a1bf296e27bc6c2c4d6a756470ae27a844ffab36cb210fcdf9b39b84d3581d56",
+    "tarefa.json": "6974b0060042d575e51ffd57c278540de21d80b8825c369ef8d45770edbf69a5"
+  },
+  "recusados_na_importacao": {
+    "decisao-direcoes-carimbo.json": "66e6d2fe5736d3b3ab52c55220e722c596d4c3ea8527a96cc86bd86106228b21",
+    "grill-respostas-carimbo.json": "89a38b3db61f2f6d77daa4b31ef335ca5be64eefc5049792041192cdaee00329"
+  },
+  "provas_por_exemplo": {
+    "decisao-direcoes.json": 18,
+    "direcoes.json": 66,
+    "grill-consolidado.json": 24,
+    "grill-respostas.json": 19,
+    "grill-rodada.json": 54,
+    "objetivo.json": 12,
+    "pesquisa.json": 25,
+    "tarefa.json": 20
+  },
+  "total_de_provas": 240
+}

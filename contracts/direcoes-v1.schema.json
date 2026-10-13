@@ -1,0 +1,130 @@
+{
+  "$id": "direcoes-v1",
+  "title": "Relatório de direções (etapa 3)",
+  "description": "Até 4 direções reais e no máximo 1 fora da caixa, com critérios de ranking e recomendação justificada. Forma derivada da fixture aprovada Prototypes/01-relatorio-direcoes.fixture.json. As contagens (4 reais, 1 fora da caixa, 1 recomendada) são conferidas em código por regras_extras(), porque este subset não expressa contagem condicional.",
+  "type": "object",
+  "required": ["schema_version", "tarefa_id", "gerado_em", "produzido_por", "pergunta_original", "objetivo_leigo", "criterios", "direcoes", "recomendacao"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "direcoes-v1"},
+    "tarefa_id": {"type": "string", "minLength": 1},
+    "gerado_em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+    "produzido_por": {
+      "type": "object",
+      "required": ["agente"],
+      "additionalProperties": false,
+      "properties": {
+        "agente": {"type": "string", "minLength": 1},
+        "modelo": {"type": "string", "minLength": 1},
+        "sessao_id": {"type": "string", "minLength": 1},
+        "transcript_jsonl": {"type": "string", "minLength": 1}
+      }
+    },
+    "exemplo": {"type": "boolean"},
+    "prototipo": {"type": "boolean"},
+    "aviso_prototipo": {"type": "string", "minLength": 1},
+    "versao_prototipo": {"type": "string", "minLength": 1},
+    "export": {
+      "type": "object",
+      "required": ["schema_version"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": "decisao-direcoes-v1"},
+        "chave_localstorage": {"type": "string", "minLength": 1},
+        "storage_key": {"type": "string", "minLength": 1},
+        "nome_arquivo": {"type": "string", "minLength": 1},
+        "download_nome": {"type": "string", "minLength": 1},
+        "estados": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "observacao": {"type": "string", "minLength": 1}
+      }
+    },
+    "pergunta_original": {"type": "string", "minLength": 1, "maxLength": 500},
+    "objetivo_leigo": {"type": "string", "minLength": 1, "maxLength": 1500},
+    "etapa": {
+      "type": "object",
+      "required": ["numero", "total", "nome"],
+      "additionalProperties": false,
+      "properties": {
+        "numero": {"type": "integer", "minimum": 1, "maximum": 9},
+        "total": {"type": "integer", "minimum": 1, "maximum": 9},
+        "nome": {"type": "string", "minLength": 1}
+      }
+    },
+    "criterios": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": ["id", "nome", "pergunta_leiga", "peso"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "nome": {"type": "string", "minLength": 1},
+          "pergunta_leiga": {"type": "string", "minLength": 1, "maxLength": 300},
+          "peso": {"enum": ["alto", "médio", "baixo"]},
+          "sempre_presente": {"type": "boolean"}
+        }
+      }
+    },
+    "direcoes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "nome", "recomendada", "fora_da_caixa", "origem", "custo", "complexidade", "aderencia", "limite_principal", "explicacao_leiga", "consequencias"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "letra": {"type": "string", "minLength": 1, "maxLength": 2},
+          "nome": {"type": "string", "minLength": 1, "maxLength": 120},
+          "recomendada": {"type": "boolean"},
+          "fora_da_caixa": {"type": "boolean"},
+          "origem": {"enum": ["reuso", "construir", "misto"]},
+          "origem_leiga": {"type": "string", "minLength": 1},
+          "custo": {"enum": ["baixo", "médio", "alto"]},
+          "custo_leigo": {"type": "string", "minLength": 1},
+          "custo_curto": {"type": "string", "minLength": 1, "maxLength": 40},
+          "complexidade": {"enum": ["baixa", "média", "alta"]},
+          "aderencia": {"type": "integer", "minimum": 0, "maximum": 100},
+          "limite_principal": {"type": "string", "minLength": 1, "maxLength": 500},
+          "explicacao_leiga": {"type": "string", "minLength": 1, "maxLength": 1500},
+          "resumo": {"type": "string", "minLength": 1, "maxLength": 300},
+          "pontuacao": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "agentica": {"type": "integer", "minimum": 0, "maximum": 5},
+              "aderencia": {"type": "integer", "minimum": 0, "maximum": 5},
+              "custo": {"type": "integer", "minimum": 0, "maximum": 5},
+              "complexidade": {"type": "integer", "minimum": 0, "maximum": 5},
+              "robustez": {"type": "integer", "minimum": 0, "maximum": 5}
+            }
+          },
+          "consequencias": {
+            "type": "object",
+            "required": ["ganha", "aceita_perder"],
+            "additionalProperties": false,
+            "properties": {
+              "prazo": {"type": "string", "minLength": 1},
+              "primeiro_passo": {"type": "string", "minLength": 1},
+              "ganha": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+              "aceita_perder": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+              "vs_recomendada": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "recomendacao": {
+      "type": "object",
+      "required": ["direcao_id", "justificativa"],
+      "additionalProperties": false,
+      "properties": {
+        "direcao_id": {"type": "string", "minLength": 1},
+        "justificativa": {"type": "string", "minLength": 1, "maxLength": 1500}
+      }
+    }
+  }
+}

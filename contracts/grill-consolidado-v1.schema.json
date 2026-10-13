@@ -1,0 +1,83 @@
+{
+  "$id": "grill-consolidado-v1",
+  "title": "Consolidado do grill (fim da etapa 4)",
+  "description": "Decisões finais do grill, cada uma com máquina de estados própria (proposta → aprovada → aplicada → verificada, mais parcial e nao-verificavel — nunca booleano solto, spec §5), as dúvidas reconciliadas (pergunta original → dúvida → reformulação → resposta final) e os documentos de contexto gerados. O veredito de suficiência vem do avaliador-de-cobertura, que é independente de quem escreveu as perguntas.",
+  "type": "object",
+  "required": ["schema_version", "tarefa_id", "gerado_em", "produzido_por", "rodadas", "decisoes", "cobertura"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "grill-consolidado-v1"},
+    "tarefa_id": {"type": "string", "minLength": 1},
+    "gerado_em": {"type": "string", "minLength": 10, "pattern": "^\\d{4}-\\d{2}-\\d{2}"},
+    "produzido_por": {
+      "type": "object",
+      "required": ["agente"],
+      "additionalProperties": false,
+      "properties": {
+        "agente": {"type": "string", "minLength": 1},
+        "modelo": {"type": "string", "minLength": 1},
+        "sessao_id": {"type": "string", "minLength": 1},
+        "transcript_jsonl": {"type": "string", "minLength": 1}
+      }
+    },
+    "rodadas": {"type": "integer", "minimum": 1, "maximum": 99},
+    "decisoes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "required": ["id", "pergunta_id", "decisao", "estado"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "pergunta_id": {"type": "string", "minLength": 1},
+          "decisao": {"type": "string", "minLength": 1, "maxLength": 2000},
+          "estado": {"enum": ["proposta", "aprovada", "aplicada", "verificada", "parcial", "nao-verificavel"]},
+          "motivo_do_estado": {"type": "string", "maxLength": 1000},
+          "evidencia": {"type": "string", "maxLength": 1000}
+        }
+      }
+    },
+    "duvidas_reconciliadas": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "required": ["pergunta_id", "duvida", "reformulacao", "resposta_final"],
+        "additionalProperties": false,
+        "properties": {
+          "pergunta_id": {"type": "string", "minLength": 1},
+          "duvida": {"type": "string", "minLength": 1, "maxLength": 2000},
+          "reformulacao": {"type": "string", "minLength": 1, "maxLength": 2000},
+          "resposta_final": {"type": "string", "minLength": 1, "maxLength": 2000}
+        }
+      }
+    },
+    "documentos_de_contexto": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "required": ["titulo", "caminho"],
+        "additionalProperties": false,
+        "properties": {
+          "titulo": {"type": "string", "minLength": 1, "maxLength": 200},
+          "caminho": {"type": "string", "minLength": 1, "maxLength": 500},
+          "resumo": {"type": "string", "maxLength": 2000}
+        }
+      }
+    },
+    "cobertura": {
+      "type": "object",
+      "required": ["veredito", "por_quem"],
+      "additionalProperties": false,
+      "properties": {
+        "veredito": {"enum": ["SUFICIENTE", "NOVA RODADA"]},
+        "por_quem": {"type": "string", "minLength": 1},
+        "lacunas": {"type": "array", "maxItems": 50, "items": {"type": "string", "minLength": 1}},
+        "duvidas_pendentes": {"type": "integer", "minimum": 0, "maximum": 999}
+      }
+    }
+  }
+}
